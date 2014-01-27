@@ -1,6 +1,6 @@
 {
 	"name":"avisota/contao-subscription-recipient",
-	"description":"Recipient support for avisota.",
+	"description":"Independent recipients support for Avisota.",
 	"keywords":["avisota", "email", "mail", "newsletter", "marketing"],
 	"type":"contao-module",
 	"homepage":"http://avisota.org",
