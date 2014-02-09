@@ -8,7 +8,7 @@
  *
  * @copyright  bit3 UG 2013
  * @author     David Maack <david.maack@arcor.de>
- * @package    avisota
+ * @package    avisota/contao-subscription-recipient
  * @license    LGPL-3.0+
  * @filesource
  */

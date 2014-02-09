@@ -8,7 +8,7 @@
  *
  * @copyright  bit3 UG 2013
  * @author     Tristan Lins <tristan.lins@bit3.de>
- * @package    avisota
+ * @package    avisota/contao-subscription-recipient
  * @license    LGPL-3.0+
  * @filesource
  */
@@ -26,7 +26,7 @@ use Doctrine\ORM\QueryBuilder;
  *
  * @copyright  bit3 UG 2013
  * @author     Tristan Lins <tristan.lins@bit3.de>
- * @package    Avisota
+ * @package    avisota/contao-subscription-recipient
  */
 class IntegratedRecipients extends AbstractIntegratedRecipients
 {
