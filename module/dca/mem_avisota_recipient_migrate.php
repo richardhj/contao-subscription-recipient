@@ -34,7 +34,7 @@ $GLOBALS['TL_DCA']['mem_avisota_recipient_migrate'] = array
 		(
 			'default' => array
 			(
-				'class' => 'Avisota\Contao\DataContainer\DataProvider\RecipientMigrateDataProvider',
+				'class' => 'Avisota\Contao\Core\DataContainer\DataProvider\RecipientMigrateDataProvider',
 			),
 		),
 		'controller'    => 'DcGeneral\Controller\DefaultController',

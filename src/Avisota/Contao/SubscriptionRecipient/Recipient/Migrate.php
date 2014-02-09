@@ -15,7 +15,7 @@
 
 namespace Avisota\Contao\Recipient;
 
-use Avisota\Contao\Event\RecipientMigrateCollectPersonalsEvent;
+use Avisota\Contao\Core\Event\RecipientMigrateCollectPersonalsEvent;
 use Doctrine\DBAL\Driver\PDOStatement;
 
 class Migrate extends \Controller

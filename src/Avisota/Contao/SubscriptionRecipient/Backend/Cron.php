@@ -12,11 +12,11 @@
  * @filesource
  */
 
-namespace Avisota\Contao\Backend;
+namespace Avisota\Contao\Core\Backend;
 
 use Avisota\Contao\Entity\MailingList;
 use Avisota\Contao\Entity\Recipient;
-use Avisota\Contao\Event\RemoveRecipientEvent;
+use Avisota\Contao\Core\Event\RemoveRecipientEvent;
 use Avisota\Recipient\MutableRecipient;
 use Avisota\RecipientSource\RecipientSourceInterface;
 use Contao\Doctrine\ORM\EntityHelper;

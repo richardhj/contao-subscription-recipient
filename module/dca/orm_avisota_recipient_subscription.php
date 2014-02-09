@@ -83,7 +83,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient_subscription'] = array
 			'panelLayout'           => 'filter;search,limit',
 			'headerFields'          => array('forename', 'surname', 'email'),
 			'child_record_callback' => array(
-				'Avisota\Contao\DataContainer\RecipientSubscription',
+				'Avisota\Contao\Core\DataContainer\RecipientSubscription',
 				'addRecipientSubscriptionRow'
 			),
 			'child_record_class'    => 'no_padding',
@@ -125,7 +125,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient_subscription'] = array
 				'label'           => &$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['toggle'],
 				'icon'            => 'visible.gif',
 				'attributes'      => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-				'button_callback' => array('Avisota\Contao\DataContainer\RecipientSubscription', 'toggleIcon')
+				'button_callback' => array('Avisota\Contao\Core\DataContainer\RecipientSubscription', 'toggleIcon')
 			),
 			'show'   => array
 			(

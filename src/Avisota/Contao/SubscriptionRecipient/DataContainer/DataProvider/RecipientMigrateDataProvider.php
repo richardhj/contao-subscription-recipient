@@ -13,11 +13,11 @@
  * @filesource
  */
 
-namespace Avisota\Contao\DataContainer\DataProvider;
+namespace Avisota\Contao\Core\DataContainer\DataProvider;
 
 use Avisota\Contao\Entity\Recipient;
 use Avisota\Contao\Entity\RecipientSubscription;
-use Avisota\Contao\Event\RecipientMigrateCollectPersonalsEvent;
+use Avisota\Contao\Core\Event\RecipientMigrateCollectPersonalsEvent;
 use Contao\Doctrine\ORM\EntityHelper;
 use DcGeneral\Data\CollectionInterface;
 use DcGeneral\Data\ConfigInterface;

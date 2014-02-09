@@ -13,7 +13,7 @@
  * @filesource
  */
 
-namespace Avisota\Contao\RecipientSource;
+namespace Avisota\Contao\Core\RecipientSource;
 
 use Avisota\Contao\Entity\MailingList;
 use Avisota\Contao\Entity\Recipient;

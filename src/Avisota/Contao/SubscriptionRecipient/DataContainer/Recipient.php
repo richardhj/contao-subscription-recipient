@@ -13,13 +13,13 @@
  * @filesource
  */
 
-namespace Avisota\Contao\DataContainer;
+namespace Avisota\Contao\Core\DataContainer;
 
 use Avisota\Contao\Entity\MailingList;
 use Avisota\Contao\Entity\RecipientBlacklist;
 use Avisota\Contao\Entity\RecipientSubscription;
-use Avisota\Contao\Event\ResolveSubscriptionNameEvent;
-use Avisota\Contao\Subscription\SubscriptionManagerInterface;
+use Avisota\Contao\Core\Event\ResolveSubscriptionNameEvent;
+use Avisota\Contao\Core\Subscription\SubscriptionManagerInterface;
 use Contao\Doctrine\ORM\EntityHelper;
 use DcGeneral\DC_General;
 use Doctrine\ORM\EntityManager;

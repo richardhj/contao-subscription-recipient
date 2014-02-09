@@ -34,13 +34,13 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 		(
 			// we don�t have an permission management yet so don�t check permissions. 
 			// It might throw an error if the user is not an admin.
-			//array('Avisota\Contao\DataContainer\Recipient', 'checkPermission'),
-			array('Avisota\Contao\DataContainer\Recipient', 'filterByMailingLists'),
-			array('Avisota\Contao\DataContainer\Recipient', 'onload_callback')
+			//array('Avisota\Contao\Core\DataContainer\Recipient', 'checkPermission'),
+			array('Avisota\Contao\Core\DataContainer\Recipient', 'filterByMailingLists'),
+			array('Avisota\Contao\Core\DataContainer\Recipient', 'onload_callback')
 		),
 		'ondelete_callback' => array
 		(
-			array('Avisota\Contao\DataContainer\Recipient', 'ondelete_callback')
+			array('Avisota\Contao\Core\DataContainer\Recipient', 'ondelete_callback')
 		),
 	),
 	// DataContainer
@@ -76,7 +76,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 		(
 			'fields'         => array('forename', 'surname', 'email'),
 			'format'         => '%s %s &lt;%s&gt;',
-			'label_callback' => array('Avisota\Contao\DataContainer\Recipient', 'getLabel')
+			'label_callback' => array('Avisota\Contao\Core\DataContainer\Recipient', 'getLabel')
 		),
 		'global_operations' => array
 		(
@@ -130,7 +130,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 				'label'           => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['edit'],
 				'href'            => 'act=edit',
 				'icon'            => 'edit.gif',
-				'button_callback' => array('Avisota\Contao\DataContainer\Recipient', 'editRecipient')
+				'button_callback' => array('Avisota\Contao\Core\DataContainer\Recipient', 'editRecipient')
 			),
 			//blacklist do not work properly, so hide the button
 			/*'delete'              => array
@@ -139,7 +139,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 				'href'            => 'act=delete',
 				'icon'            => 'delete.gif',
 				'attributes'      => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"',
-				'button_callback' => array('Avisota\Contao\DataContainer\Recipient', 'deleteRecipient')
+				'button_callback' => array('Avisota\Contao\Core\DataContainer\Recipient', 'deleteRecipient')
 			),*/
 			'delete_no_blacklist' => array
 			(
@@ -147,7 +147,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 				'href'            => 'act=delete&amp;blacklist=false',
 				'icon'            => 'delete.gif',
 				'attributes'      => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"',
-				'button_callback' => array('Avisota\Contao\DataContainer\Recipient', 'deleteRecipientNoBlacklist')
+				'button_callback' => array('Avisota\Contao\Core\DataContainer\Recipient', 'deleteRecipientNoBlacklist')
 			),
 			'show'                => array
 			(
@@ -209,7 +209,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 			),
 			'save_callback' => array
 			(
-				array('Avisota\Contao\DataContainer\Recipient', 'saveEmail')
+				array('Avisota\Contao\Core\DataContainer\Recipient', 'saveEmail')
 			)
 		),
 		'salutation' => array

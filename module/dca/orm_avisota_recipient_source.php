@@ -31,11 +31,11 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient_source'] = array
 		'dataContainer'     => 'General',
 		'enableVersioning'  => true,
 		'onload_callback'   => array(
-			array('Avisota\Contao\DataContainer\RecipientSource', 'onload_callback')
+			array('Avisota\Contao\Core\DataContainer\RecipientSource', 'onload_callback')
 		),
 		'onsubmit_callback' => array(
-			array('Avisota\Contao\DataContainer\RecipientSource', 'onsubmit_callback'),
-			array('Avisota\Contao\Backend', 'regenerateDynamics')
+			array('Avisota\Contao\Core\DataContainer\RecipientSource', 'onsubmit_callback'),
+			array('Avisota\Contao\Core\Backend', 'regenerateDynamics')
 		)
 	),
 	// DataContainer
@@ -103,7 +103,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient_source'] = array
 				'label'           => &$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['toggle'],
 				'icon'            => 'visible.gif',
 				'attributes'      => 'onclick="Backend.getScrollOffset(); return AjaxRequest.toggleVisibility(this, %s);"',
-				'button_callback' => array('Avisota\Contao\DataContainer\RecipientSource', 'toggleIcon')
+				'button_callback' => array('Avisota\Contao\Core\DataContainer\RecipientSource', 'toggleIcon')
 			),
 			'show'   => array
 			(

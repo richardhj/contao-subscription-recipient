@@ -13,10 +13,10 @@
  * @filesource
  */
 
-namespace Avisota\Contao\DataContainer;
+namespace Avisota\Contao\Core\DataContainer;
 
 use Avisota\Contao\Entity\RecipientSource;
-use Avisota\Contao\Event\ResolveSubscriptionNameEvent;
+use Avisota\Contao\Core\Event\ResolveSubscriptionNameEvent;
 use Contao\Doctrine\ORM\EntityHelper;
 use Doctrine\Common\Persistence\Mapping\MappingException;
 
