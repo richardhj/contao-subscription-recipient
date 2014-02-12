@@ -35,7 +35,6 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient_source'] = array
 		),
 		'onsubmit_callback' => array(
 			array('Avisota\Contao\Core\DataContainer\RecipientSource', 'onsubmit_callback'),
-			array('Avisota\Contao\Core\Backend', 'regenerateDynamics')
 		)
 	),
 	// DataContainer
