@@ -39,12 +39,12 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient_subscription'] = array
 		(
 			'default' => array
 			(
-				'class'  => 'Contao\Doctrine\ORM\DataContainer\General\EntityData',
+				'class'  => 'Contao\Doctrine\ORM\DataContainer\General\EntityDataProvider',
 				'source' => 'orm_avisota_recipient_subscription'
 			),
 			'parent'  => array
 			(
-				'class'  => 'Contao\Doctrine\ORM\DataContainer\General\EntityData',
+				'class'  => 'Contao\Doctrine\ORM\DataContainer\General\EntityDataProvider',
 				'source' => 'orm_avisota_recipient'
 			),
 		),
