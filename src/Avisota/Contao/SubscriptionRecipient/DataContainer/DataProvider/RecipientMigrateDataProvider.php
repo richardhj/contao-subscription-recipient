@@ -21,13 +21,13 @@ use Avisota\Contao\Core\Event\RecipientMigrateCollectPersonalsEvent;
 use Contao\Doctrine\ORM\EntityHelper;
 use DcGeneral\Data\CollectionInterface;
 use DcGeneral\Data\ConfigInterface;
-use DcGeneral\Data\DriverInterface;
+use DcGeneral\Data\DataProviderInterface;
 use DcGeneral\Data\ModelInterface;
-use DcGeneral\Data\NoOpDriver;
+use DcGeneral\Data\NoOpDataProvider;
 use Doctrine\DBAL\Driver\PDOStatement;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class RecipientMigrateDataProvider extends NoOpDriver
+class RecipientMigrateDataProvider extends NoOpDataProvider
 {
 	/**
 	 * {@inheritdoc}
