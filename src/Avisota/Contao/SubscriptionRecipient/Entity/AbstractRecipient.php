@@ -16,11 +16,10 @@
 namespace Avisota\Contao\Entity;
 
 use Avisota\Recipient\RecipientInterface;
-use Contao\Doctrine\ORM\Entity;
+use Contao\Doctrine\ORM\EntityInterface;
 
 abstract class AbstractRecipient
-	extends Entity
-	implements RecipientInterface
+	implements EntityInterface, RecipientInterface
 {
 	/**
 	 * @var string
