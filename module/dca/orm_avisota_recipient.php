@@ -181,6 +181,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 			'label' => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['createdAt'],
 			'field' => array(
 				'type'          => 'datetime',
+				'nullable'      => true,
 				'timestampable' => array('on' => 'create')
 			)
 		),
@@ -188,6 +189,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 			'label' => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['updatedAt'],
 			'field' => array(
 				'type'          => 'datetime',
+				'nullable'      => true,
 				'timestampable' => array('on' => 'update')
 			)
 		),
