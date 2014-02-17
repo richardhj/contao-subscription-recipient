@@ -50,3 +50,10 @@ $GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient_subscription_log';
  */
 $GLOBALS['TL_CRON']['daily'][] = array('AvisotaBackend', 'cronCleanupRecipientList');
 $GLOBALS['TL_CRON']['daily'][] = array('AvisotaBackend', 'cronNotifyRecipients');
+
+
+/**
+ * Recipient sources
+ */
+$GLOBALS['AVISOTA_RECIPIENT_SOURCE']['integrated']                 = 'Avisota\Contao\Core\RecipientSource\IntegratedRecipientsFactory';
+$GLOBALS['AVISOTA_RECIPIENT_SOURCE']['integrated_by_mailing_list'] = 'Avisota\Contao\Core\RecipientSource\IntegratedRecipientsByMailingListFactory';
