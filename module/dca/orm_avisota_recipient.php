@@ -46,7 +46,6 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 	// DataContainer
 	'dca_config'   => array
 	(
-		'callback'      => 'DcGeneral\Callbacks\ContaoStyleCallbacks',
 		'data_provider' => array
 		(
 			'default' => array
@@ -60,8 +59,6 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 				'source' => 'tl_user'
 			),
 		),
-		'controller'    => 'DcGeneral\Controller\DefaultController',
-		'view'          => 'DcGeneral\View\DefaultView'
 	),
 	// List
 	'list'         => array

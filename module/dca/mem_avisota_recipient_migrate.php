@@ -29,7 +29,6 @@ $GLOBALS['TL_DCA']['mem_avisota_recipient_migrate'] = array
 	// DataContainer
 	'dca_config'   => array
 	(
-		'callback'      => 'DcGeneral\Callbacks\ContaoStyleCallbacks',
 		'data_provider' => array
 		(
 			'default' => array
@@ -37,8 +36,6 @@ $GLOBALS['TL_DCA']['mem_avisota_recipient_migrate'] = array
 				'class' => 'Avisota\Contao\Core\DataContainer\DataProvider\RecipientMigrateDataProvider',
 			),
 		),
-		'controller'    => 'DcGeneral\Controller\DefaultController',
-		'view'          => 'DcGeneral\View\DefaultView'
 	),
 	// Palettes
 	'metapalettes' => array
