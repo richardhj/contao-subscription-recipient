@@ -40,7 +40,6 @@ $GLOBALS['DOCTRINE_ENTITY_CLASS']['Avisota\Contao\Entity\Recipient'] = 'Avisota\
 
 $GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient';
 $GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient_blacklist';
-$GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient_source';
 $GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient_subscription';
 $GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient_subscription_log';
 
@@ -57,3 +56,26 @@ $GLOBALS['TL_CRON']['daily'][] = array('AvisotaBackend', 'cronNotifyRecipients')
  */
 $GLOBALS['AVISOTA_RECIPIENT_SOURCE']['integrated']                 = 'Avisota\Contao\Core\RecipientSource\IntegratedRecipientsFactory';
 $GLOBALS['AVISOTA_RECIPIENT_SOURCE']['integrated_by_mailing_list'] = 'Avisota\Contao\Core\RecipientSource\IntegratedRecipientsByMailingListFactory';
+
+/**
+ * Front end modules
+ */
+$GLOBALS['FE_MOD']['avisota']['avisota_subscribe']    = 'Avisota\Contao\SubscriptionRecipient\Module\Subscribe';
+$GLOBALS['FE_MOD']['avisota']['avisota_unsubscribe']  = 'Avisota\Contao\SubscriptionRecipient\Module\Unsubscribe';
+$GLOBALS['FE_MOD']['avisota']['avisota_subscription'] = 'Avisota\Contao\SubscriptionRecipient\Module\Subscription';
+
+/**
+ * Events
+ */
+$GLOBALS['TL_EVENTS']['avisota/recipient.migrate-recipient'][] = array(
+	'Avisota\Contao\SubscriptionRecipient\Recipient\Migrate',
+	'collectPersonalsFromMembers'
+);
+$GLOBALS['TL_EVENTS']['avisota/subscription.resolve-name'][]   = array(
+	'Avisota\Contao\SubscriptionRecipient\Recipient\Subscription',
+	'resolveSubscriptionName'
+);
+$GLOBALS['TL_EVENTS']['avisota/subscription.collect-lists'][]  = array(
+	'Avisota\Contao\SubscriptionRecipient\Recipient\Subscription',
+	'collectSubscriptionLists'
+);

@@ -13,7 +13,7 @@
  * @filesource
  */
 
-namespace Avisota\Contao\Recipient;
+namespace Avisota\Contao\SubscriptionRecipient\Recipient;
 
 use Avisota\Contao\Entity\MailingList;
 use Avisota\Contao\Core\Event\CollectSubscriptionListsEvent;

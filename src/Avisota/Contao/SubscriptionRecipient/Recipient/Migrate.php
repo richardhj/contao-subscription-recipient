@@ -13,7 +13,7 @@
  * @filesource
  */
 
-namespace Avisota\Contao\Recipient;
+namespace Avisota\Contao\SubscriptionRecipient\Recipient;
 
 use Avisota\Contao\Core\Event\RecipientMigrateCollectPersonalsEvent;
 use Doctrine\DBAL\Driver\PDOStatement;
