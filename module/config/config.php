@@ -28,8 +28,8 @@ $GLOBALS['BE_MOD']['avisota']['avisota_recipients'] = array(
 		'orm_avisota_recipient_notify',
 	),
 	'icon'       => 'system/modules/avisota/html/recipients.png',
-	'stylesheet' => 'assets/avisota-core/css/stylesheet.css',
-	'javascript' => 'assets/avisota-core/css/backend.js',
+	'stylesheet' => 'assets/avisota/core/css/stylesheet.css',
+	'javascript' => 'assets/avisota/core/css/backend.js',
 );
 
 

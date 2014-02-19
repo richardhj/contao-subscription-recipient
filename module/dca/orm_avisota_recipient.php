@@ -120,7 +120,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 			(
 				'label'           => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['subscriptions'],
 				'href'            => 'table=orm_avisota_recipient_subscription',
-				'icon'            => 'assets/avisota-core/images/recipient_subscription.png',
+				'icon'            => 'assets/avisota/core/images/recipient_subscription.png',
 			),
 			'edit'                => array
 			(

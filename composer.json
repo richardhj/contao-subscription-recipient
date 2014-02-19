@@ -43,7 +43,7 @@
 		"contao": {
 			"sources": {
 				"module": "system/modules/avisota-subscription-recipient",
-				"assets": "assets/avisota-subscription-recipient"
+				"assets": "assets/avisota/subscription-recipient"
 			},
 			"transifex": {
 				"project": "avisota-contao",
