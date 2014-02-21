@@ -24,6 +24,10 @@ use Avisota\Contao\Message\Core\Renderer\MessageRenderer;
 use Avisota\Recipient\MutableRecipient;
 use Avisota\Transport\TransportInterface;
 use Contao\Doctrine\ORM\EntityHelper;
+use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
+use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\LoadDataContainerEvent;
+use ContaoCommunityAlliance\Contao\Bindings\Events\System\LoadLanguageFileEvent;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class ModuleAvisotaRecipientForm
@@ -64,9 +68,21 @@ abstract class AbstractRecipientForm extends \TwigModule
 	 */
 	public function generate()
 	{
-		$this->loadLanguageFile('avisota');
-		$this->loadLanguageFile('orm_avisota_recipient');
-		$this->loadDataContainer('orm_avisota_recipient');
+		/** @var EventDispatcher $eventDispatcher */
+		$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+
+		$eventDispatcher->dispatch(
+			ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,
+			new LoadLanguageFileEvent('avisota')
+		);
+		$eventDispatcher->dispatch(
+			ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,
+			new LoadLanguageFileEvent('orm_avisota_recipient')
+		);
+		$eventDispatcher->dispatch(
+			ContaoEvents::CONTROLLER_LOAD_DATA_CONTAINER,
+			new LoadDataContainerEvent('orm_avisota_recipient')
+		);
 
 		// Call onload_callback (e.g. to check permissions)
 		if (is_array($GLOBALS['TL_DCA']['orm_avisota_recipient']['config']['onload_callback'])) {
@@ -335,7 +351,7 @@ abstract class AbstractRecipientForm extends \TwigModule
 
 				// Make sure that unique fields are unique (check the eval setting first -> #3063)
 				if ($fieldConfig['eval']['unique'] && $value != '') {
-					$unique = $this->Database
+					$unique = \Database::getInstance()
 						->prepare("SELECT * FROM orm_avisota_recipient WHERE " . $field . "=?")
 						->limit(1)
 						->execute($value);

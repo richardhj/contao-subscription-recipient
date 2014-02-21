@@ -22,8 +22,11 @@ use Avisota\Recipient\MutableRecipient;
 use Avisota\RecipientSource\RecipientSourceInterface;
 use Avisota\Transport\TransportInterface;
 use Contao\Doctrine\ORM\EntityHelper;
+use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
+use ContaoCommunityAlliance\Contao\Bindings\Events\System\LoadLanguageFileEvent;
 use Doctrine\ORM\Query;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class Cron extends \Controller
 {
@@ -66,7 +69,13 @@ class Cron extends \Controller
 			return false;
 		}
 
-		$this->loadLanguageFile('avisota_subscription');
+		/** @var EventDispatcher $eventDispatcher */
+		$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+
+		$eventDispatcher->dispatch(
+			ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,
+			new LoadLanguageFileEvent('avisota_subscription')
+		);
 
 		$entityManager           = EntityHelper::getEntityManager();
 		$subscriptionRepository  = $entityManager->getRepository('Avisota\Contao:RecipientSubscription');
@@ -128,7 +137,7 @@ class Cron extends \Controller
 					'token' => implode(',', $tokens),
 				);
 
-				$arrPage = $this->Database
+				$arrPage = \Database::getInstance()
 						->prepare('SELECT * FROM tl_page WHERE id = (SELECT avisota_form_target FROM tl_module WHERE id = ?)')
 						->limit(1)
 						->execute($subscription->getSubscriptionModule())
@@ -184,12 +193,12 @@ class Cron extends \Controller
 		$this->import('DomainLink');
 		$this->loadLanguageFile('avisota');
 
-		$module = $this->Database
+		$module = \Database::getInstance()
 			->execute(
 			"SELECT * FROM tl_module WHERE type='avisota_subscription' AND avisota_send_notification='1' AND avisota_notification_time>0"
 		);
 		while ($module->next()) {
-			$recipient = $this->Database
+			$recipient = \Database::getInstance()
 				->prepare(
 				"SELECT addedOnPage, email, GROUP_CONCAT(pid) as lists, GROUP_CONCAT(id) as ids, GROUP_CONCAT(token) as tokens
 					FROM orm_avisota_recipient
@@ -254,7 +263,7 @@ class Cron extends \Controller
 					);
 				}
 
-				$this->Database
+				\Database::getInstance()
 					->execute(
 					"UPDATE orm_avisota_recipient SET notification='1' WHERE id IN (" . $recipient->ids . ")"
 				);
@@ -307,12 +316,12 @@ class Cron extends \Controller
 	{
 		$this->import('Database');
 
-		$module = $this->Database
+		$module = \Database::getInstance()
 			->execute(
 			"SELECT * FROM tl_module WHERE type='avisota_subscription' AND avisota_do_cleanup='1' AND avisota_cleanup_time>0"
 		);
 		while ($module->next()) {
-			$recipient = $this->Database
+			$recipient = \Database::getInstance()
 				->prepare(
 				"SELECT * FROM orm_avisota_recipient WHERE confirmed='' AND token!='' AND addedOn<=? AND addedByModule=?"
 			)
@@ -324,7 +333,7 @@ class Cron extends \Controller
 					TL_INFO
 				);
 
-				$this->Database
+				\Database::getInstance()
 					->prepare("DELETE FROM orm_avisota_recipient WHERE id=?")
 					->execute($recipient->id);
 			}

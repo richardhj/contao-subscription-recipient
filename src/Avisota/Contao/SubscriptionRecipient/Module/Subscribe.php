@@ -15,6 +15,10 @@
 
 namespace Avisota\Contao\SubscriptionRecipient\Module;
 
+use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
+use ContaoCommunityAlliance\Contao\Bindings\Events\System\LoadLanguageFileEvent;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+
 /**
  * Class ModuleAvisotaSubscribe
  *
@@ -36,7 +40,13 @@ class Subscribe extends AbstractRecipientForm
 	{
 		parent::__construct($module);
 
-		$this->loadLanguageFile('avisota_subscription');
+		/** @var EventDispatcher $eventDispatcher */
+		$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+
+		$eventDispatcher->dispatch(
+			ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,
+			new LoadLanguageFileEvent('avisota_subscription')
+		);
 	}
 
 	/**
