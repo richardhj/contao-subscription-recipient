@@ -38,6 +38,4 @@ $GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient_blacklist';
 $GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient_source';
 $GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient_subscription';
 $GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient_subscription_log';
-$GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_salutation';
-$GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_salutation_group';
 $GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_transport';

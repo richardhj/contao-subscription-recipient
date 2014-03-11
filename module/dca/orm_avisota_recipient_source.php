@@ -22,13 +22,13 @@ use ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallba
 $GLOBALS['TL_DCA']['orm_avisota_recipient_source']['metapalettes']['integrated'] = array(
 	'source'     => array('title', 'alias', 'type'),
 	'integrated' => array('integratedRecipientManageSubscriptionPage'),
-	'details'    => array('integratedDetails', 'salutation'),
+	'details'    => array('integratedDetails'),
 	'expert'     => array('disable'),
 );
 $GLOBALS['TL_DCA']['orm_avisota_recipient_source']['metapalettes']['integrated_by_mailing_list'] = array(
 	'source'     => array('title', 'alias', 'type'),
 	'integrated' => array('mailingLists', 'integratedRecipientManageSubscriptionPage'),
-	'details'    => array('integratedDetails', 'salutation'),
+	'details'    => array('integratedDetails'),
 	'expert'     => array('disable'),
 );
 

@@ -27,10 +27,6 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient']['email']      = array(
 	'Email',
 	'Please enter the email address.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['salutation'] = array(
-	'Salutation',
-	'Please choose the prefered salutation.'
-);
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['title']      = array(
 	'Title',
 	'Please enter the recipients title.'
