@@ -79,3 +79,8 @@ $GLOBALS['TL_EVENTS']['avisota/subscription.collect-lists'][]  = array(
 	'Avisota\Contao\SubscriptionRecipient\Recipient\Subscription',
 	'collectSubscriptionLists'
 );
+
+/**
+ * Event subscribers
+ */
+$GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Avisota\Contao\SubscriptionRecipient\DataContainer\OptionsBuilder';
