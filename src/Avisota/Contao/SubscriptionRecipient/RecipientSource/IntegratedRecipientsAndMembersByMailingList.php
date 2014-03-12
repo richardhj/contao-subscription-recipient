@@ -146,7 +146,7 @@ class IntegratedRecipientsAndMembersByMailingList implements RecipientSourceInte
 		}
 
 		$queryBuilder
-			->innerJoin('Avisota\Contao:RecipientSubscription', 's', 'WITH', 's.recipient=r.id')
+			->innerJoin('Avisota\Contao:Subscription', 's', 'WITH', 's.recipient=r.id')
 			->where($queryBuilder->expr()->in('s.list', '?1'))
 			->andWhere('s.confirmed=?2')
 			->setParameter(1, $mailingListIds)

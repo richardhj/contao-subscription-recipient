@@ -20,7 +20,6 @@
 $GLOBALS['BE_MOD']['avisota']['avisota_recipients'] = array(
 	'tables'     => array(
 		'orm_avisota_recipient',
-		'orm_avisota_recipient_subscription',
 		'mem_avisota_recipient_migrate',
 		'orm_avisota_recipient_import',
 		'orm_avisota_recipient_export',
@@ -39,9 +38,6 @@ $GLOBALS['BE_MOD']['avisota']['avisota_recipients'] = array(
 $GLOBALS['DOCTRINE_ENTITY_CLASS']['Avisota\Contao\Entity\Recipient'] = 'Avisota\Contao\Entity\AbstractRecipient';
 
 $GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient';
-$GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient_blacklist';
-$GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient_subscription';
-$GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient_subscription_log';
 
 
 /**

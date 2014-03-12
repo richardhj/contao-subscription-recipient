@@ -17,8 +17,8 @@ namespace Avisota\Contao\Core\DataContainer;
 
 use Avisota\Contao\Entity\MailingList;
 use Avisota\Contao\Entity\RecipientBlacklist;
-use Avisota\Contao\Entity\RecipientSubscription;
-use Avisota\Contao\Core\Event\ResolveSubscriptionNameEvent;
+use Avisota\Contao\Entity\Subscription;
+use Avisota\Contao\Subscription\Event\ResolveSubscriptionNameEvent;
 use Avisota\Contao\Core\Subscription\SubscriptionManagerInterface;
 use Contao\Doctrine\ORM\EntityHelper;
 use DcGeneral\DC_General;
@@ -119,14 +119,14 @@ class Recipient extends \Backend
 		$queryBuilder  = $entityManager->createQueryBuilder();
 		$subscriptions = $queryBuilder
 			->select('s')
-			->from('Avisota\Contao:RecipientSubscription', 's')
+			->from('Avisota\Contao:Subscription', 's')
 			->where('s.recipient=?1')
 			->setParameter(1, $recipientData['id'])
 			->getQuery()
 			->getResult();
 
 		if ($subscriptions) {
-			/** @var RecipientSubscription $subscription */
+			/** @var Subscription $subscription */
 			foreach ($subscriptions as $subscription) {
 				$event = new ResolveSubscriptionNameEvent($subscription);
 				$eventDispatcher->dispatch(ResolveSubscriptionNameEvent::NAME, $event);

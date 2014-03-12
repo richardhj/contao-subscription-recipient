@@ -16,7 +16,7 @@
 namespace Avisota\Contao\Core\DataContainer\DataProvider;
 
 use Avisota\Contao\Entity\Recipient;
-use Avisota\Contao\Entity\RecipientSubscription;
+use Avisota\Contao\Entity\Subscription;
 use Avisota\Contao\Core\Event\RecipientMigrateCollectPersonalsEvent;
 use Contao\Doctrine\ORM\EntityHelper;
 use DcGeneral\Data\CollectionInterface;
@@ -92,7 +92,7 @@ class RecipientMigrateDataProvider extends NoOpDataProvider
 			$eventDispatcher->dispatch(RecipientMigrateCollectPersonalsEvent::NAME, $event);
 
 			$mailingList  = $channelMailingListMapping[$contaoRecipientData['pid']];
-			$subscription = new RecipientSubscription();
+			$subscription = new Subscription();
 			$subscription->setList('mailing_list:' . $mailingList);
 			$subscription->setRecipient($recipient);
 			$subscription->setConfirmed((bool) $contaoRecipientData['active']);

@@ -16,10 +16,9 @@
 namespace Avisota\Contao\SubscriptionRecipient\Recipient;
 
 use Avisota\Contao\Entity\MailingList;
-use Avisota\Contao\Core\Event\CollectSubscriptionListsEvent;
-use Avisota\Contao\Core\Event\ResolveSubscriptionNameEvent;
+use Avisota\Contao\Subscription\Event\CollectSubscriptionListsEvent;
+use Avisota\Contao\Subscription\Event\ResolveSubscriptionNameEvent;
 use Contao\Doctrine\ORM\EntityHelper;
-use Doctrine\DBAL\Driver\PDOStatement;
 
 class Subscription extends \Controller
 {

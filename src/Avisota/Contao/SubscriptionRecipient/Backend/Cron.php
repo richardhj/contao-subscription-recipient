@@ -78,7 +78,7 @@ class Cron extends \Controller
 		);
 
 		$entityManager           = EntityHelper::getEntityManager();
-		$subscriptionRepository  = $entityManager->getRepository('Avisota\Contao:RecipientSubscription');
+		$subscriptionRepository  = $entityManager->getRepository('Avisota\Contao:Subscription');
 		$intCountSend            = 0;
 
 		$resendDate  = $GLOBALS['TL_CONFIG']['avisota_notification_time'] * 24 * 60 * 60;
@@ -89,7 +89,7 @@ class Cron extends \Controller
 		$queryBuilder
 				->select('r')
 				->from('Avisota\Contao:Recipient', 'r')
-				->innerJoin('Avisota\Contao:RecipientSubscription', 's', 'WITH', 's.recipient=r.id')
+				->innerJoin('Avisota\Contao:Subscription', 's', 'WITH', 's.recipient=r.id')
 				->where('s.confirmed=0')
 				->andWhere('s.reminderCount < ?1')
 				->setParameter(1, $GLOBALS['TL_CONFIG']['avisota_notification_count']);
@@ -276,7 +276,7 @@ class Cron extends \Controller
 	{
 		
 		$entityManager          = EntityHelper::getEntityManager();
-		$subscriptionRepository = $entityManager->getRepository('Avisota\Contao:RecipientSubscription');
+		$subscriptionRepository = $entityManager->getRepository('Avisota\Contao:Subscription');
 		$eventDispatcher        = $GLOBALS['container']['event-dispatcher'];
 
 		$cleanupDate = new \DateTime();
@@ -286,7 +286,7 @@ class Cron extends \Controller
 		$queryBuilder = EntityHelper::getEntityManager()->createQueryBuilder();
 		$queryBuilder
 			->select('s')
-			->from('Avisota\Contao:RecipientSubscription', 's')
+			->from('Avisota\Contao:Subscription', 's')
 			->where('s.confirmed=0')
 			->andWhere('s.updatedAt < :cleanupDate')
 			->setParameter('cleanupDate', $cleanupDate );
