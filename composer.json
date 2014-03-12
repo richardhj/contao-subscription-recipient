@@ -18,7 +18,7 @@
 		"issues":"https://github.com/avisota/contao-subscription-recipient/issues",
 		"forum":"https://community.contao.org/de/forumdisplay.php?121-Avisota",
 		"wiki":"http://de.contaowiki.org/Kategorie:Avisota",
-		"irc":"irc://irc.freenode.org/contao.dev",
+		"irc":"irc://irc.freenode.org/avisota",
 		"source":"https://github.com/avisota/contao-subscription-recipient"
 	},
 	"require":{
