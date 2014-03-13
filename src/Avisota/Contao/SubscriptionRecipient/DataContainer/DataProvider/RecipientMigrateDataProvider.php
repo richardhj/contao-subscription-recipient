@@ -13,11 +13,11 @@
  * @filesource
  */
 
-namespace Avisota\Contao\Core\DataContainer\DataProvider;
+namespace Avisota\Contao\SubscriptionRecipient\DataContainer\DataProvider;
 
 use Avisota\Contao\Entity\Recipient;
 use Avisota\Contao\Entity\Subscription;
-use Avisota\Contao\Core\Event\RecipientMigrateCollectPersonalsEvent;
+use Avisota\Contao\SubscriptionRecipient\Event\RecipientMigrateCollectPersonalsAwareEvent;
 use Contao\Doctrine\ORM\EntityHelper;
 use DcGeneral\Data\CollectionInterface;
 use DcGeneral\Data\ConfigInterface;
@@ -80,16 +80,17 @@ class RecipientMigrateDataProvider extends NoOpDataProvider
 			if (!$recipient) {
 				$recipient = new Recipient();
 				$recipient->setEmail($contaoRecipientData['email']);
-				$recipient->setAddedOn($recipient['addedOn'] ? $recipient['addedOn'] : new \DateTime());
-				$recipient->setAddedBy($user->id);
+				$recipient->setAddedById($user->id);
+				$recipient->setAddedByName($user->name);
+				$recipient->setAddedByUsername($user->username);
 			}
 			else if (!$migrationSettings['overwrite']) {
 				$skipped++;
 				continue;
 			}
 
-			$event = new RecipientMigrateCollectPersonalsEvent($migrationSettings, $contaoRecipientData, $recipient);
-			$eventDispatcher->dispatch(RecipientMigrateCollectPersonalsEvent::NAME, $event);
+			$event = new RecipientMigrateCollectPersonalsAwareEvent($migrationSettings, $contaoRecipientData, $recipient);
+			$eventDispatcher->dispatch(RecipientMigrateCollectPersonalsAwareEvent::NAME, $event);
 
 			$mailingList  = $channelMailingListMapping[$contaoRecipientData['pid']];
 			$subscription = new Subscription();

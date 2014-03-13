@@ -13,7 +13,7 @@
  * @filesource
  */
 
-namespace Avisota\Contao\Core\RecipientSource;
+namespace Avisota\Contao\SubscriptionRecipient\RecipientSource;
 
 use Avisota\Contao\Entity\Recipient;
 use Avisota\Recipient\MutableRecipient;
@@ -30,7 +30,7 @@ use Doctrine\ORM\QueryBuilder;
  * @author     Tristan Lins <tristan.lins@bit3.de>
  * @package    avisota/contao-subscription-recipient
  */
-abstract class AbstractIntegratedRecipients implements RecipientSourceInterface
+class RecipientsRecipientSource implements RecipientSourceInterface
 {
 	/**
 	 * Count the recipients.
@@ -80,9 +80,4 @@ abstract class AbstractIntegratedRecipients implements RecipientSourceInterface
 
 		return $recipients;
 	}
-
-	/**
-	 * @return QueryBuilder
-	 */
-	abstract protected function prepareQuery(QueryBuilder $queryBuilder);
 }

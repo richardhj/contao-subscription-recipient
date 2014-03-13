@@ -17,42 +17,46 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['createdAt']  = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['id']              = array(
+	'ID'
+);
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['createdAt']       = array(
 	'Created at'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['updatedAt']  = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['updatedAt']       = array(
 	'Last modified at'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['email']      = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['email']           = array(
 	'Email',
 	'Please enter the email address.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['title']      = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['title']           = array(
 	'Title',
 	'Please enter the recipients title.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['forename']   = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['forename']        = array(
 	'Forename',
 	'Please enter the recipients forename.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['surname']    = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['surname']         = array(
 	'Surname',
 	'Please enter the recipients surname.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['gender']     = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['gender']          = array(
 	'Gender',
 	'Please choose the recipients gender.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedOn']    = array(
-	'Added on',
-	'Date of subscription.',
-	'added on %s'
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedById']       = array(
+	'Added by user ID',
+	'The ID of the user who added this recipient.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedBy']    = array(
-	'Added by',
-	'Contao user who added this recipient.',
-	' by %s',
-	'by a deleted user'
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedByUsername'] = array(
+	'Added by username',
+	'The username of the user who added this recipient.'
+);
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedByName']     = array(
+	'Added by name',
+	'The name of the user who added this recipient.'
 );
 
 
@@ -82,6 +86,9 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient']['personals_legend']    = 'Personals
 /**
  * Reference
  */
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['added_at']                 = 'added at %s';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by']                 = ', by <a href="%3$s">%1$s &lt;%2$s&gt;</a>';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by_unlinked']        = ', by %1$s &lt;%2$s&gt;';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['confirm']                  = '%s neue Abonnenten wurden importiert.';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['invalid']                  = '%s ungültige Einträge wurden übersprungen.';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribed']               = 'registriert am %s';

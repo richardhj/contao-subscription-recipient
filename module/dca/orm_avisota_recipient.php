@@ -18,6 +18,8 @@
  * Table orm_avisota_recipient
  * Entity Avisota\Contao:Recipient
  */
+$user = \BackendUser::getInstance();
+
 $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 (
 	// Entity
@@ -34,13 +36,12 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 		(
 			// we don�t have an permission management yet so don�t check permissions. 
 			// It might throw an error if the user is not an admin.
-			//array('Avisota\Contao\Core\DataContainer\Recipient', 'checkPermission'),
-			array('Avisota\Contao\Core\DataContainer\Recipient', 'filterByMailingLists'),
-			array('Avisota\Contao\Core\DataContainer\Recipient', 'onload_callback')
+			//array('Avisota\Contao\SubscriptionRecipient\DataContainer\Recipient', 'checkPermission'),
+			// array('Avisota\Contao\SubscriptionRecipient\DataContainer\Recipient', 'filterByMailingLists'),
+			// array('Avisota\Contao\SubscriptionRecipient\DataContainer\Recipient', 'onload_callback')
 		),
 		'ondelete_callback' => array
-		(
-			array('Avisota\Contao\Core\DataContainer\Recipient', 'ondelete_callback')
+		( // array('Avisota\Contao\SubscriptionRecipient\DataContainer\Recipient', 'ondelete_callback')
 		),
 	),
 	// DataContainer
@@ -52,11 +53,6 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 			(
 				'class'  => 'Contao\Doctrine\ORM\DataContainer\General\EntityDataProvider',
 				'source' => 'orm_avisota_recipient'
-			),
-			'tl_user' => array
-			(
-				'class'  => 'GeneralDataDefault',
-				'source' => 'tl_user'
 			),
 		),
 	),
@@ -73,7 +69,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 		(
 			'fields'         => array('forename', 'surname', 'email'),
 			'format'         => '%s %s &lt;%s&gt;',
-			'label_callback' => array('Avisota\Contao\Core\DataContainer\Recipient', 'getLabel')
+			'label_callback' => array('Avisota\Contao\SubscriptionRecipient\DataContainer\Recipient', 'getLabel')
 		),
 		'global_operations' => array
 		(
@@ -116,35 +112,45 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 		),
 		'operations'        => array
 		(
+			/*
 			'subscriptions'              => array
 			(
 				'label'           => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['subscriptions'],
 				'href'            => 'table=orm_avisota_recipient_subscription',
 				'icon'            => 'assets/avisota/core/images/recipient_subscription.png',
 			),
+			*/
 			'edit'                => array
 			(
 				'label'           => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['edit'],
 				'href'            => 'act=edit',
 				'icon'            => 'edit.gif',
-				'button_callback' => array('Avisota\Contao\Core\DataContainer\Recipient', 'editRecipient')
+				'button_callback' => array(
+					'Avisota\Contao\SubscriptionRecipient\DataContainer\Recipient',
+					'editRecipient'
+				)
 			),
 			//blacklist do not work properly, so hide the button
-			/*'delete'              => array
+			/*
+			'delete'              => array
 			(
 				'label'           => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['delete'],
 				'href'            => 'act=delete',
 				'icon'            => 'delete.gif',
 				'attributes'      => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"',
-				'button_callback' => array('Avisota\Contao\Core\DataContainer\Recipient', 'deleteRecipient')
-			),*/
+				'button_callback' => array('Avisota\Contao\SubscriptionRecipient\DataContainer\Recipient', 'deleteRecipient')
+			),
+			*/
 			'delete_no_blacklist' => array
 			(
 				'label'           => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['delete_no_blacklist'],
 				'href'            => 'act=delete&amp;blacklist=false',
 				'icon'            => 'delete.gif',
 				'attributes'      => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"',
-				'button_callback' => array('Avisota\Contao\Core\DataContainer\Recipient', 'deleteRecipientNoBlacklist')
+				'button_callback' => array(
+					'Avisota\Contao\SubscriptionRecipient\DataContainer\Recipient',
+					'deleteRecipientNoBlacklist'
+				)
 			),
 			'show'                => array
 			(
@@ -166,7 +172,8 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 	// Fields
 	'fields'       => array
 	(
-		'id'         => array(
+		'id'              => array(
+			'label' => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['id'],
 			'field' => array(
 				'id'      => true,
 				'type'    => 'string',
@@ -174,7 +181,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 				'options' => array('fixed' => true),
 			),
 		),
-		'createdAt'  => array(
+		'createdAt'       => array(
 			'label' => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['createdAt'],
 			'field' => array(
 				'type'          => 'datetime',
@@ -182,7 +189,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 				'timestampable' => array('on' => 'create')
 			)
 		),
-		'updatedAt'  => array(
+		'updatedAt'       => array(
 			'label' => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['updatedAt'],
 			'field' => array(
 				'type'          => 'datetime',
@@ -190,7 +197,14 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 				'timestampable' => array('on' => 'update')
 			)
 		),
-		'email'      => array
+		'subscriptions'   => array(
+			'oneToMany' => array(
+				'targetEntity' => 'Avisota\Contao\Entity\Subscription',
+				'cascade'      => array('all'),
+				'mappedBy'     => 'recipient',
+			),
+		),
+		'email'           => array
 		(
 			'label'         => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['email'],
 			'exclude'       => true,
@@ -205,31 +219,32 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 				'maxlength'  => 255,
 				'importable' => true,
 				'exportable' => true,
+				'unique'     => true,
 			),
 			'save_callback' => array
 			(
-				array('Avisota\Contao\Core\DataContainer\Recipient', 'saveEmail')
-			)
+				array('Avisota\Contao\SubscriptionRecipient\DataContainer\Recipient', 'saveEmail')
+			),
+			'field' => array(
+				'unique' => true,
+			),
 		),
-		'salutation' => array
+		'salutation'      => array
 		(
 			'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['salutation'],
 			'exclude'   => true,
 			'flag'      => 1,
-			'inputType' => 'select',
-			'options'   => array(),
-			//array_combine($GLOBALS['TL_CONFIG']['avisota_salutations'], $GLOBALS['TL_CONFIG']['avisota_salutations']),
+			'inputType' => 'text',
 			'eval'      => array(
-				'maxlength'          => 255,
-				'includeBlankOption' => true,
-				'importable'         => true,
-				'exportable'         => true,
-				'feEditable'         => true,
-				'tl_class'           => 'w50'
+				'maxlength'  => 255,
+				'importable' => true,
+				'exportable' => true,
+				'feEditable' => true,
+				'tl_class'   => 'w50'
 			),
 			'field'     => array(),
 		),
-		'title'      => array
+		'title'           => array
 		(
 			'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['title'],
 			'exclude'   => true,
@@ -246,7 +261,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 			),
 			'field'     => array(),
 		),
-		'forename'   => array
+		'forename'        => array
 		(
 			'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['forename'],
 			'exclude'   => true,
@@ -264,7 +279,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 			),
 			'field'     => array(),
 		),
-		'surname'    => array
+		'surname'         => array
 		(
 			'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['surname'],
 			'exclude'   => true,
@@ -282,7 +297,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 			),
 			'field'     => array(),
 		),
-		'gender'     => array
+		'gender'          => array
 		(
 			'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['gender'],
 			'exclude'   => true,
@@ -300,26 +315,10 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 			),
 			'field'     => array(),
 		),
-		'addedOn'    => array
+		'addedById'       => array
 		(
-			'label'  => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedOn'],
-			'filter' => true,
-			'flag'   => 8,
-			'eval'   => array(
-				'importable' => true,
-				'exportable' => true,
-				'doNotShow'  => true,
-				'doNotCopy'  => true
-			),
-			'field'  => array(
-				'type'     => 'datetime',
-				'nullable' => true,
-			),
-		),
-		'addedBy'    => array
-		(
-			'label'      => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedBy'],
-			'default'    => $this->User->id,
+			'label'      => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedById'],
+			'default'    => $user->id,
 			'filter'     => true,
 			'flag'       => 1,
 			'foreignKey' => 'tl_user.name',
@@ -330,22 +329,45 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 				'doNotCopy'  => true
 			),
 			'field'      => array(
+				'type'     => 'integer',
 				'nullable' => true,
 			),
 		),
-		'lists' => array
+		'addedByName'     => array
 		(
-			'label' => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['lists'],
-			'inputType' => 'checkbox',
-			'eval' => array(
-					'mandatory'      => true,
-					'multiple'       => true,
-					'doNotSaveEmpty' => true,
-					'doNotCopy'      => true,
-					'doNotShow'      => true,
-					'tl_class'       => 'clr'
+			'label'      => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedByName'],
+			'default'    => $user->name,
+			'filter'     => true,
+			'flag'       => 1,
+			'foreignKey' => 'tl_user.name',
+			'eval'       => array(
+				'importable' => true,
+				'exportable' => true,
+				'doNotShow'  => true,
+				'doNotCopy'  => true
 			),
-			'field' => false,
+			'field'      => array(
+				'type'     => 'string',
+				'nullable' => true,
+			),
+		),
+		'addedByUsername' => array
+		(
+			'label'      => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedByUsername'],
+			'default'    => $user->username,
+			'filter'     => true,
+			'flag'       => 1,
+			'foreignKey' => 'tl_user.name',
+			'eval'       => array(
+				'importable' => true,
+				'exportable' => true,
+				'doNotShow'  => true,
+				'doNotCopy'  => true
+			),
+			'field'      => array(
+				'type'     => 'string',
+				'nullable' => true,
+			),
 		),
 	)
 );

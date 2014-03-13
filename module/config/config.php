@@ -17,25 +17,30 @@
 /**
  * Backend modules
  */
-$GLOBALS['BE_MOD']['avisota']['avisota_recipients'] = array(
-	'tables'     => array(
-		'orm_avisota_recipient',
-		'mem_avisota_recipient_migrate',
-		'orm_avisota_recipient_import',
-		'orm_avisota_recipient_export',
-		'orm_avisota_recipient_remove',
-		'orm_avisota_recipient_notify',
-	),
-	'icon'       => 'system/modules/avisota/html/recipients.png',
-	'stylesheet' => 'assets/avisota/core/css/stylesheet.css',
-	'javascript' => 'assets/avisota/core/css/backend.js',
+array_insert(
+	$GLOBALS['BE_MOD']['avisota'],
+	array_search('avisota_outbox', array_keys($GLOBALS['BE_MOD']['avisota'])),
+	array(
+		'avisota_recipients' => array(
+			'tables'     => array(
+				'orm_avisota_recipient',
+				'mem_avisota_recipient_migrate',
+				'orm_avisota_recipient_import',
+				'orm_avisota_recipient_export',
+				'orm_avisota_recipient_remove',
+				'orm_avisota_recipient_notify',
+			),
+			'icon'       => 'assets/avisota/subscription-recipient/images/recipients.png',
+			'stylesheet' => 'assets/avisota/subscription-recipient/css/backend.css',
+		)
+	)
 );
 
 
 /**
  * Entities
  */
-$GLOBALS['DOCTRINE_ENTITY_CLASS']['Avisota\Contao\Entity\Recipient'] = 'Avisota\Contao\Entity\AbstractRecipient';
+$GLOBALS['DOCTRINE_ENTITY_CLASS']['Avisota\Contao\Entity\Recipient'] = 'Avisota\Contao\SubscriptionRecipient\Entity\AbstractRecipient';
 
 $GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient';
 
@@ -50,8 +55,7 @@ $GLOBALS['TL_CRON']['daily'][] = array('AvisotaBackend', 'cronNotifyRecipients')
 /**
  * Recipient sources
  */
-$GLOBALS['AVISOTA_RECIPIENT_SOURCE']['integrated']                 = 'Avisota\Contao\Core\RecipientSource\IntegratedRecipientsFactory';
-$GLOBALS['AVISOTA_RECIPIENT_SOURCE']['integrated_by_mailing_list'] = 'Avisota\Contao\Core\RecipientSource\IntegratedRecipientsByMailingListFactory';
+$GLOBALS['AVISOTA_RECIPIENT_SOURCE']['recipients'] = 'Avisota\Contao\SubscriptionRecipient\RecipientSource\RecipientsRecipientSourceFactory';
 
 /**
  * Front end modules
@@ -80,3 +84,4 @@ $GLOBALS['TL_EVENTS']['avisota/subscription.collect-lists'][]  = array(
  * Event subscribers
  */
 $GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Avisota\Contao\SubscriptionRecipient\DataContainer\OptionsBuilder';
+$GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Avisota\Contao\SubscriptionRecipient\EventsSubscriber';

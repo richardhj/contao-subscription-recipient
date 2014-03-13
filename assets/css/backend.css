@@ -24,3 +24,7 @@
 #contextmenu .header_recipient_remove {
 	padding: 4px 0 5px 20px;
 }
+
+ul.subscriptions {
+	margin-top: 3px;
+}

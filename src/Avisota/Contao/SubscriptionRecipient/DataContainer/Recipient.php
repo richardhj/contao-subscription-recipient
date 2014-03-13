@@ -13,7 +13,7 @@
  * @filesource
  */
 
-namespace Avisota\Contao\Core\DataContainer;
+namespace Avisota\Contao\SubscriptionRecipient\DataContainer;
 
 use Avisota\Contao\Entity\MailingList;
 use Avisota\Contao\Entity\RecipientBlacklist;
@@ -99,31 +99,55 @@ class Recipient extends \Backend
 
 		$label .= ' <span style="color:#b3b3b3; padding-left:3px;">(';
 		$label .= sprintf(
-			$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedOn'][2],
-			$recipientData['addedOn']->format($GLOBALS['TL_CONFIG']['datimFormat'])
+			$GLOBALS['TL_LANG']['orm_avisota_recipient']['added_at'],
+			$recipientData['createdAt']->format($GLOBALS['TL_CONFIG']['datimFormat'])
 		);
-		if ($recipientData['addedBy'] > 0) {
+		if ($recipientData['addedById'] > 0) {
 			$user = $database
 				->prepare("SELECT * FROM tl_user WHERE id=?")
-				->execute($recipientData['addedBy']);
-			$label .= sprintf(
-				$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedBy'][2],
-				$user->next() ? $user->name : $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedBy'][3]
-			);
+				->execute($recipientData['addedById']);
+
+			if ($user->next()) {
+				$format = $GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by'];
+				$parameters = array(
+					$user->name,
+					$user->username,
+					'contao/main.php?' . http_build_query(
+						array(
+							'do' => 'user',
+							'act' => 'edit',
+							'id' => $user->id,
+							'rt' => defined('REQUEST_TOKEN') ? REQUEST_TOKEN : null,
+							'ref' => defined('TL_REFERER_ID') ? TL_REFERER_ID : null,
+						)
+					)
+				);
+			}
+			else {
+				$format = $GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by_unlinked'];
+				$parameters = array(
+					$recipientData['addedByName'],
+					$recipientData['addedByUsername']
+				);
+			}
+
+			$label .= vsprintf($format, $parameters);
 		}
 		$label .= ')</span>';
 
-		$label .= '<ul style="margin-top: 3px;">';
+		$label .= '<ul class="subscriptions">';
 
 		$entityManager = EntityHelper::getEntityManager();
 		$queryBuilder  = $entityManager->createQueryBuilder();
-		$subscriptions = $queryBuilder
+		$queryBuilder
 			->select('s')
 			->from('Avisota\Contao:Subscription', 's')
-			->where('s.recipient=?1')
-			->setParameter(1, $recipientData['id'])
-			->getQuery()
-			->getResult();
+			->where('s.recipientType=:type')
+			->andWhere('s.recipientId=:id')
+			->setParameter('type', 'Avisota\Contao\Entity\Recipient')
+			->setParameter('id', $recipientData['id']);
+		$query = $queryBuilder->getQuery();
+		$subscriptions = $query->getResult();
 
 		if ($subscriptions) {
 			/** @var Subscription $subscription */

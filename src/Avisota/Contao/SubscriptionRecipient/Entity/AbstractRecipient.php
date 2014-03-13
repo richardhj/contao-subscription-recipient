@@ -13,27 +13,29 @@
  * @filesource
  */
 
-namespace Avisota\Contao\Entity;
+namespace Avisota\Contao\SubscriptionRecipient\Entity;
 
-use Avisota\Recipient\RecipientInterface;
-use Contao\Doctrine\ORM\EntityInterface;
+use Avisota\Contao\Subscription\SubscriptionRecipientInterface;
+use Contao\Doctrine\ORM\EntityAccessor;
 
-abstract class AbstractRecipient
-	implements EntityInterface, RecipientInterface
+abstract class AbstractRecipient implements SubscriptionRecipientInterface
 {
+	/**
+	 * @var string
+	 */
+	protected $id;
+
 	/**
 	 * @var string
 	 */
 	protected $email;
 
 	/**
-	 * @var \DateTime
+	 * {@inheritdoc}
 	 */
-	protected $addedOn;
-
-	function __construct()
+	public function getId()
 	{
-		$this->addedOn = new \DateTime();
+		return $this->id;
 	}
 
 	/**
@@ -50,6 +52,9 @@ abstract class AbstractRecipient
 	public function setEmail($email)
 	{
 		$this->email = strtolower($email);
+		$this->email = \Contao\Doctrine\ORM\EntityHelper::callSetterCallbacks($this, self::TABLE_NAME, 'email', $email);
+
+		return $this;
 	}
 
 	/**
@@ -65,7 +70,8 @@ abstract class AbstractRecipient
 	 */
 	public function get($name)
 	{
-		return $this->__get($name);
+		$getter = 'get' . ucfirst($name);
+		return $this->$getter();
 	}
 
 	/**
@@ -73,7 +79,10 @@ abstract class AbstractRecipient
 	 */
 	public function getDetails()
 	{
-		return $this->toArray();
+		/** @var EntityAccessor $entityAccessor */
+		$entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
+		$details = $entityAccessor->getPublicProperties($this, true);
+		return $details;
 	}
 
 	/**
@@ -81,12 +90,6 @@ abstract class AbstractRecipient
 	 */
 	public function getKeys()
 	{
-		$reflectionClass = new \ReflectionClass($this);
-		$properties = $reflectionClass->getProperties();
-		$keys = array();
-		foreach ($properties as $property) {
-			$keys[] = $property->getName();
-		}
-		return $keys;
+		return array_keys($this->getDetails());
 	}
 }
