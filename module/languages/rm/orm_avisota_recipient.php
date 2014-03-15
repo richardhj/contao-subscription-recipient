@@ -11,15 +11,23 @@
  * last-updated: 2014-03-11T15:25:42+01:00
  */
 
-
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['activateSubscription']     = 'Activar directamain l\'abunament';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedBy']['0']             = 'Agiuntà da ';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedBy']['1']             = 'L\'utilisader da Contau che ha agiuntà quest destinatur.';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedBy']['2']             = 'da %s';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedBy']['3']             = 'dad in utilisader stizzà';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedById']['0']           = 'Agiuntà da l\'utilisader cun l\'ID';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedById']['1']           = 'L\'ID da l\'utilisader da Contau che ha agiuntà quest destinatur.';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedByName']['0']         = 'Agiuntà da ';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedByName']['1']         = 'Il num da l\'utilisader da Contao che ha agiuntà quest destinatur.';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedByUsername']['0']     = 'Agiuntà da ';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedByUsername']['1']     = 'Il num d\'utilisader da l\'utilisader da Contao che ha agiuntà quest destinatur.';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedOn']['0']             = 'Agiuntà ils';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedOn']['1']             = 'Data da l\'abunament.';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedOn']['2']             = 'agiuntà ils %s';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['added_at']                 = 'agiuntà ils %s';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by']                 = ', da <a href="%3$s">%1$s &lt;%2$s&gt;</a>';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by_unlinked']        = ', da %1$s &lt;%2$s&gt;';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['blacklisted']              = 'Ils distributurs <strong>%s</strong> sa chattan en la black-list, sche ti vuls ignorar la black-list stos ti memorisar danovamain!';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['confirm']                  = '%s abunents novs èn vegnids importads.';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['confirmManualActivation']  = 'Es ti segir che ti vuls activar manualmain quest abunament?';
@@ -45,6 +53,7 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient']['forename']['1']            = 'Tsch
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['gender']['0']              = 'Schlattaina';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['gender']['1']              = 'Tscherna la schlattaina dal destinatur.';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['globally_blacklisted']     = 'Il distributur <strong>%s</strong> sa chatta en la black-list, sche ti vuls ignorar la black-list stos ti memorisar danovamain!';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['id']['0']                  = 'ID';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['import']['0']              = 'Import da CSV';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['import']['1']              = 'Importar ils destinaturs dad ina datoteca da CSV.';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['invalid']                  = '%s nunvalaivels èn vegnids surseglids';
