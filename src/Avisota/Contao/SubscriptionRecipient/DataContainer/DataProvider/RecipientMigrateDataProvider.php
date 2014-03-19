@@ -19,11 +19,11 @@ use Avisota\Contao\Entity\Recipient;
 use Avisota\Contao\Entity\Subscription;
 use Avisota\Contao\SubscriptionRecipient\Event\RecipientMigrateCollectPersonalsAwareEvent;
 use Contao\Doctrine\ORM\EntityHelper;
-use DcGeneral\Data\CollectionInterface;
-use DcGeneral\Data\ConfigInterface;
-use DcGeneral\Data\DataProviderInterface;
-use DcGeneral\Data\ModelInterface;
-use DcGeneral\Data\NoOpDataProvider;
+use ContaoCommunityAlliance\DcGeneral\Data\CollectionInterface;
+use ContaoCommunityAlliance\DcGeneral\Data\ConfigInterface;
+use ContaoCommunityAlliance\DcGeneral\Data\DataProviderInterface;
+use ContaoCommunityAlliance\DcGeneral\Data\ModelInterface;
+use ContaoCommunityAlliance\DcGeneral\Data\NoOpDataProvider;
 use Doctrine\DBAL\Driver\PDOStatement;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 

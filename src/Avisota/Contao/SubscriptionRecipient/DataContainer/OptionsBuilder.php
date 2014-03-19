@@ -20,9 +20,9 @@ use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\LoadDataContainerEvent;
 use ContaoCommunityAlliance\Contao\Bindings\Events\System\LoadLanguageFileEvent;
 use ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEvent;
-use DcGeneral\Contao\Compatibility\DcCompat;
-use DcGeneral\DC_General;
-use DcGeneral\Factory\DcGeneralFactory;
+use ContaoCommunityAlliance\DcGeneral\Contao\Compatibility\DcCompat;
+use ContaoCommunityAlliance\DcGeneral\DC_General;
+use ContaoCommunityAlliance\DcGeneral\Factory\DcGeneralFactory;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

@@ -24,7 +24,14 @@ use Contao\Doctrine\DBAL\Event\InitializeEventManager;
 use Contao\Doctrine\ORM\EntityHelper;
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\LoadDataContainerEvent;
+use ContaoCommunityAlliance\Contao\Bindings\Events\System\LoadLanguageFileEvent;
 use ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEvent;
+use ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventHelper;
+use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\GetPropertyOptionsEvent;
+use ContaoCommunityAlliance\DcGeneral\DC_General;
+use ContaoCommunityAlliance\DcGeneral\DcGeneral;
+use ContaoCommunityAlliance\DcGeneral\EnvironmentInterface;
+use ContaoCommunityAlliance\DcGeneral\Factory\DcGeneralFactory;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

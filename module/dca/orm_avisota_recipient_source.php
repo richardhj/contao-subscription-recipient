@@ -14,12 +14,13 @@
  */
 
 use ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory;
-use DcGeneral\DataDefinition\Palette\Legend;
-use DcGeneral\DataDefinition\Palette\Palette;
-use DcGeneral\DataDefinition\Definition\PalettesDefinitionInterface;
-use DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain;
-use DcGeneral\DataDefinition\Palette\Condition\Property\PropertyTrueCondition;
-use DcGeneral\DataDefinition\Palette\Condition\Property\PropertyValueCondition;
+use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Legend;
+use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Palette;
+use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\PalettesDefinitionInterface;
+use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain;
+use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionInterface;
+use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyTrueCondition;
+use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyValueCondition;
 
 /**
  * Table orm_avisota_recipient_source

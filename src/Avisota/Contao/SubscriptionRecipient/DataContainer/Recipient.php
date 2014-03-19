@@ -21,7 +21,7 @@ use Avisota\Contao\Entity\Subscription;
 use Avisota\Contao\Subscription\Event\ResolveSubscriptionNameEvent;
 use Avisota\Contao\Core\Subscription\SubscriptionManagerInterface;
 use Contao\Doctrine\ORM\EntityHelper;
-use DcGeneral\DC_General;
+use ContaoCommunityAlliance\DcGeneral\DC_General;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr\Join;
 use Psr\Log\LoggerInterface;
