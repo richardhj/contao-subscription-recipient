@@ -41,3 +41,8 @@ $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['migrate_legend'] = 'Migrat
  * Messages
  */
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['migrated'] = '%d recipients migrated, %d skipped.';
+
+/**
+ * Buttons
+ */
+$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['submit'] = 'Migrate';

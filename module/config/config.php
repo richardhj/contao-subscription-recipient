@@ -46,13 +46,6 @@ $GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient';
 
 
 /**
- * Cron
- */
-$GLOBALS['TL_CRON']['daily'][] = array('AvisotaBackend', 'cronCleanupRecipientList');
-$GLOBALS['TL_CRON']['daily'][] = array('AvisotaBackend', 'cronNotifyRecipients');
-
-
-/**
  * Recipient sources
  */
 $GLOBALS['AVISOTA_RECIPIENT_SOURCE']['recipients'] = 'Avisota\Contao\SubscriptionRecipient\RecipientSource\RecipientsRecipientSourceFactory';
@@ -70,10 +63,6 @@ $GLOBALS['FE_MOD']['avisota']['avisota_subscription'] = 'Avisota\Contao\Subscrip
 $GLOBALS['TL_EVENTS']['avisota/recipient.migrate-recipient'][] = array(
 	'Avisota\Contao\SubscriptionRecipient\Recipient\Migrate',
 	'collectPersonalsFromMembers'
-);
-$GLOBALS['TL_EVENTS']['avisota/subscription.resolve-name'][]   = array(
-	'Avisota\Contao\SubscriptionRecipient\Recipient\Subscription',
-	'resolveSubscriptionName'
 );
 $GLOBALS['TL_EVENTS']['avisota/subscription.collect-lists'][]  = array(
 	'Avisota\Contao\SubscriptionRecipient\Recipient\Subscription',

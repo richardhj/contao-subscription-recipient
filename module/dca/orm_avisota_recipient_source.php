@@ -32,7 +32,40 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient_source']['metapalettes']['recipients']
 	'details'    => array('recipientsDetails'),
 	'filter'     => array(
 		'filter',
+		'filterByMailingLists',
 		'recipientsUsePropertyFilter',
+		function (
+			$legendName,
+			Legend $legend,
+			Palette $palette,
+			PalettesDefinitionInterface $palettesDefinition
+		) {
+			$filterByMailingListsProperty = $legend->getProperty('filterByMailingLists');
+			$visibleCondition             = $filterByMailingListsProperty->getVisibleCondition();
+
+			$typeCondition   = new PropertyValueCondition('type', 'recipients');
+			$filterCondition = new PropertyTrueCondition('filter');
+
+			/** @var PropertyConditionInterface|PropertyConditionChain $visibleCondition */
+			if (
+				!$visibleCondition ||
+				!$visibleCondition instanceof PropertyConditionChain ||
+				$visibleCondition->getConjunction() != PropertyConditionChain::OR_CONJUNCTION
+			) {
+				$visibleCondition = new PropertyConditionChain(
+					$visibleCondition ? array($visibleCondition) : array(),
+					PropertyConditionChain::OR_CONJUNCTION
+				);
+			}
+
+			$visibleCondition->addCondition(
+				new PropertyConditionChain(
+					array($typeCondition, $filterCondition)
+				)
+			);
+
+			$filterByMailingListsProperty->setVisibleCondition($visibleCondition);
+		},
 		function (
 			$legendName,
 			Legend $legend,
@@ -45,23 +78,19 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient_source']['metapalettes']['recipients']
 			$typeCondition   = new PropertyValueCondition('type', 'recipients');
 			$filterCondition = new PropertyTrueCondition('filter');
 
-			if ($visibleCondition) {
+			/** @var PropertyConditionInterface|PropertyConditionChain $visibleCondition */
+			if (
+				!$visibleCondition ||
+				!$visibleCondition instanceof PropertyConditionChain ||
+				$visibleCondition->getConjunction() != PropertyConditionChain::AND_CONJUNCTION
+			) {
 				$visibleCondition = new PropertyConditionChain(
-					array(
-						$visibleCondition,
-						$typeCondition,
-						$filterCondition
-					)
+					$visibleCondition ? array($visibleCondition) : array()
 				);
 			}
-			else {
-				$visibleCondition = new PropertyConditionChain(
-					array(
-						$typeCondition,
-						$filterCondition
-					)
-				);
-			}
+
+			$visibleCondition->addCondition($typeCondition);
+			$visibleCondition->addCondition($filterCondition);
 
 			$recipientsUsePropertyFilterProperty->setVisibleCondition($visibleCondition);
 		},
@@ -120,26 +149,24 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient_source']['fields']['recipientsProperty
 	'eval'      => array(
 		'mandatory'    => true,
 		'columnFields' => array(
-			'property'   => array(
-				'label'            => &$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_property'],
-				'inputType'        => 'select',
-				'options_callback' => CreateOptionsEventCallbackFactory::createCallback(
-						'avisota.subscription-recipient.create-recipient-properties-options'
-					),
-				'eval'             => array(
+			'recipientsPropertyFilter_property'   => array(
+				'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_property'],
+				'inputType' => 'select',
+				'reference' => &$GLOBALS['TL_LANG']['orm_avisota_recipient'],
+				'eval'      => array(
 					'style' => 'width:200px'
 				),
 			),
-			'comparator' => array(
+			'recipientsPropertyFilter_comparator' => array(
 				'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparator'],
 				'inputType' => 'select',
 				'options'   => array('empty', 'not empty', 'eq', 'neq', 'gt', 'gte', 'lt', 'lte'),
 				'reference' => &$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparators'],
 				'eval'      => array(
-					'style' => 'width:60px'
+					'style' => 'width:100px'
 				),
 			),
-			'value'      => array(
+			'recipientsPropertyFilter_value'      => array(
 				'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_value'],
 				'inputType' => 'text',
 				'eval'      => array(

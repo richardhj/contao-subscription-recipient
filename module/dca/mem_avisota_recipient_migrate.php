@@ -13,8 +13,6 @@
  * @filesource
  */
 
-use ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory;
-
 /**
  * Table mem_avisota_recipient_migrate
  */
@@ -33,7 +31,8 @@ $GLOBALS['TL_DCA']['mem_avisota_recipient_migrate'] = array
 		(
 			'default' => array
 			(
-				'class' => 'Avisota\Contao\SubscriptionRecipient\DataContainer\DataProvider\RecipientMigrateDataProvider',
+				'class'  => 'Avisota\Contao\SubscriptionRecipient\DataContainer\DataProvider\RecipientMigrateDataProvider',
+				'source' => 'mem_avisota_recipient_migrate',
 			),
 		),
 	),
@@ -69,15 +68,14 @@ $GLOBALS['TL_DCA']['mem_avisota_recipient_migrate'] = array
 					),
 					'mailingList' => array
 					(
-						'label'            => &$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['channels_mailingList'],
-						'inputType'        => 'select',
-						'options_callback' => CreateOptionsEventCallbackFactory::createCallback('avisota.create-mailing-list-options'),
-						'eval'             => array(
+						'label'     => &$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['channels_mailingList'],
+						'inputType' => 'select',
+						'eval'      => array(
 							'style'              => 'width:250px',
 							'mandatory'          => true,
 							'includeBlankOption' => true,
 							'chosen'             => true,
-						)
+						),
 					),
 				),
 				'mandatory'    => true,
@@ -87,6 +85,11 @@ $GLOBALS['TL_DCA']['mem_avisota_recipient_migrate'] = array
 		'overwrite'         => array
 		(
 			'label'     => &$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['overwrite'],
+			'inputType' => 'checkbox',
+		),
+		'ignoreBlacklist'   => array
+		(
+			'label'     => &$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['ignoreBlacklist'],
 			'inputType' => 'checkbox',
 		),
 		'importFromMembers' => array

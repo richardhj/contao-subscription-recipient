@@ -18,10 +18,8 @@ namespace Avisota\Contao\SubscriptionRecipient\Event;
 use Avisota\Contao\Entity\Recipient;
 use Symfony\Component\EventDispatcher\Event;
 
-class RecipientMigrateCollectPersonalsAwareEvent extends RecipientAwareEvent
+class MigrateRecipientEvent extends RecipientAwareEvent
 {
-	const NAME = 'Avisota\Contao\Core\Event\RecipientMigrateCollectPersonals';
-
 	/**
 	 * @var array
 	 */

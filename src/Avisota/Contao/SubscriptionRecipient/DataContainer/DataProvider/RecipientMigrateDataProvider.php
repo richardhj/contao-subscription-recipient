@@ -15,13 +15,11 @@
 
 namespace Avisota\Contao\SubscriptionRecipient\DataContainer\DataProvider;
 
+use Avisota\Contao\Subscription\SubscriptionManager;
 use Avisota\Contao\Entity\Recipient;
-use Avisota\Contao\Entity\Subscription;
-use Avisota\Contao\SubscriptionRecipient\Event\RecipientMigrateCollectPersonalsAwareEvent;
+use Avisota\Contao\SubscriptionRecipient\Event\MigrateRecipientEvent;
+use Avisota\Contao\SubscriptionRecipient\RecipientEvents;
 use Contao\Doctrine\ORM\EntityHelper;
-use ContaoCommunityAlliance\DcGeneral\Data\CollectionInterface;
-use ContaoCommunityAlliance\DcGeneral\Data\ConfigInterface;
-use ContaoCommunityAlliance\DcGeneral\Data\DataProviderInterface;
 use ContaoCommunityAlliance\DcGeneral\Data\ModelInterface;
 use ContaoCommunityAlliance\DcGeneral\Data\NoOpDataProvider;
 use Doctrine\DBAL\Driver\PDOStatement;
@@ -44,13 +42,17 @@ class RecipientMigrateDataProvider extends NoOpDataProvider
 
 		$migrationSettings = $objItem->getPropertiesAsArray();
 
+		$entityManager         = EntityHelper::getEntityManager();
+		$recipientRepository   = EntityHelper::getRepository('Avisota\Contao:Recipient');
+		$mailingListRepository = EntityHelper::getRepository('Avisota\Contao:MailingList');
+
 		$channels                  = array();
 		$channelMailingListMapping = array();
 		foreach ($migrationSettings['channels'] as $channel) {
 			$mailingList                         = $channel['mailingList'];
 			$channel                             = $channel['channel'];
 			$channels[]                          = $connection->quote($channel);
-			$channelMailingListMapping[$channel] = $mailingList;
+			$channelMailingListMapping[$channel] = $mailingListRepository->find($mailingList);
 		}
 
 		$queryBuilder = $connection->createQueryBuilder();
@@ -65,8 +67,13 @@ class RecipientMigrateDataProvider extends NoOpDataProvider
 			)
 			->execute();
 
-		$entityManager       = EntityHelper::getEntityManager();
-		$recipientRepository = EntityHelper::getRepository('Avisota\Contao:Recipient');
+		/** @var SubscriptionManager $subscriptionManager */
+		$subscriptionManager = $container['avisota.subscription'];
+		$subscribeOptions    = 0;
+
+		if ($migrationSettings['ignoreBlacklist']) {
+			$subscribeOptions |= SubscriptionManager::OPT_IGNORE_BLACKLIST;
+		}
 
 		$user = \BackendUser::getInstance();
 
@@ -89,17 +96,25 @@ class RecipientMigrateDataProvider extends NoOpDataProvider
 				continue;
 			}
 
-			$event = new RecipientMigrateCollectPersonalsAwareEvent($migrationSettings, $contaoRecipientData, $recipient);
-			$eventDispatcher->dispatch(RecipientMigrateCollectPersonalsAwareEvent::NAME, $event);
+			$mailingList = $channelMailingListMapping[$contaoRecipientData['pid']];
 
-			$mailingList  = $channelMailingListMapping[$contaoRecipientData['pid']];
-			$subscription = new Subscription();
-			$subscription->setList('mailing_list:' . $mailingList);
-			$subscription->setRecipient($recipient);
-			$subscription->setConfirmed((bool) $contaoRecipientData['active']);
+			if (!$mailingList) {
+				// graceful ignore missing mailing lists
+				$skipped++;
+				continue;
+			}
+
+			$event = new MigrateRecipientEvent($migrationSettings, $contaoRecipientData, $recipient);
+			$eventDispatcher->dispatch(RecipientEvents::MIGRATE_RECIPIENT, $event);
 
 			$entityManager->persist($recipient);
-			$entityManager->persist($subscription);
+
+			$subscriptionManager->subscribe(
+				$recipient,
+				$mailingList,
+				($contaoRecipientData['active'] ? SubscriptionManager::OPT_ACTIVATE : 0) | $subscribeOptions
+			);
+
 			$migrated++;
 		}
 		$entityManager->flush();

@@ -18,7 +18,6 @@ namespace Avisota\Contao\SubscriptionRecipient\DataContainer;
 use Avisota\Contao\Entity\MailingList;
 use Avisota\Contao\Entity\RecipientBlacklist;
 use Avisota\Contao\Entity\Subscription;
-use Avisota\Contao\Subscription\Event\ResolveSubscriptionNameEvent;
 use Avisota\Contao\Core\Subscription\SubscriptionManagerInterface;
 use Contao\Doctrine\ORM\EntityHelper;
 use ContaoCommunityAlliance\DcGeneral\DC_General;
@@ -80,7 +79,7 @@ class Recipient extends \Backend
 	 *
 	 * @return string
 	 */
-	public function getLabel($recipientData, $label, DC_General $dc)
+	public function getLabel($recipientData, $label)
 	{
 		global $container;
 
@@ -89,15 +88,12 @@ class Recipient extends \Backend
 
 		$database = \Database::getInstance();
 
-		$label = trim($recipientData['forename'] . ' ' . $recipientData['surname']);
-		if (strlen($label)) {
-			$label .= ' &lt;' . $recipientData['email'] . '&gt;';
-		}
-		else {
-			$label = $recipientData['email'];
+		$name = trim($recipientData['forename'] . ' ' . $recipientData['surname']);
+		if (strlen($name)) {
+			$label = sprintf('%s &lt;%s&gt;', $name, $label);
 		}
 
-		$label .= ' <span style="color:#b3b3b3; padding-left:3px;">(';
+		$label .= ' <span style="color:#b3b3b3; padding-left:.5em;">(';
 		$label .= sprintf(
 			$GLOBALS['TL_LANG']['orm_avisota_recipient']['added_at'],
 			$recipientData['createdAt']->format($GLOBALS['TL_CONFIG']['datimFormat'])
@@ -135,42 +131,46 @@ class Recipient extends \Backend
 		}
 		$label .= ')</span>';
 
-		$label .= '<ul class="subscriptions">';
-
-		$entityManager = EntityHelper::getEntityManager();
-		$queryBuilder  = $entityManager->createQueryBuilder();
+		$repository = EntityHelper::getRepository('Avisota\Contao:Subscription');
+		$queryBuilder  = $repository->createQueryBuilder('s');
+		$expr = $queryBuilder->expr();
 		$queryBuilder
 			->select('s')
-			->from('Avisota\Contao:Subscription', 's')
-			->where('s.recipientType=:type')
-			->andWhere('s.recipientId=:id')
+			->where($expr->eq('s.recipientType', ':type'))
+			->andWhere($expr->eq('s.recipientId', ':id'))
 			->setParameter('type', 'Avisota\Contao\Entity\Recipient')
 			->setParameter('id', $recipientData['id']);
 		$query = $queryBuilder->getQuery();
 		$subscriptions = $query->getResult();
+		/** @var Subscription[] $subscriptions */
 
-		if ($subscriptions) {
-			/** @var Subscription $subscription */
+		if (count($subscriptions)) {
+			$label .= '<ul class="subscriptions">';
+
 			foreach ($subscriptions as $subscription) {
-				$event = new ResolveSubscriptionNameEvent($subscription);
-				$eventDispatcher->dispatch(ResolveSubscriptionNameEvent::NAME, $event);
-
 				$label .= '<li>';
 				$label .= $this->generateImage(
 					sprintf(
 						'system/themes/%s/images/%s.gif',
 						$this->getTheme(),
-						$subscription->getConfirmed() ? 'visible' : 'invisible'
+						$subscription->getActive() ? 'visible' : 'invisible'
 					),
 					''
 				);
 				$label .= '&nbsp;';
-				$label .= $event->getSubscriptionName();
+
+				if ($subscription->getMailingList()) {
+					$label .= $subscription->getMailingList()->get;
+				}
+				else {
+					$label .= $GLOBALS['TL_LANG']['MSC']['avisota-global-subscription-label'];
+				}
+
 				$label .= '</li>';
 			}
-		}
 
-		$label .= '</ul>';
+			$label .= '</ul>';
+		}
 
 		return $label;
 	}

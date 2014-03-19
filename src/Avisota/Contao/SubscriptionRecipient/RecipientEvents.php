@@ -62,4 +62,16 @@ class RecipientEvents
 	 * @api
 	 */
 	const REMOVE_RECIPIENT = 'avisota.subscription-recipient.remove-recipient';
+
+	/**
+	 * The MIGRATE_RECIPIENT event occurs when a recipient gets imported.
+	 *
+	 * This event allows you to manipulate the recipient data on import. The event listener method receives
+	 * a Avisota\Contao\SubscriptionRecipient\Event\MigrateRecipientEvent instance.
+	 *
+	 * @var string
+	 *
+	 * @api
+	 */
+	const MIGRATE_RECIPIENT = 'avisota.subscription-recipient.migrate-recipient';
 }

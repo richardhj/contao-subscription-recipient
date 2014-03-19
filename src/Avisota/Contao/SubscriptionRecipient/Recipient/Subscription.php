@@ -17,39 +17,10 @@ namespace Avisota\Contao\SubscriptionRecipient\Recipient;
 
 use Avisota\Contao\Entity\MailingList;
 use Avisota\Contao\Subscription\Event\CollectSubscriptionListsEvent;
-use Avisota\Contao\Subscription\Event\ResolveSubscriptionNameEvent;
 use Contao\Doctrine\ORM\EntityHelper;
 
 class Subscription extends \Controller
 {
-	static public function resolveSubscriptionName(ResolveSubscriptionNameEvent $event)
-	{
-		if ($event->getSubscriptionName() == 'global') {
-			$subscription = new Subscription();
-			$subscription->loadLanguageFile('orm_avisota_recipient');
-
-			$event->setSubscriptionName(
-				$GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']
-			);
-		}
-		else if (preg_match('#^mailing_list:(.*)$#', $event->getSubscriptionName(), $matches)) {
-			$subscription = new Subscription();
-			$subscription->loadLanguageFile('orm_avisota_recipient');
-
-			$mailingListRepository = EntityHelper::getRepository('Avisota\Contao:MailingList');
-			/** @var MailingList $mailingList */
-			$mailingList = $mailingListRepository->find($matches[1]);
-			if ($mailingList) {
-				$event->setSubscriptionName(
-					sprintf(
-						$GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_mailingList'],
-						$mailingList->getTitle()
-					)
-				);
-			}
-		}
-	}
-
 	static public function collectSubscriptionLists(CollectSubscriptionListsEvent $event)
 	{
 		$mailingListRepository = EntityHelper::getRepository('Avisota\Contao:MailingList');

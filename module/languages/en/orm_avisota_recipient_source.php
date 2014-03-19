@@ -17,42 +17,42 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipients']                              = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipients']                          = array(
 	'Select recipient&hellip;',
 	'Please choose how recipients are selected.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsManageSubscriptionPage'] = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsManageSubscriptionPage']    = array(
 	'Subscription management page',
 	'Please choose the subscription management page.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsMailingLists']          = array(
-	'Mailing lists',
-	'Please choose the selected mailing lists. Only recipients that subscribe selected mailing lists are available.'
-);
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsAllowSingleListSelection']        = array(
-	'Allow single select mailing lists',
-	'Allow the writer to single select mailing lists from this recipient source.'
-);
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsAllowSingleSelection']            = array(
-	'Allow single select recipients',
-	'Allow the writer to single select recipients from this recipient source.'
-);
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsDetails']                         = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsDetails']                   = array(
 	'Fetch details from&hellip;',
 	'Please choose where the details should be fetched from.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsFilterByColumns']                 = array(
-	'Column filter',
-	'Filter the recipients by columns.'
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsUsePropertyFilter']         = array(
+	'Filter by properties',
+	'Filter recipients by properties and values.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsFilterByColumnsField']            = array('Column');
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsFilterByColumnsComparator']       = array('Comparator');
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsFilterByColumnsValue']            = array('Value');
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsFilterByColumnsNoEscape']         = array(
-	'SQL',
-	'Use value as native SQL (&rarr; the value will not excaped).'
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter']            = array(
+	'Properties filter',
+	'Filter the recipients by property values.'
 );
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_property']   = array('Column');
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparator'] = array('Comparator');
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_value']      = array('Value');
 
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipients_details'] = 'only provided details';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['member_details'] = 'only member details';
+/**
+ * Reference
+ */
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparators']['empty']     = 'is empty';
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparators']['not_empty'] = 'is not empty';
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparators']['eq']        = '==';
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparators']['neq']       = '!=';
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparators']['gt']        = '>';
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparators']['gte']       = '>=';
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparators']['lt']        = '<';
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparators']['lte']       = '<=';
+
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipients_details']        = 'only provided details';
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['member_details']            = 'only member details';
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipients_member_details'] = 'mix provided with member details';

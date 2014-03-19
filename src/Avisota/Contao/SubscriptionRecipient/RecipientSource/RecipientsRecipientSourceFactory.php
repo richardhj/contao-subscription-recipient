@@ -24,6 +24,13 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
 	{
 		$recipientSource = new RecipientsRecipientSource();
 
+		if ($recipientSourceEntity->getFilterByMailingLists()) {
+			$recipientSource->setFilteredMailingLists($recipientSourceEntity->getMailingLists()->toArray());
+		}
+		if ($recipientSourceEntity->getRecipientsUsePropertyFilter()) {
+			$recipientSource->setFilteredProperties($recipientSourceEntity->getRecipientsPropertyFilter());
+		}
+
 		return $recipientSource;
 	}
 }

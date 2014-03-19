@@ -52,7 +52,7 @@ abstract class AbstractRecipient implements SubscriptionRecipientInterface
 	public function setEmail($email)
 	{
 		$this->email = strtolower($email);
-		$this->email = \Contao\Doctrine\ORM\EntityHelper::callSetterCallbacks($this, self::TABLE_NAME, 'email', $email);
+		$this->email = \Contao\Doctrine\ORM\EntityHelper::callSetterCallbacks($this, static::TABLE_NAME, 'email', $email);
 
 		return $this;
 	}
