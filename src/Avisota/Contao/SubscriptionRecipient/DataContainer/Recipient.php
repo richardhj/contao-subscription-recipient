@@ -16,114 +16,238 @@
 namespace Avisota\Contao\SubscriptionRecipient\DataContainer;
 
 use Avisota\Contao\Entity\MailingList;
-use Avisota\Contao\Entity\RecipientBlacklist;
 use Avisota\Contao\Entity\Subscription;
-use Avisota\Contao\Core\Subscription\SubscriptionManagerInterface;
+use Avisota\Contao\Subscription\SubscriptionManager;
+use Contao\Doctrine\ORM\DataContainer\General\EntityModel;
 use Contao\Doctrine\ORM\EntityHelper;
-use ContaoCommunityAlliance\DcGeneral\DC_General;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Query\Expr\Join;
-use Psr\Log\LoggerInterface;
+use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
+use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\RedirectEvent;
+use ContaoCommunityAlliance\Contao\Bindings\Events\Image\GenerateHtmlEvent;
+use ContaoCommunityAlliance\Contao\Bindings\Events\Message\AddMessageEvent;
+use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\DecodePropertyValueForWidgetEvent;
+use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\ModelToLabelEvent;
+use ContaoCommunityAlliance\DcGeneral\DcGeneralEvents;
+use ContaoCommunityAlliance\DcGeneral\Event\ActionEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class Recipient extends \Backend
+class Recipient implements EventSubscriberInterface
 {
+	static protected $instance;
+
 	/**
-	 * Import the back end user object
+	 * @return Recipient
 	 */
-	public function __construct()
+	static public function getInstance()
 	{
-		parent::__construct();
-		$this->import('BackendUser', 'User');
+		return self::$instance;
 	}
 
 	/**
-	 * @param \DataContainer $dc
+	 * {@inheritdoc}
 	 */
-	public function filterByMailingLists($dc = null)
+	public static function getSubscribedEvents()
 	{
-		if (TL_MODE == 'FE') {
+		return array(
+			DcGeneralEvents::ACTION                                                    => 'handleAction',
+			ModelToLabelEvent::NAME . '[orm_avisota_recipient]'                        => 'createLabel',
+			DecodePropertyValueForWidgetEvent::NAME . '[orm_avisota_recipient][email]' => 'decodeEmail',
+		);
+	}
+
+	public function __construct()
+	{
+		static::$instance = $this;
+	}
+
+	/**
+	 * Handle custom events.
+	 *
+	 * @param ActionEvent $event
+	 */
+	public function handleAction(ActionEvent $event)
+	{
+		if (
+			$event->getResponse()
+			|| $event->getEnvironment()->getDataDefinition()->getName() != 'orm_avisota_recipient'
+		) {
 			return;
 		}
 
-		$input    = \Input::getInstance();
-		$database = \Database::getInstance();
+		$environment      = $event->getEnvironment();
+		$eventPropagator  = $environment->getEventPropagator();
+		$action           = $event->getAction();
+		$name             = $action->getName();
+		$input            = $environment->getInputProvider();
+		$subscribeOptions = SubscriptionManager::OPT_IGNORE_BLACKLIST;
 
-		/*
-		$id = $input->get('showlist');
-		if ($id) {
-			$list = $database
-				->prepare("SELECT * FROM orm_avisota_mailing_list WHERE id=?")
-				->execute($id);
-			if ($list->next()) {
-				$GLOBALS['TL_DCA']['orm_avisota_recipient']['list']['sorting']['filter'][] = array(
-					'id IN (SELECT recipient FROM orm_avisota_mailing_list WHERE list=?)',
-					$id
-				);
+		switch ($name) {
+			case 'confirm-subscription':
+				$subscriptionRepository = EntityHelper::getRepository('Avisota\Contao:Subscription');
+				$subscriptionId         = $input->getParameter('subscription');
+				$subscription           = $subscriptionRepository->find($subscriptionId);
+				/** @var Subscription $subscription */
 
-				$this->loadLanguageFile('avisota_dca');
-				$_SESSION['TL_INFO'][] = sprintf(
-					$GLOBALS['TL_LANG']['avisota_dca']['filteredByMailingList'],
-					$list->title,
-					preg_replace('#[&\?](avisota_)?showlist=\d+#', '', $this->Environment->request)
+				/** @var SubscriptionManager $subscriptionManager */
+				$subscriptionManager = $GLOBALS['container']['avisota.subscription'];
+				$subscriptionManager->confirm($subscription);
+
+				$event = AddMessageEvent::createConfirm(
+					sprintf(
+						$GLOBALS['TL_LANG']['orm_avisota_recipient']['confirm-subscription'],
+						$subscription->getRecipient()->getTitle(),
+						$subscription->getMailingList()
+							? $subscription->getMailingList()->getTitle()
+							: $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']
+					)
 				);
-			}
+				$eventPropagator->dispatch(ContaoEvents::MESSAGE_ADD, $event);
+
+				$event = new RedirectEvent(
+					'contao/main.php?do=avisota_recipients#' . md5($subscription->getRecipient()->getEmail())
+				);
+				$environment->getEventPropagator()->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+				break;
+
+			case 'remove-subscription':
+				$subscriptionRepository = EntityHelper::getRepository('Avisota\Contao:Subscription');
+				$subscriptionId         = $input->getParameter('subscription');
+				$subscription           = $subscriptionRepository->find($subscriptionId);
+				/** @var Subscription $subscription */
+
+				/** @var SubscriptionManager $subscriptionManager */
+				$subscriptionManager = $GLOBALS['container']['avisota.subscription'];
+				$subscriptionManager->unsubscribe($subscription);
+
+				$event = AddMessageEvent::createConfirm(
+					sprintf(
+						$GLOBALS['TL_LANG']['orm_avisota_recipient']['remove-subscription'],
+						$subscription->getRecipient()->getTitle(),
+						$subscription->getMailingList()
+							? $subscription->getMailingList()->getTitle()
+							: $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']
+					)
+				);
+				$eventPropagator->dispatch(ContaoEvents::MESSAGE_ADD, $event);
+
+				$event = new RedirectEvent(
+					'contao/main.php?do=avisota_recipients#' . md5($subscription->getRecipient()->getEmail())
+				);
+				$environment->getEventPropagator()->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+				break;
+
+			case 'subscribe-confirmed':
+				$subscribeOptions |= SubscriptionManager::OPT_ACTIVATE;
+
+			case 'subscribe':
+				$recipientRepository = EntityHelper::getRepository('Avisota\Contao:Recipient');
+				$recipientId         = $input->getParameter('recipient');
+				$recipient           = $recipientRepository->find($recipientId);
+				/** @var \Avisota\Contao\Entity\Recipient $recipient */
+
+				$mailingListRepository = EntityHelper::getRepository('Avisota\Contao:MailingList');
+				$mailingListId         = $input->getParameter('mailing-list');
+				$mailingList           = $mailingListRepository->find($mailingListId);
+				/** @var MailingList $mailingList */
+
+				/** @var SubscriptionManager $subscriptionManager */
+				$subscriptionManager = $GLOBALS['container']['avisota.subscription'];
+				$subscriptionManager->subscribe($recipient, $mailingList, $subscribeOptions);
+
+				$event = AddMessageEvent::createConfirm(
+					sprintf(
+						$GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe'],
+						$recipient->getEmail(),
+						$mailingList
+							? $mailingList->getTitle()
+							: $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']
+					)
+				);
+				$eventPropagator->dispatch(ContaoEvents::MESSAGE_ADD, $event);
+
+				$event = new RedirectEvent(
+					'contao/main.php?do=avisota_recipients#' . md5($recipient->getEmail())
+				);
+				$eventPropagator->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+				break;
 		}
-		*/
 	}
 
 	/**
-	 * @param array      $recipientData
-	 * @param string     $label
-	 * @param DC_General $dc
+	 * Create label for recipient.
+	 *
+	 * @param ModelToLabelEvent $event
 	 *
 	 * @return string
 	 */
-	public function getLabel($recipientData, $label)
+	public function createLabel(ModelToLabelEvent $event)
 	{
 		global $container;
+
+		/** @var EntityModel $model */
+		$model = $event->getModel();
+		/** @var \Avisota\Contao\Entity\Recipient $recipient */
+		$recipient = $model->getEntity();
 
 		/** @var EventDispatcher $eventDispatcher */
 		$eventDispatcher = $container['event-dispatcher'];
 
 		$database = \Database::getInstance();
+		$label    = '';
 
-		$name = trim($recipientData['forename'] . ' ' . $recipientData['surname']);
+		// add expand/fold icon
+		$generateImageEvent = new GenerateHtmlEvent('folPlus.gif', '', 'class="expand" style="display:none"');
+		$eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $generateImageEvent);
+		$label .= $generateImageEvent->getHtml();
+
+		$generateImageEvent = new GenerateHtmlEvent('folMinus.gif', '', 'class="fold" style="display:none"');
+		$eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $generateImageEvent);
+		$label .= $generateImageEvent->getHtml();
+
+		$email = $recipient->getEmail();
+		$name  = trim($recipient->getForename() . ' ' . $recipient->getSurname());
+
+		$label .= sprintf('<a name="%s"></a>', md5($email));
+
 		if (strlen($name)) {
-			$label = sprintf('%s &lt;%s&gt;', $name, $label);
+			$label .= sprintf('%s &lt;%s&gt;', $name, $email);
+		}
+		else {
+			$label .= $email;
 		}
 
+		// add recipient email
 		$label .= ' <span style="color:#b3b3b3; padding-left:.5em;">(';
 		$label .= sprintf(
 			$GLOBALS['TL_LANG']['orm_avisota_recipient']['added_at'],
-			$recipientData['createdAt']->format($GLOBALS['TL_CONFIG']['datimFormat'])
+			$recipient->getCreatedAt()->format($GLOBALS['TL_CONFIG']['datimFormat'])
 		);
-		if ($recipientData['addedById'] > 0) {
+		if ($recipient->getAddedById() > 0) {
 			$user = $database
 				->prepare("SELECT * FROM tl_user WHERE id=?")
-				->execute($recipientData['addedById']);
+				->execute($recipient->getAddedById());
 
 			if ($user->next()) {
-				$format = $GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by'];
+				$format     = $GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by'];
 				$parameters = array(
 					$user->name,
 					$user->username,
 					'contao/main.php?' . http_build_query(
 						array(
-							'do' => 'user',
+							'do'  => 'user',
 							'act' => 'edit',
-							'id' => $user->id,
-							'rt' => defined('REQUEST_TOKEN') ? REQUEST_TOKEN : null,
+							'id'  => $user->id,
+							'rt'  => defined('REQUEST_TOKEN') ? REQUEST_TOKEN : null,
 							'ref' => defined('TL_REFERER_ID') ? TL_REFERER_ID : null,
 						)
 					)
 				);
 			}
 			else {
-				$format = $GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by_unlinked'];
+				$format     = $GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by_unlinked'];
 				$parameters = array(
-					$recipientData['addedByName'],
-					$recipientData['addedByUsername']
+					$recipient->getAddedByName(),
+					$recipient->getAddedByUsername()
 				);
 			}
 
@@ -131,445 +255,192 @@ class Recipient extends \Backend
 		}
 		$label .= ')</span>';
 
-		$repository = EntityHelper::getRepository('Avisota\Contao:Subscription');
-		$queryBuilder  = $repository->createQueryBuilder('s');
-		$expr = $queryBuilder->expr();
+		$mailingListRepository  = EntityHelper::getRepository('Avisota\Contao:MailingList');
+		$subscriptionRepository = EntityHelper::getRepository('Avisota\Contao:Subscription');
+
+		$queryBuilder = $mailingListRepository->createQueryBuilder('ml');
+		$queryBuilder->orderBy('ml.title');
+		$query = $queryBuilder->getQuery();
+
+		/** @var MailingList[] $mailingLists */
+		$mailingLists = $query->getResult();
+
+		$queryBuilder = $subscriptionRepository->createQueryBuilder('s');
+		$expr         = $queryBuilder->expr();
 		$queryBuilder
 			->select('s')
 			->where($expr->eq('s.recipientType', ':type'))
 			->andWhere($expr->eq('s.recipientId', ':id'))
 			->setParameter('type', 'Avisota\Contao\Entity\Recipient')
-			->setParameter('id', $recipientData['id']);
+			->setParameter('id', $recipient->getId());
 		$query = $queryBuilder->getQuery();
-		$subscriptions = $query->getResult();
+
 		/** @var Subscription[] $subscriptions */
+		$subscriptions = array();
+		/** @var Subscription $subscription */
+		foreach ($query->getResult() as $subscription) {
+			$mailingListId                 = $subscription->getMailingList()
+				? $subscription->getMailingList()->getId()
+				: 'global';
+			$subscriptions[$mailingListId] = $subscription;
+		}
 
-		if (count($subscriptions)) {
-			$label .= '<ul class="subscriptions">';
+		$label .= '<table class="tl_listing subscriptions" style="display: none">';
 
-			foreach ($subscriptions as $subscription) {
-				$label .= '<li>';
-				$label .= $this->generateImage(
-					sprintf(
-						'system/themes/%s/images/%s.gif',
-						$this->getTheme(),
-						$subscription->getActive() ? 'visible' : 'invisible'
-					),
-					''
-				);
-				$label .= '&nbsp;';
+		// global subscription
+		$subscription = isset($subscriptions['global'])
+			? $subscriptions['global']
+			: null;
 
-				if ($subscription->getMailingList()) {
-					$label .= $subscription->getMailingList()->get;
-				}
-				else {
-					$label .= $GLOBALS['TL_LANG']['MSC']['avisota-global-subscription-label'];
-				}
+		$label .= $this->generateSubscriptionRow($recipient, null, $subscription, $eventDispatcher);
 
-				$label .= '</li>';
+		// mailing list subscription
+		foreach ($mailingLists as $mailingList) {
+			$subscription = isset($subscriptions[$mailingList->getId()])
+				? $subscriptions[$mailingList->getId()]
+				: null;
+
+			$label .= $this->generateSubscriptionRow($recipient, $mailingList, $subscription, $eventDispatcher);
+		}
+
+		$label .= '</table>';
+
+		$event->setLabel($label);
+	}
+
+	protected function generateSubscriptionRow(
+		\Avisota\Contao\Entity\Recipient $recipient,
+		MailingList $mailingList = null,
+		Subscription $subscription = null,
+		EventDispatcher $eventDispatcher
+	) {
+		/** @var SubscriptionManager $subscriptionManager */
+		$subscriptionManager = $GLOBALS['container']['avisota.subscription'];
+
+		$buffer = '';
+
+		if ($subscription) {
+			if ($subscription->getActive()) {
+				$icon  = 'visible.gif';
+				$class = '';
+			}
+			else {
+				$icon  = 'invisible.gif';
+				$class = 'unconfirmed-subscription';
 			}
 
-			$label .= '</ul>';
+			$event = new GenerateHtmlEvent($icon);
+			$eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
+			$icon = $event->getHtml();
 		}
-
-		return $label;
-	}
-
-	/**
-	 * @param \DataContainer $dc
-	 */
-	public function onload_callback($dc)
-	{
-		if (TL_MODE == 'FE') {
-			return;
-		}
-
-		$input    = \Input::getInstance();
-		$database = \Database::getInstance();
-
-		if ($input->get('act') == 'toggleConfirmation') {
-			$recipientId = $input->get('recipient');
-			$listId      = $input->get('list');
-
-			$database
-				->prepare("UPDATE orm_avisota_mailing_list SET confirmed=? WHERE recipient=? AND list=?")
-				->execute($input->get('confirmed') ? '1' : '', $recipientId, $listId);
-
-			header('Content-Type: application/javascript');
-			echo json_encode(
-				array(
-					'confirmed' => $input->get('confirmed') ? true : false
-				)
+		else if ($subscriptionManager->isBlacklisted($recipient, $mailingList)) {
+			$event = new GenerateHtmlEvent('error.gif', $GLOBALS['TL_LANG']['orm_avisota_recipient']['blacklisted'],
+				sprintf('title="%s"', specialchars($GLOBALS['TL_LANG']['orm_avisota_recipient']['blacklisted']))
 			);
-			exit;
+			$eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
+
+			$icon  = $event->getHtml();
+			$class = 'not-subscribed blacklisted';
 		}
-	}
-
-	/**
-	 * @param \DataContainer $dc
-	 */
-	public function ondelete_callback($dc)
-	{
-		$input = \Input::getInstance();
-
-		$options = SubscriptionManagerInterface::OPT_UNSUBSCRIBE_GLOBAL;
-		if ($input->get('blacklist') == 'false') {
-			$options |= SubscriptionManagerInterface::OPT_NO_BLACKLIST;
+		else {
+			$icon  = '';
+			$class = 'not-subscribed';
 		}
 
-		try {
-			$subscriptionManager = $GLOBALS['container']['avisota.subscription'];
-			$recipient           = $subscriptionManager->resolveRecipient(
-				'Avisota\Contao:Recipient',
-				$dc
-					->getEnvironment()
-					->getCurrentModel()
-					->getProperty('email')
+		$buffer .= '<tr><td class="tl_file_list ' . $class . '">';
+		$buffer .= $icon;
+		$buffer .= '&nbsp;';
+
+		if ($mailingList) {
+			$buffer .= $mailingList->getTitle();
+		}
+		else {
+			$buffer .= $GLOBALS['TL_LANG']['MSC']['avisota-global-subscription-label'];
+		}
+
+		$buffer .= '</td><td class="tl_file_list tl_right_nowrap">';
+
+		if ($subscription) {
+			if (!$subscription->getActive()) {
+				$title = $GLOBALS['TL_LANG']['orm_avisota_recipient']['confirm_subscription'];
+
+				$event = new GenerateHtmlEvent('ok.gif', $title, sprintf('title="%s"', specialchars($title)));
+				$eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
+				$icon = $event->getHtml();
+
+				$buffer .= sprintf(
+					'<a href="contao/main.php?do=avisota_recipients&act=confirm-subscription&subscription=%s&ref=%s">%s</a>',
+					$subscription->getId(),
+					defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
+					$icon
+				);
+			}
+
+			$title = $mailingList
+				? $GLOBALS['TL_LANG']['orm_avisota_recipient']['unsubscribe']
+				: $GLOBALS['TL_LANG']['orm_avisota_recipient']['unsubscribe_globally'];
+
+			$event = new GenerateHtmlEvent('delete.gif', $title, sprintf('title="%s"', specialchars($title)));
+			$eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
+			$icon = $event->getHtml();
+
+			$buffer .= sprintf(
+				' <a href="contao/main.php?do=avisota_recipients&act=remove-subscription&subscription=%s&ref=%s">%s</a>',
+				$subscription->getId(),
+				defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
+				$icon
 			);
-			$subscriptionManager->unsubscribe(
-				$recipient,
-				null,
-				$options
+		}
+		else {
+			$title = $mailingList
+				? $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe']
+				: $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe_globally'];
+
+			$event = new GenerateHtmlEvent('new.gif', $title, sprintf('title="%s"', specialchars($title)));
+			$eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
+			$icon = $event->getHtml();
+
+			$buffer .= sprintf(
+				' <a href="contao/main.php?do=avisota_recipients&act=subscribe&recipient=%s&mailing-list=%s&ref=%s">%s</a>',
+				$recipient->getId(),
+				$mailingList
+					? $mailingList->getId()
+					: 'global',
+				defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
+				$icon
+			);
+
+			$title = $mailingList
+				? $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe_confirmed']
+				: $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe_globally_confirmed'];
+
+			$event = new GenerateHtmlEvent('copychilds.gif', $title, sprintf('title="%s"', specialchars($title)));
+			$eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
+			$icon = $event->getHtml();
+
+			$buffer .= sprintf(
+				' <a href="contao/main.php?do=avisota_recipients&act=subscribe-confirmed&recipient=%s&mailing-list=%s&ref=%s">%s</a>',
+				$recipient->getId(),
+				$mailingList
+					? $mailingList->getId()
+					: 'global',
+				defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
+				$icon
 			);
 		}
-		catch (\Exception $exception) {
-			global $container;
-			/** @var LoggerInterface $logger */
-			$logger = $container['avisota.logger'];
-			$logger->error($exception->getMessage(), array('trace' => $exception->getTraceAsString()));
-		}
-	}
 
+		$buffer .= '</td></tr>';
+
+		return $buffer;
+	}
 
 	/**
 	 * Make email lowercase.
 	 *
-	 * @param string $email
-	 *
-	 * @return string
+	 * @param DecodePropertyValueForWidgetEvent $event
 	 */
-	public function saveEmail($email)
+	public function decodeEmail(DecodePropertyValueForWidgetEvent $event)
 	{
-		return strtolower($email);
-	}
-
-
-	/**
-	 * Check permissions to edit table orm_avisota_recipient
-	 */
-	public function checkPermission()
-	{
-		if (TL_MODE == 'FE') {
-			return;
-		}
-
-		if ($this->User->isAdmin) {
-			return;
-		}
-
-		// Set root IDs
-		if (!is_array($this->User->avisota_recipient_lists) || count($this->User->avisota_recipient_lists) < 1) {
-			$root = array(0);
-		}
-		else {
-			$root = $this->User->avisota_recipient_lists;
-		}
-
-		$input    = \Input::getInstance();
-		$database = \Database::getInstance();
-
-		$id = strlen($input->get('id')) ? $input->get('id') : CURRENT_ID;
-
-
-		// Check permissions to add recipients
-		if (!$this->User->hasAccess('create', 'avisota_recipient_permissions')) {
-			$GLOBALS['TL_DCA']['orm_avisota_recipient']['config']['closed'] = true;
-			unset($GLOBALS['TL_DCA']['orm_avisota_recipient']['list']['global_operations']['migrate']);
-			unset($GLOBALS['TL_DCA']['orm_avisota_recipient']['list']['global_operations']['import']);
-		}
-
-		// Check permission to delete recipients
-		if (!$this->User->hasAccess('delete', 'avisota_recipient_permissions')) {
-			unset($GLOBALS['TL_DCA']['orm_avisota_recipient']['list']['global_operations']['remove']);
-
-			// remove edit header class, if only delete without blacklist is allowed
-			if ($this->User->hasAccess('delete_no_blacklist', 'avisota_recipient_permissions')) {
-				$GLOBALS['TL_DCA']['orm_avisota_recipient']['list']['operations']['delete_no_blacklist']['attributes'] = str_replace(
-					'class="edit-header"',
-					'',
-					$GLOBALS['TL_DCA']['orm_avisota_recipient']['list']['operations']['delete_no_blacklist']['attributes']
-				);
-			}
-			else {
-				unset($GLOBALS['TL_DCA']['orm_avisota_recipient']['list']['operations']['delete_no_blacklist']);
-			}
-		}
-
-		// remove tools if there are no tools
-		$tools = 0;
-		foreach ($GLOBALS['TL_DCA']['orm_avisota_recipient']['list']['global_operations'] as $globalOperation) {
-			if (strpos($globalOperation['class'], 'recipient_tool') !== false) {
-				$tools++;
-			}
-		}
-		if ($tools <= 1) {
-			unset($GLOBALS['TL_DCA']['orm_avisota_recipient']['list']['global_operations']['tools']);
-		}
-
-		// Check current action
-		switch ($input->get('act')) {
-			case 'create':
-				if (!strlen($input->get('pid')) || !in_array(
-						$input->get('pid'),
-						$root
-					) || !$this->User->hasAccess('create', 'avisota_recipient_permissions')
-				) {
-					$this->log(
-						'Not enough permissions to create newsletters recipients in list ID "' . $input->get(
-							'pid'
-						) . '"',
-						'orm_avisota_recipient checkPermission',
-						TL_ERROR
-					);
-					$this->redirect('contao/main.php?act=error');
-				}
-				break;
-
-			case 'edit':
-			case 'show':
-			case 'copy':
-			case 'paste':
-			case 'delete':
-			case 'toggle':
-				$recipient = $database
-					->prepare("SELECT pid FROM orm_avisota_recipient WHERE id=?")
-					->limit(1)
-					->execute($id);
-
-				if ($recipient->numRows < 1) {
-					$this->log(
-						'Invalid newsletter recipient ID "' . $id . '"',
-						'orm_avisota_recipient checkPermission',
-						TL_ERROR
-					);
-					$this->redirect('contao/main.php?act=error');
-				}
-
-				switch ($input->get('act')) {
-					case 'edit':
-					case 'toggle':
-						$hasAccess = (count(preg_grep('/^orm_avisota_recipient::/', $this->User->alexf)) > 0);
-						break;
-
-					case 'show':
-						$hasAccess = true;
-						break;
-
-					case 'copy':
-						$hasAccess = ($this->User->hasAccess('create', 'avisota_recipient_permissions'));
-						break;
-
-					case 'delete':
-						$hasAccess = ($this->User->hasAccess(
-							$input->get('blacklist') == 'false' ? 'delete_no_blacklist' : 'delete',
-							'avisota_recipient_permissions'
-						));
-						break;
-				}
-				if (!in_array($recipient->pid, $root) || !$hasAccess) {
-					$this->log(
-						'Not enough permissions to ' . $input->get(
-							'act'
-						) . ' recipient ID "' . $id . '" of recipient list ID "' . $recipient->pid . '"',
-						'orm_avisota_recipient checkPermission',
-						TL_ERROR
-					);
-					$this->redirect('contao/main.php?act=error');
-				}
-				break;
-
-			case 'select':
-			case 'editAll':
-			case 'deleteAll':
-			case 'overrideAll':
-				switch ($input->get('act')) {
-					case 'select':
-						$hasAccess = true;
-						break;
-
-					case 'editAll':
-					case 'overrideAll':
-						$hasAccess = (count(preg_grep('/^orm_avisota_recipient::/', $this->User->alexf)) > 0);
-						break;
-
-					case 'deleteAll':
-						$hasAccess = ($this->User->hasAccess(
-							$input->get('blacklist') == 'false' ? 'delete_no_blacklist' : 'delete',
-							'avisota_recipient_permissions'
-						));
-						break;
-				}
-				if (!in_array($id, $root) || !$hasAccess) {
-					$this->log(
-						'Not enough permissions to access recipient list ID "' . $id . '"',
-						'orm_avisota_recipient checkPermission',
-						TL_ERROR
-					);
-					$this->redirect('contao/main.php?act=error');
-				}
-
-				$recipient = $database
-					->prepare("SELECT id FROM orm_avisota_recipient WHERE pid=?")
-					->execute($id);
-
-				if ($recipient->numRows < 1) {
-					$this->log(
-						'Invalid newsletter recipient ID "' . $id . '"',
-						'orm_avisota_recipient checkPermission',
-						TL_ERROR
-					);
-					$this->redirect('contao/main.php?act=error');
-				}
-
-				$session                   = $this->Session->getData();
-				$session['CURRENT']['IDS'] = array_intersect(
-					$session['CURRENT']['IDS'],
-					$recipient->fetchEach('id')
-				);
-				$this->Session->setData($session);
-				break;
-
-			default:
-				if (strlen($input->get('act'))) {
-					$this->log(
-						'Invalid command "' . $input->get('act') . '"',
-						'orm_avisota_recipient checkPermission',
-						TL_ERROR
-					);
-					$this->redirect('contao/main.php?act=error');
-				}
-				elseif (!in_array($id, $root)) {
-					$this->log(
-						'Not enough permissions to access newsletter recipient ID "' . $id . '"',
-						'orm_avisota_recipient checkPermission',
-						TL_ERROR
-					);
-					$this->redirect('contao/main.php?act=error');
-				}
-				break;
-		}
-	}
-
-
-	/**
-	 * Return the edit header button
-	 *
-	 * @param array
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 *
-	 * @return string
-	 */
-	public function editRecipient($row, $href, $label, $title, $icon, $attributes)
-	{
-		return ($this->User->isAdmin || count(preg_grep('/^orm_avisota_recipient::/', $this->User->alexf)) > 0)
-			? '<a href="' . $this->addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . specialchars(
-				$title
-			) . '"' . $attributes . '>' . $this->generateImage($icon, $label) . '</a> ' : '';
-	}
-
-
-	/**
-	 * Return the copy channel button
-	 *
-	 * @param array
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 *
-	 * @return string
-	 */
-	public function copyRecipient($row, $href, $label, $title, $icon, $attributes)
-	{
-		return ($this->User->isAdmin || $this->User->hasAccess('create', 'avisota_recipient_permissions'))
-			? '<a href="' . $this->addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . specialchars(
-				$title
-			) . '"' . $attributes . '>' . $this->generateImage($icon, $label) . '</a> '
-			: $this->generateImage(
-				preg_replace('/\.gif$/i', '_.gif', $icon)
-			) . ' ';
-	}
-
-
-	/**
-	 * Return the delete channel button
-	 *
-	 * @param array
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 *
-	 * @return string
-	 */
-	public function deleteRecipient($row, $href, $label, $title, $icon, $attributes)
-	{
-		return ($this->User->isAdmin || $this->User->hasAccess('delete', 'avisota_recipient_permissions'))
-			? '<a href="' . $this->addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . specialchars(
-				$title
-			) . '"' . $attributes . '>' . $this->generateImage($icon, $label) . '</a> '
-			: $this->generateImage(
-				preg_replace('/\.gif$/i', '_.gif', $icon)
-			) . ' ';
-	}
-
-
-	/**
-	 * Return the delete channel button
-	 *
-	 * @param array
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 *
-	 * @return string
-	 */
-	public function deleteRecipientNoBlacklist($row, $href, $label, $title, $icon, $attributes)
-	{
-		return ($this->User->isAdmin || $this->User->hasAccess('delete_no_blacklist', 'avisota_recipient_permissions'))
-			? '<a href="' . $this->addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . specialchars(
-				$title
-			) . '"' . $attributes . '>' . $this->generateImage($icon, $label) . '</a> '
-			: $this->generateImage(
-				preg_replace('/\.gif$/i', '_.gif', $icon)
-			) . ' ';
-	}
-
-
-	/**
-	 * Return the notify button
-	 *
-	 * @param array
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 *
-	 * @return string
-	 */
-	public function notify($row, $href, $label, $title, $icon, $attributes)
-	{
-		return '<a href="contao/main.php?do=avisota_recipients&amp;table=orm_avisota_recipient_notify&amp;act=edit&amp;id=' . $row['id'] . '" title="' . specialchars(
-			$title
-		) . '"' . $attributes . '>' . $this->generateImage($icon, $label) . '</a> ';
+		$event->setValue(strtolower($event->getValue()));
 	}
 }

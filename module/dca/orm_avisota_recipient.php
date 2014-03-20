@@ -85,7 +85,6 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 		(
 			'fields'         => array('email'),
 			'format'         => '%s',
-			'label_callback' => array('Avisota\Contao\SubscriptionRecipient\DataContainer\Recipient', 'getLabel')
 		),
 		'global_operations' => array
 		(
@@ -141,10 +140,6 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 				'label'           => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['edit'],
 				'href'            => 'act=edit',
 				'icon'            => 'edit.gif',
-				'button_callback' => array(
-					'Avisota\Contao\SubscriptionRecipient\DataContainer\Recipient',
-					'editRecipient'
-				)
 			),
 			'delete' => array
 			(
@@ -221,10 +216,6 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 				'importable' => true,
 				'exportable' => true,
 				'unique'     => true,
-			),
-			'save_callback' => array
-			(
-				array('Avisota\Contao\SubscriptionRecipient\DataContainer\Recipient', 'saveEmail')
 			),
 			'field'         => array(
 				'unique' => true,

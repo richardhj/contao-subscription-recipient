@@ -86,9 +86,16 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient']['personals_legend']    = 'Personals
 /**
  * Reference
  */
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['added_at']                 = 'added at %s';
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by']                 = ', by <a href="%3$s">%1$s &lt;%2$s&gt;</a>';
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by_unlinked']        = ', by %1$s &lt;%2$s&gt;';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['added_at']          = 'added at %s';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by']          = ', by <a href="%3$s">%1$s &lt;%2$s&gt;</a>';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by_unlinked'] = ', by %1$s &lt;%2$s&gt;';
+
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['confirm-subscription'] = 'Recipient <em>%1$s</em> subscription to <em>%2$s</em> was confirmed';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['remove-subscription']  = 'Recipient <em>%1$s</em> subscription to <em>%2$s</em> was removed';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe']            = 'Recipient <em>%1$s</em> subscribed to <em>%2$s</em>';
+
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['blacklisted'] = 'The recipient is blacklisted';
+
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['confirm']                  = '%s neue Abonnenten wurden importiert.';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['invalid']                  = '%s ungültige Einträge wurden übersprungen.';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribed']               = 'registriert am %s';
@@ -100,61 +107,49 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient']['remindersSent']            = '%d. 
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['sendConfirmation']         = 'Bestätigungsmail senden';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['activateSubscription']     = 'Abonnement direkt aktivieren';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['doNothink']                = 'Abonnement unbestätigt eintragen';
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']      = 'Globally subscribed';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']      = 'Global subscription';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_mailingList'] = 'Mailing list: %s';
 
 
 /**
  * Buttons
  */
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['new']                 = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['new']                          = array(
 	'New recipient',
 	'Add a new recipient'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['show']                = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['show']                         = array(
 	'Recipient details',
 	'Show the details of recipient ID %s'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['copy']                = array(
-	'Duplicate recipient',
-	'Duplicate recipient ID %s'
-);
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['delete']              = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['delete']                       = array(
 	'Delete recipient',
 	'Delete recipient ID %s'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['delete_no_blacklist'] = array(
-	'Delete recipient without blacklisting',
-	'Delete recipient ID %s without blacklisting'
-);
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['edit']                = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['edit']                         = array(
 	'Edit recipient',
 	'Edit recipient ID %s'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['notify']              = array(
-	'Notify recipient',
-	'Notify recipient ID %s'
-);
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['migrate']             = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe_globally']           = 'Subscribe globally';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe']                    = 'Subscribe to this mailing list';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe_globally_confirmed'] = 'Subscribe and activate globally';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe_confirmed']          = 'Subscribe and activate to this mailing list';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['confirm_subscription']          = 'Confirm subscription';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['unsubscribe_globally']         = 'Unsubscribe globally';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['unsubscribe']                  = 'Unsubscribe from this mailing list';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['migrate']                      = array(
 	'Migrate',
 	'Migrate recipients from Contao newsletter system.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['import']              = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['import']                       = array(
 	'CSV import',
 	'Import recipients from a CSV file.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['export']              = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['export']                       = array(
 	'CSV export',
 	'Export recipients to a CSV file.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['remove']              = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['remove']                       = array(
 	'CSV delete',
 	'Delete recipients from a CSV file.'
 );
-
-
-/**
- * Exceptions
- */
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['globally_blacklisted'] = 'Der Verteiler <strong>%s</strong> befindet sich in der Blacklist, wenn Sie die Blacklist ignorieren möchten, speichern Sie erneut!';
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['blacklisted']          = 'Die Verteiler <strong>%s</strong> befinden sich in der Blacklist, wenn Sie die Blacklist ignorieren möchten, speichern Sie erneut!';

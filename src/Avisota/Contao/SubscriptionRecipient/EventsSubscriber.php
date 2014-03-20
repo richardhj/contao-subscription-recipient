@@ -17,11 +17,9 @@ namespace Avisota\Contao\SubscriptionRecipient;
 
 use Avisota\Contao\Core\DataContainer\OptionsBuilder;
 use Avisota\Contao\Entity\Recipient;
-use Avisota\Contao\Subscription\Event\CleanSubscriptionEvent;
 use Avisota\Contao\Subscription\Event\PrepareSubscriptionEvent;
 use Avisota\Contao\Subscription\Event\ResolveRecipientEvent;
 use Avisota\Contao\Subscription\Event\SubscriptionAwareEvent;
-use Avisota\Contao\Subscription\Event\UnsubscribeEvent;
 use Avisota\Contao\Subscription\SubscriptionEvents;
 use Avisota\Contao\SubscriptionRecipient\Event\MigrateRecipientEvent;
 use Contao\Doctrine\DBAL\DoctrineDbalEvents;
@@ -32,14 +30,10 @@ use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\LoadDataContainerEvent;
 use ContaoCommunityAlliance\Contao\Bindings\Events\System\LoadLanguageFileEvent;
 use ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEvent;
-use ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventHelper;
 use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\GetEditModeButtonsEvent;
 use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\GetPropertyOptionsEvent;
-use ContaoCommunityAlliance\DcGeneral\DC_General;
-use ContaoCommunityAlliance\DcGeneral\DcGeneral;
 use ContaoCommunityAlliance\DcGeneral\EnvironmentInterface;
 use ContaoCommunityAlliance\DcGeneral\Factory\DcGeneralFactory;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

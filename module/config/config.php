@@ -32,6 +32,7 @@ array_insert(
 			),
 			'icon'       => 'assets/avisota/subscription-recipient/images/recipients.png',
 			'stylesheet' => 'assets/avisota/subscription-recipient/css/backend.css',
+			'javascript' => 'assets/avisota/subscription-recipient/js/folding.js',
 		)
 	)
 );
@@ -73,4 +74,5 @@ $GLOBALS['TL_EVENTS']['avisota/subscription.collect-lists'][]  = array(
  * Event subscribers
  */
 $GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Avisota\Contao\SubscriptionRecipient\DataContainer\OptionsBuilder';
+$GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Avisota\Contao\SubscriptionRecipient\DataContainer\Recipient';
 $GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Avisota\Contao\SubscriptionRecipient\EventsSubscriber';
