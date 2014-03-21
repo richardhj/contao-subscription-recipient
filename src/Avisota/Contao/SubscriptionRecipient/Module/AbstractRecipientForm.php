@@ -17,11 +17,8 @@ namespace Avisota\Contao\SubscriptionRecipient\Module;
 
 use Avisota\Contao\Entity\MailingList;
 use Avisota\Contao\Entity\Recipient;
-use Avisota\Contao\Core\Message\PreRenderedMessageTemplateInterface;
-use Avisota\Contao\Core\Message\Renderer\MessagePreRendererInterface;
-use Avisota\Contao\Core\Subscription\SubscriptionManagerInterface;
+use Avisota\Contao\Subscription\SubscriptionManager;
 use Avisota\Contao\Message\Core\Renderer\MessageRenderer;
-use Avisota\Recipient\MutableRecipient;
 use Avisota\Transport\TransportInterface;
 use Contao\Doctrine\ORM\EntityHelper;
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
@@ -115,7 +112,7 @@ abstract class AbstractRecipientForm extends \TwigModule
 		$subscriptions       = $subscriptionManager->subscribe(
 			$recipient,
 			$mailingLists,
-			SubscriptionManagerInterface::OPT_IGNORE_BLACKLIST
+			SubscriptionManager::OPT_IGNORE_BLACKLIST
 		);
 
 		if (count($subscriptions)) {
@@ -146,15 +143,15 @@ abstract class AbstractRecipientForm extends \TwigModule
 			$newsletterData         = array();
 			$newsletterData['link'] = (object) array(
 				'url'  => $url,
-				'text' => $GLOBALS['TL_LANG']['avisota_subscription']['confirmSubscription'],
+				'text' => $GLOBALS['TL_LANG']['fe_avisota_subscription']['confirmSubscription'],
 			);
 
 			$this->sendMessage($recipient, $mailBoilerplateId, $transportId, $newsletterData);
 
-			return array('confirm', $GLOBALS['TL_LANG']['avisota_subscription']['subscribed'], true);
+			return array('confirm', $GLOBALS['TL_LANG']['fe_avisota_subscription']['subscribed'], true);
 		}
 
-		return array('duplicate', $GLOBALS['TL_LANG']['avisota_subscription']['allreadySubscribed'], false);
+		return array('duplicate', $GLOBALS['TL_LANG']['fe_avisota_subscription']['allreadySubscribed'], false);
 	}
 
 	protected function handleSubscribeTokens()
@@ -215,10 +212,10 @@ abstract class AbstractRecipientForm extends \TwigModule
 			if ($this->avisota_unsubscribe_confirmation_page) { 
 				$this->redirectToFrontendPage($this->avisota_unsubscribe_confirmation_page);
 			}
-			return array('confirm', $GLOBALS['TL_LANG']['avisota_subscription']['unsubscribed'], true);
+			return array('confirm', $GLOBALS['TL_LANG']['fe_avisota_subscription']['unsubscribed'], true);
 		}
 
-		return array('notfound', $GLOBALS['TL_LANG']['avisota_subscription']['notSubscribed'], false);
+		return array('notfound', $GLOBALS['TL_LANG']['fe_avisota_subscription']['notSubscribed'], false);
 	}
 
 	protected function sendMessage($recipient, $mailBoilerplateId, $transportId, $newsletterData)
@@ -433,7 +430,7 @@ abstract class AbstractRecipientForm extends \TwigModule
 				}
 				$this->loadLanguageFile('avisota_subscription');
 				$template->messageClass = 'confirm_subscription';
-				$template->message      = $GLOBALS['TL_LANG']['avisota_subscription']['subscribeConfirmation'];
+				$template->message      = $GLOBALS['TL_LANG']['fe_avisota_subscription']['subscribeConfirmation'];
 			}
 		}
 

@@ -33,6 +33,7 @@ use ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEvent;
 use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\GetEditModeButtonsEvent;
 use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\GetPropertyOptionsEvent;
 use ContaoCommunityAlliance\DcGeneral\EnvironmentInterface;
+use ContaoCommunityAlliance\DcGeneral\Event\EventPropagator;
 use ContaoCommunityAlliance\DcGeneral\Factory\DcGeneralFactory;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -55,9 +56,14 @@ class EventsSubscriber implements EventSubscriberInterface
 			SubscriptionEvents::CREATE_RECIPIENT_PROPERTIES_OPTIONS                                             => 'createRecipientPropertiesOptions',
 			GetPropertyOptionsEvent::NAME . '[orm_avisota_recipient_source][recipientsPropertyFilter_property]' => 'bypassCreateRecipientPropertiesOptions',
 			GetPropertyOptionsEvent::NAME . '[mem_avisota_recipient_migrate][mailingList]'                      => 'bypassCreateMailingListOptions',
-			GetEditModeButtonsEvent::NAME . '[mem_avisota_recipient_migrate]' => 'getMigrateButtons',
+			GetEditModeButtonsEvent::NAME . '[mem_avisota_recipient_migrate]'                                   => 'getMigrateButtons',
 			DoctrineDbalEvents::INITIALIZE_EVENT_MANAGER                                                        => 'initializeEventManager',
-			RecipientEvents::MIGRATE_RECIPIENT                                                          => 'collectMemberPersonals',
+			RecipientEvents::MIGRATE_RECIPIENT                                                                  => 'collectMemberPersonals',
+			RecipientDataContainerEvents::CREATE_IMPORTABLE_RECIPIENT_FIELD_OPTIONS                             => 'createImportableRecipientFieldOptions',
+			RecipientDataContainerEvents::CREATE_EDITABLE_RECIPIENT_FIELD_OPTIONS                               => 'createEditableRecipientFieldOptions',
+			RecipientDataContainerEvents::CREATE_SUBSCRIBE_TEMPLATE_OPTIONS                                     => 'createSubscribeTemplateOptions',
+			RecipientDataContainerEvents::CREATE_UNSUBSCRIBE_TEMPLATE_OPTIONS                                   => 'createUnsubscribeTemplateOptions',
+			RecipientDataContainerEvents::CREATE_SUBSCRIPTION_TEMPLATE_OPTIONS                                  => 'createSubscriptionTemplateOptions',
 		);
 	}
 
@@ -227,6 +233,91 @@ class EventsSubscriber implements EventSubscriberInterface
 					}
 				}
 			}
+		}
+	}
+
+	public function createImportableRecipientFieldOptions(CreateOptionsEvent $event)
+	{
+		$this->getImportableRecipientFieldOptions($event->getOptions());
+	}
+
+	public function getImportableRecipientFieldOptions($options = array())
+	{
+		/** @var EventDispatcher $eventDispatcher */
+		$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+
+		$propagator = new EventPropagator($eventDispatcher);
+
+		$dcGeneralFactory = new DcGeneralFactory();
+		$dcGeneralFactory->setContainerName('orm_avisota_recipient');
+		$dcGeneralFactory->setEventPropagator($propagator);
+		$container = $dcGeneralFactory->createContainer();
+
+		foreach ($container->getPropertiesDefinition()->getProperties() as $property) {
+			$extra = $property->getExtra();
+			if (isset($extra['importable']) && $extra['importable']) {
+				$options[$property->getName()] = $property->getLabel();
+			}
+		}
+
+		return $options;
+	}
+
+	public function createEditableRecipientFieldOptions(CreateOptionsEvent $event)
+	{
+		$this->getEditableRecipientFieldOptions($event->getOptions());
+	}
+
+	public function getEditableRecipientFieldOptions($options = array())
+	{
+		/** @var EventDispatcher $eventDispatcher */
+		$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+
+		$eventDispatcher->dispatch(
+			ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,
+			new LoadLanguageFileEvent('orm_avisota_recipient')
+		);
+		$eventDispatcher->dispatch(
+			ContaoEvents::CONTROLLER_LOAD_DATA_CONTAINER,
+			new LoadDataContainerEvent('orm_avisota_recipient')
+		);
+
+		foreach ($GLOBALS['TL_DCA']['orm_avisota_recipient']['fields'] as $fieldName => $fieldConfig) {
+			if ($fieldConfig['eval']['feEditable']) {
+				$options[$fieldName] = $fieldConfig['label'][0];
+			}
+		}
+
+		return $options;
+	}
+
+	public function createSubscribeTemplateOptions(CreateOptionsEvent $event)
+	{
+		$options   = $event->getOptions();
+		$templates = \TwigHelper::getTemplateGroup('mod_avisota_subscribe');
+
+		foreach ($templates as $key => $value) {
+			$options[$key] = $value;
+		}
+	}
+
+	public function createUnsubscribeTemplateOptions(CreateOptionsEvent $event)
+	{
+		$options   = $event->getOptions();
+		$templates = \TwigHelper::getTemplateGroup('mod_avisota_unsubscribe');
+
+		foreach ($templates as $key => $value) {
+			$options[$key] = $value;
+		}
+	}
+
+	public function createSubscriptionTemplateOptions(CreateOptionsEvent $event)
+	{
+		$options   = $event->getOptions();
+		$templates = \TwigHelper::getTemplateGroup('mod_avisota_subscription');
+
+		foreach ($templates as $key => $value) {
+			$options[$key] = $value;
 		}
 	}
 }

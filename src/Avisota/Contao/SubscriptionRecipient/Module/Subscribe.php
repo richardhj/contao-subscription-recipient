@@ -16,7 +16,9 @@
 namespace Avisota\Contao\SubscriptionRecipient\Module;
 
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
+use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GenerateFrontendUrlEvent;
 use ContaoCommunityAlliance\Contao\Bindings\Events\System\LoadLanguageFileEvent;
+use Haste\Form\Form;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
@@ -27,15 +29,8 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  * @author     Tristan Lins <tristan.lins@bit3.de>
  * @package    avisota/contao-subscription-recipient
  */
-class Subscribe extends AbstractRecipientForm
+class Subscribe extends \TwigModule
 {
-	/**
-	 * Template
-	 *
-	 * @var string
-	 */
-	protected $strTemplate = 'mod_avisota_subscribe';
-
 	public function __construct($module)
 	{
 		parent::__construct($module);
@@ -45,7 +40,7 @@ class Subscribe extends AbstractRecipientForm
 
 		$eventDispatcher->dispatch(
 			ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,
-			new LoadLanguageFileEvent('avisota_subscription')
+			new LoadLanguageFileEvent('fe_avisota_subscription')
 		);
 	}
 
@@ -60,7 +55,7 @@ class Subscribe extends AbstractRecipientForm
 			return $template->parse();
 		}
 
-		$this->formTemplate = $this->avisota_template_subscribe;
+		$this->strTemplate = $this->avisota_template_subscribe;
 
 		return parent::generate();
 	}
@@ -71,16 +66,33 @@ class Subscribe extends AbstractRecipientForm
 	 */
 	public function compile()
 	{
-		$this->addForm();
-	}
+		$recipientFields = deserialize($this->avisota_recipient_fields, true);
 
-	protected function submit(array $recipientData, array $mailingLists, \TwigFrontendTemplate $template)
-	{
-		return $this->handleSubscribeSubmit(
-			$recipientData,
-			$mailingLists,
-			$this->avisota_subscribe_mail,
-			$this->avisota_transport
+		$form = new Form(
+			'avisota_subscribe_' . $this->id,
+			'POST',
+			function (Form $haste) {
+				return \Input::post('FORM_SUBMIT') === $haste->getFormId();
+			}
 		);
+		$form->addFieldsFromDca(
+			'orm_avisota_recipient',
+			function ($fieldName) use ($recipientFields) {
+				return!in_array($fieldName, $recipientFields);
+			}
+		);
+
+		if ($this->avisota_form_target) {
+			$form->setFormActionFromPageId($this->avisota_form_target);
+		}
+
+		$form->addSubmitFormField('submit', $GLOBALS['TL_LANG']['fe_avisota_subscription']['subscribe']);
+
+		if ($form->validate()) {
+			var_dump($form->fetchAll());
+			exit;
+		}
+
+		$form->addToTemplate($this->Template);
 	}
 }

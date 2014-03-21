@@ -21,3 +21,10 @@ $GLOBALS['TL_LANG']['MOD']['avisota-subscription-recipient'] = array(
 	'Avisota - Subscription for recipients',
 	'Recipient management and subscription for Avisota.'
 );
+
+/**
+ * Frontend modules
+ */
+$GLOBALS['TL_LANG']['FMD']['avisota_subscribe']    = array('Recipients - Subscribe');
+$GLOBALS['TL_LANG']['FMD']['avisota_unsubscribe']  = array('Recipients - Unsubscribe');
+$GLOBALS['TL_LANG']['FMD']['avisota_subscription'] = array('Recipients - Manage subscription');
