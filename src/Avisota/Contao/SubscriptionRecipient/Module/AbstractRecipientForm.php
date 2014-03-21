@@ -8,7 +8,7 @@
  *
  * @copyright  bit3 UG 2013
  * @author     Tristan Lins <tristan.lins@bit3.de>
- * @package    avisota/contao-core
+ * @package    avisota/contao-subscription-recipient
  * @license    LGPL-3.0+
  * @filesource
  */
@@ -35,7 +35,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  *
  * @copyright  bit3 UG 2013
  * @author     Tristan Lins <tristan.lins@bit3.de>
- * @package    avisota/contao-core
+ * @package    avisota/contao-subscription-recipient
  */
 abstract class AbstractRecipientForm extends \TwigModule
 {
