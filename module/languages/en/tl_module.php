@@ -15,64 +15,86 @@
 
 
 /**
- * Fields
+ * General module fields
  */
-$GLOBALS['TL_LANG']['tl_module']['avisota_show_mailing_lists']            = array(
-	'Show mailing lists',
-	'Show the mailing lists and make possible it possible for the recipient to choose the mailing lists to subscribe.'
+$GLOBALS['TL_LANG']['tl_module']['avisota_mailing_lists']    = array(
+	'Selected/Selectable mailing lists',
+	'Please choose the mailing lists, that will be subscribed or shown if the mailing lists input field is visible.'
 );
-$GLOBALS['TL_LANG']['tl_module']['avisota_mailing_lists']                 = array(
-	'Mailing lists',
-	'Please choose the mailing lists, that will be subscribed or shown.'
-);
-$GLOBALS['TL_LANG']['tl_module']['avisota_recipient_fields']      = array(
+$GLOBALS['TL_LANG']['tl_module']['avisota_recipient_fields'] = array(
 	'Personal data',
 	'Pleas choose additional personal data fields to ask for.'
 );
-$GLOBALS['TL_LANG']['tl_module']['avisota_template_subscribe']            = array(
-	'Formular template',
-	'Please choose a custom formular template.'
-);
-$GLOBALS['TL_LANG']['tl_module']['avisota_form_target']   = array(
+$GLOBALS['TL_LANG']['tl_module']['avisota_form_target']      = array(
 	'Formular target page (not confirmation page!)',
 	'Please choose a page, the submitted form data will be posted.'
 );
-$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_confirmation_page']   = array(
-	'Subscription confirmation page',
-	'Please choose the page, that will be shown for successful subscription.'
-);
-$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_confirmation_page'] = array(
-	'Unsubscribe confirmation page',
-	'Please choose the page, that will be show for successful unsubscribe.'
-);
 
 
-
-$GLOBALS['TL_LANG']['tl_module']['avisota_template_subscription'] = array(
+/**
+ * Subscribe module fields
+ */
+$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_form_template']        = array(
 	'Formular template',
 	'Please choose a custom formular template.'
 );
+$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_confirmation_message'] = array(
+	'Confirmation message',
+	'Please choose the confirmation message boilerplate.'
+);
+$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_confirmation_page']    = array(
+	'Confirmation page',
+	'Please choose the confirmation page.'
+);
 
 
+/**
+ * Unsubscribe module fields
+ */
+$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_confirmation_page']    = array(
+	'Unsubscribe confirmation page',
+	'Please choose the page, that will be show for successful unsubscribe.'
+);
+$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_confirmation_message'] = array(
+	'Confirmation message',
+	'Please choose the confirmation message boilerplate.'
+);
+$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_confirmation_page']    = array(
+	'Confirmation page',
+	'Please choose the confirmation page.'
+);
 
 
-$GLOBALS['TL_LANG']['tl_module']['avisota_categories']                    = array(
+/**
+ * Subscriptions module fields
+ */
+$GLOBALS['TL_LANG']['tl_module']['avisota_subscription_form_template']        = array(
+	'Formular template',
+	'Please choose a custom formular template.'
+);
+$GLOBALS['TL_LANG']['tl_module']['avisota_subscription_confirmation_message'] = array(
+	'Confirmation page',
+	'Please choose the confirmation page.'
+);
+
+
+$GLOBALS['TL_LANG']['tl_module']['avisota_categories']           = array(
 	'Kategorien',
 	'Wählen Sie die Kategorien aus, aus denen die Mailing angezeigt werden sollen.'
 );
-$GLOBALS['TL_LANG']['tl_module']['avisota_reader_template']               = array(
+$GLOBALS['TL_LANG']['tl_module']['avisota_reader_template']      = array(
 	'Leser-Template',
 	'Wählen Sie hier das Template für den Mailing-Leser aus.'
 );
-$GLOBALS['TL_LANG']['tl_module']['avisota_list_template']                 = array(
+$GLOBALS['TL_LANG']['tl_module']['avisota_list_template']        = array(
 	'Listen-Template',
 	'Wählen Sie hier das Template für die Mailing-Liste aus.'
 );
-$GLOBALS['TL_LANG']['tl_module']['avisota_view_page']                     = array(
+$GLOBALS['TL_LANG']['tl_module']['avisota_view_page']            = array(
 	'Ansichtsseite',
 	'Wählen Sie hier eine Seite aus, auf der die Mailing angezeigt werden soll. Wird keine Seite ausgewählt, wird die in der Kategorie hinterlegte Seite zur Online-Ansicht verwendet.'
 );
-$GLOBALS['TL_LANG']['tl_module']['avisota_template_unsubscribe']          = array(
+$GLOBALS['TL_LANG']['tl_module']['avisota_template_unsubscribe'] = array(
 	'Form-Template',
 	'Wählen Sie hier das Template für das Abmelden-Formular aus.'
 );

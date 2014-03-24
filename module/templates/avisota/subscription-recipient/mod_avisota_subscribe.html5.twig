@@ -2,6 +2,14 @@
 
 {% block content %}
 	<!-- indexer::stop -->
-	{{ form }}
+	{% if subscriptions is defined and subscriptions|length > 0 %}
+		<p class="confirmation">{{ _lang.fe_avisota_subscription.subscribed }}</p>
+	{% else %}
+		{% if subscriptions is defined %}
+			<p class="confirmation">{{ _lang.fe_avisota_subscription.allreadySubscribed }}</p>
+		{% endif %}
+
+		{{ form }}
+	{% endif %}
 	<!-- indexer::continue -->
 {% endblock %}

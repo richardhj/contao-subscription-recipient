@@ -83,8 +83,8 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 		),
 		'label'             => array
 		(
-			'fields'         => array('email'),
-			'format'         => '%s',
+			'fields' => array('email'),
+			'format' => '%s',
 		),
 		'global_operations' => array
 		(
@@ -137,9 +137,9 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 			*/
 			'edit'   => array
 			(
-				'label'           => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['edit'],
-				'href'            => 'act=edit',
-				'icon'            => 'edit.gif',
+				'label' => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['edit'],
+				'href'  => 'act=edit',
+				'icon'  => 'edit.gif',
 			),
 			'delete' => array
 			(
@@ -202,13 +202,13 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 		),
 		'email'           => array
 		(
-			'label'         => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['email'],
-			'exclude'       => true,
-			'search'        => true,
-			'sorting'       => true,
-			'flag'          => 1,
-			'inputType'     => 'text',
-			'eval'          => array(
+			'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['email'],
+			'exclude'   => true,
+			'search'    => true,
+			'sorting'   => true,
+			'flag'      => 1,
+			'inputType' => 'text',
+			'eval'      => array(
 				'tl_class'   => 'w50',
 				'rgxp'       => 'email',
 				'mandatory'  => true,
@@ -217,7 +217,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 				'exportable' => true,
 				'unique'     => true,
 			),
-			'field'         => array(
+			'field'     => array(
 				'unique' => true,
 			),
 		),
@@ -307,6 +307,17 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 			),
 			'field'     => array(),
 		),
+		'mailingLists'    => array
+		(
+			'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingLists'],
+			'inputType' => 'checkbox',
+			'eval'      => array(
+				'importable' => true,
+				'exportable' => true,
+				'mandatory'  => true,
+			),
+			'field'     => false,
+		),
 		'addedById'       => array
 		(
 			'label'      => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedById'],
@@ -315,7 +326,6 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 			'flag'       => 1,
 			'foreignKey' => 'tl_user.name',
 			'eval'       => array(
-				'importable' => true,
 				'exportable' => true,
 				'doNotShow'  => true,
 				'doNotCopy'  => true
@@ -333,7 +343,6 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 			'flag'       => 1,
 			'foreignKey' => 'tl_user.name',
 			'eval'       => array(
-				'importable' => true,
 				'exportable' => true,
 				'doNotShow'  => true,
 				'doNotCopy'  => true
@@ -351,7 +360,6 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 			'flag'       => 1,
 			'foreignKey' => 'tl_user.name',
 			'eval'       => array(
-				'importable' => true,
 				'exportable' => true,
 				'doNotShow'  => true,
 				'doNotCopy'  => true

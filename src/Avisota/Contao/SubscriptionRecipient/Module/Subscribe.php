@@ -15,10 +15,15 @@
 
 namespace Avisota\Contao\SubscriptionRecipient\Module;
 
+use Avisota\Contao\Entity\Recipient;
+use Avisota\Contao\Subscription\SubscriptionManager;
+use Contao\Doctrine\ORM\EntityAccessor;
+use Contao\Doctrine\ORM\EntityHelper;
+use Contao\Doctrine\ORM\Exception\UnknownPropertyException;
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GenerateFrontendUrlEvent;
-use ContaoCommunityAlliance\Contao\Bindings\Events\System\LoadLanguageFileEvent;
-use Haste\Form\Form;
+use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GetPageDetailsEvents;
+use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\RedirectEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
@@ -29,20 +34,9 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  * @author     Tristan Lins <tristan.lins@bit3.de>
  * @package    avisota/contao-subscription-recipient
  */
-class Subscribe extends \TwigModule
+class Subscribe extends AbstractRecipientForm
 {
-	public function __construct($module)
-	{
-		parent::__construct($module);
-
-		/** @var EventDispatcher $eventDispatcher */
-		$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
-
-		$eventDispatcher->dispatch(
-			ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,
-			new LoadLanguageFileEvent('fe_avisota_subscription')
-		);
-	}
+	protected $strTemplate = 'avisota/subscription-recipient/mod_avisota_subscribe';
 
 	/**
 	 * @return string
@@ -55,8 +49,6 @@ class Subscribe extends \TwigModule
 			return $template->parse();
 		}
 
-		$this->strTemplate = $this->avisota_template_subscribe;
-
 		return parent::generate();
 	}
 
@@ -66,33 +58,71 @@ class Subscribe extends \TwigModule
 	 */
 	public function compile()
 	{
+		$mailingListIds  = deserialize($this->avisota_mailing_lists, true);
 		$recipientFields = deserialize($this->avisota_recipient_fields, true);
 
-		$form = new Form(
-			'avisota_subscribe_' . $this->id,
-			'POST',
-			function (Form $haste) {
-				return \Input::post('FORM_SUBMIT') === $haste->getFormId();
-			}
-		);
-		$form->addFieldsFromDca(
-			'orm_avisota_recipient',
-			function ($fieldName) use ($recipientFields) {
-				return!in_array($fieldName, $recipientFields);
-			}
-		);
+		$GLOBALS['TL_DCA']['orm_avisota_recipient']['fields']['mailingLists']['options'] = $this->loadMailingListOptions($mailingListIds);
 
-		if ($this->avisota_form_target) {
-			$form->setFormActionFromPageId($this->avisota_form_target);
-		}
-
-		$form->addSubmitFormField('submit', $GLOBALS['TL_LANG']['fe_avisota_subscription']['subscribe']);
+		$form = $this->createForm($recipientFields);
 
 		if ($form->validate()) {
-			var_dump($form->fetchAll());
-			exit;
+			/** @var EntityAccessor $entityAccessor */
+			$entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
+
+			/** @var SubscriptionManager $subscriptionManager */
+			$subscriptionManager = $GLOBALS['container']['avisota.subscription'];
+
+			$values     = $form->fetchAll();
+			$email      = $values['email'];
+			$repository = EntityHelper::getRepository('Avisota\Contao:Recipient');
+			$recipient  = $repository->findOneBy(array('email' => $email));
+
+			if (!$recipient) {
+				$recipient = new Recipient();
+			}
+
+			foreach ($values as $propertyName => $value) {
+				if ($propertyName != 'submit' && $propertyName != 'mailingLists') {
+					try {
+						$entityAccessor->setProperty($recipient, $propertyName, $value);
+					}
+					catch (UnknownPropertyException $e) {
+						// gracefully ignore non-public properties
+					}
+				}
+			}
+
+			if (isset($values['mailingLists'])) {
+				$mailingLists = $this->loadMailingLists($values['mailingLists']);
+			}
+			else {
+				$mailingLists = $this->loadMailingLists($mailingListIds);
+			}
+
+			$subscriptions = $subscriptionManager->subscribe($recipient, $mailingLists, SubscriptionManager::OPT_IGNORE_BLACKLIST);
+
+			$_SESSION['AVISOTA_LAST_SUBSCRIPTIONS'] = $subscriptions;
+
+			if ($this->avisota_subscribe_confirmation_page) {
+				/** @var EventDispatcher $eventDispatcher */
+				$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+
+				$event = new GetPageDetailsEvents($this->avisota_subscribe_confirmation_page);
+				$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $event);
+
+				$event = new GenerateFrontendUrlEvent($event->getPageDetails());
+				$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GENERATE_FRONTEND_URL, $event);
+
+				$event = new RedirectEvent($event->getUrl());
+				$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+			}
+
+			$this->Template->subscriptions = $subscriptions;
 		}
 
-		$form->addToTemplate($this->Template);
+		$template = new \TwigFrontendTemplate($this->avisota_subscribe_form_template);
+		$form->addToTemplate($template);
+
+		$this->Template->form = $template->parse();
 	}
 }

@@ -46,6 +46,10 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient']['gender']          = array(
 	'Gender',
 	'Please choose the recipients gender.'
 );
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingLists']          = array(
+	'Mailing lists',
+	''
+);
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedById']       = array(
 	'Added by user ID',
 	'The ID of the user who added this recipient.'

@@ -294,7 +294,7 @@ class EventsSubscriber implements EventSubscriberInterface
 	public function createSubscribeTemplateOptions(CreateOptionsEvent $event)
 	{
 		$options   = $event->getOptions();
-		$templates = \TwigHelper::getTemplateGroup('mod_avisota_subscribe');
+		$templates = \TwigHelper::getTemplateGroup('avisota_subscribe_');
 
 		foreach ($templates as $key => $value) {
 			$options[$key] = $value;
@@ -304,7 +304,7 @@ class EventsSubscriber implements EventSubscriberInterface
 	public function createUnsubscribeTemplateOptions(CreateOptionsEvent $event)
 	{
 		$options   = $event->getOptions();
-		$templates = \TwigHelper::getTemplateGroup('mod_avisota_unsubscribe');
+		$templates = \TwigHelper::getTemplateGroup('avisota_unsubscribe_');
 
 		foreach ($templates as $key => $value) {
 			$options[$key] = $value;
@@ -314,7 +314,7 @@ class EventsSubscriber implements EventSubscriberInterface
 	public function createSubscriptionTemplateOptions(CreateOptionsEvent $event)
 	{
 		$options   = $event->getOptions();
-		$templates = \TwigHelper::getTemplateGroup('mod_avisota_subscription');
+		$templates = \TwigHelper::getTemplateGroup('avisota_subscription_');
 
 		foreach ($templates as $key => $value) {
 			$options[$key] = $value;
