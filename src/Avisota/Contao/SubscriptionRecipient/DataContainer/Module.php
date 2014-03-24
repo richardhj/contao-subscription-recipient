@@ -59,4 +59,10 @@ class Module
 		}
 		return $recipientFields;
 	}
+
+	public function onload_callback()
+	{
+		\MetaPalettes::appendFields('tl_module', 'registration', 'config', array('avisota_selectable_lists'));
+		\MetaPalettes::appendFields('tl_module', 'personalData', 'config', array('avisota_selectable_lists'));
+	}
 }

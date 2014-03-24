@@ -16,7 +16,10 @@
 namespace Avisota\Contao\SubscriptionRecipient\Module;
 
 use Avisota\Contao\Entity\Recipient;
+use Avisota\Contao\Entity\Subscription;
+use Avisota\Contao\Message\Core\Renderer\MessageRendererInterface;
 use Avisota\Contao\Subscription\SubscriptionManager;
+use Avisota\Transport\TransportInterface;
 use Contao\Doctrine\ORM\EntityAccessor;
 use Contao\Doctrine\ORM\EntityHelper;
 use Contao\Doctrine\ORM\Exception\UnknownPropertyException;
@@ -58,10 +61,25 @@ class Subscribe extends AbstractRecipientForm
 	 */
 	public function compile()
 	{
+		$input = \Input::getInstance();
+
+		/** @var SubscriptionManager $subscriptionManager */
+		$subscriptionManager = $GLOBALS['container']['avisota.subscription'];
+
+		$token = (array) $input->get('token');
+
+		if (count($token)) {
+			$subscriptions = $subscriptionManager->confirmByToken($token);
+
+			$this->Template->confirmed = $subscriptions;
+		}
+
 		$mailingListIds  = deserialize($this->avisota_mailing_lists, true);
 		$recipientFields = deserialize($this->avisota_recipient_fields, true);
 
-		$GLOBALS['TL_DCA']['orm_avisota_recipient']['fields']['mailingLists']['options'] = $this->loadMailingListOptions($mailingListIds);
+		$GLOBALS['TL_DCA']['orm_avisota_recipient']['fields']['mailingLists']['options'] = $this->loadMailingListOptions(
+			$mailingListIds
+		);
 
 		$form = $this->createForm($recipientFields);
 
@@ -69,8 +87,11 @@ class Subscribe extends AbstractRecipientForm
 			/** @var EntityAccessor $entityAccessor */
 			$entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
 
-			/** @var SubscriptionManager $subscriptionManager */
-			$subscriptionManager = $GLOBALS['container']['avisota.subscription'];
+			/** @var EventDispatcher $eventDispatcher */
+			$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+
+			/** @var TransportInterface $transport */
+			$transport = $GLOBALS['container']['avisota.transport.default'];
 
 			$values     = $form->fetchAll();
 			$email      = $values['email'];
@@ -99,22 +120,74 @@ class Subscribe extends AbstractRecipientForm
 				$mailingLists = $this->loadMailingLists($mailingListIds);
 			}
 
-			$subscriptions = $subscriptionManager->subscribe($recipient, $mailingLists, SubscriptionManager::OPT_IGNORE_BLACKLIST);
+			$subscriptions = $subscriptionManager->subscribe(
+				$recipient,
+				$mailingLists,
+				SubscriptionManager::OPT_IGNORE_BLACKLIST | SubscriptionManager::OPT_INCLUDE_EXISTING
+			);
+
+			$subscriptions = array_filter(
+				$subscriptions,
+				function (Subscription $subscription) {
+					return !$subscription->getActive();
+				}
+			);
+
+			/** @var Subscription[] $subscriptions */
 
 			$_SESSION['AVISOTA_LAST_SUBSCRIPTIONS'] = $subscriptions;
 
-			if ($this->avisota_subscribe_confirmation_page) {
-				/** @var EventDispatcher $eventDispatcher */
-				$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+			if (count($subscriptions)) {
+				if ($this->avisota_subscribe_confirmation_message) {
+					$messageRepository = EntityHelper::getRepository('Avisota\Contao:Message');
+					$message           = $messageRepository->find($this->avisota_subscribe_confirmation_message);
 
-				$event = new GetPageDetailsEvents($this->avisota_subscribe_confirmation_page);
-				$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $event);
+					if ($message) {
+						/** @var MessageRendererInterface $renderer */
+						$renderer = $GLOBALS['container']['avisota.message.renderer'];
 
-				$event = new GenerateFrontendUrlEvent($event->getPageDetails());
-				$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GENERATE_FRONTEND_URL, $event);
+						$event = new GenerateFrontendUrlEvent($GLOBALS['objPage']->row());
+						$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GENERATE_FRONTEND_URL, $event);
 
-				$event = new RedirectEvent($event->getUrl());
-				$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+						$query = array('token' => array());
+
+						foreach ($subscriptions as $subscription) {
+							$query['token'][] = $subscription->getActivationToken();
+						}
+
+						$environment = \Environment::getInstance();
+						$base        = $environment->base;
+						$url         = $base . $event->getUrl() . '?' . http_build_query($query);
+
+						$data = array(
+							'link'          => array(
+								'url'  => $url,
+								'text' => $GLOBALS['TL_LANG']['fe_avisota_subscription']['confirm'],
+							),
+							'subscriptions' => $subscriptions,
+						);
+
+						$template = $renderer->renderMessage($message);
+
+						$mail = $template->render(
+							$recipient,
+							$data
+						);
+
+						$transport->send($mail);
+					}
+				}
+
+				if ($this->avisota_subscribe_confirmation_page) {
+					$event = new GetPageDetailsEvents($this->avisota_subscribe_confirmation_page);
+					$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $event);
+
+					$event = new GenerateFrontendUrlEvent($event->getPageDetails());
+					$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GENERATE_FRONTEND_URL, $event);
+
+					$event = new RedirectEvent($event->getUrl());
+					$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+				}
 			}
 
 			$this->Template->subscriptions = $subscriptions;
