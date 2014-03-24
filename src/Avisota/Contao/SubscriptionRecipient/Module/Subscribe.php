@@ -30,12 +30,7 @@ use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\RedirectEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
- * Class ModuleAvisotaSubscribe
- *
- *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
- * @package    avisota/contao-subscription-recipient
+ * Class Subscribe
  */
 class Subscribe extends AbstractRecipientForm
 {
@@ -113,7 +108,7 @@ class Subscribe extends AbstractRecipientForm
 				}
 			}
 
-			if (isset($values['mailingLists'])) {
+			if (in_array('mailingLists', $recipientFields)) {
 				$mailingLists = $this->loadMailingLists($values['mailingLists']);
 			}
 			else {

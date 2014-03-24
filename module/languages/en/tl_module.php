@@ -36,7 +36,7 @@ $GLOBALS['TL_LANG']['tl_module']['avisota_form_target']      = array(
  */
 $GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_form_template']        = array(
 	'Formular template',
-	'Please choose a custom formular template.'
+	'Please choose the formular template.'
 );
 $GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_confirmation_message'] = array(
 	'Confirmation message',
@@ -51,13 +51,17 @@ $GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_confirmation_page']    = arr
 /**
  * Unsubscribe module fields
  */
-$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_confirmation_page']    = array(
-	'Unsubscribe confirmation page',
-	'Please choose the page, that will be show for successful unsubscribe.'
+$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_show_mailing_lists'] = array(
+	'Show mailing list selection',
+	'Let the user choice which mailing lists should be unsubscribed.'
 );
-$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_confirmation_message'] = array(
+$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_confirmation_message']    = array(
 	'Confirmation message',
 	'Please choose the confirmation message boilerplate.'
+);
+$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_form_template']    = array(
+	'Formular template',
+	'Please choose the formular template.'
 );
 $GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_confirmation_page']    = array(
 	'Confirmation page',

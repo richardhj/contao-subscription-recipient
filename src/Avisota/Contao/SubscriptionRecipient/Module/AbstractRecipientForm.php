@@ -46,6 +46,11 @@ abstract class AbstractRecipientForm extends \TwigModule
 		);
 
 		$eventDispatcher->dispatch(
+			ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,
+			new LoadLanguageFileEvent('orm_avisota_recipient')
+		);
+
+		$eventDispatcher->dispatch(
 			ContaoEvents::CONTROLLER_LOAD_DATA_CONTAINER,
 			new LoadDataContainerEvent('orm_avisota_recipient')
 		);

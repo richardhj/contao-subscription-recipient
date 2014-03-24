@@ -67,6 +67,7 @@ $GLOBALS['TL_DCA']['tl_module']['metapalettes']['avisota_unsubscribe']  = array
 	),
 	'avisota_subscription' => array(
 		'avisota_mailing_lists',
+		'avisota_unsubscribe_show_mailing_lists',
 		'avisota_unsubscribe_confirmation_message',
 	),
 	'template'             => array(
@@ -189,15 +190,12 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_subscribe_confirmation_page']
 /**
  * Unsubscribe module fields
  */
-$GLOBALS['TL_DCA']['tl_module']['fields']['avisota_unsubscribe_form_template']        = array
+$GLOBALS['TL_DCA']['tl_module']['fields']['avisota_unsubscribe_show_mailing_lists']        = array
 (
 	'exclude'          => true,
-	'label'            => &$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_form_template'],
-	'inputType'        => 'select',
-	'options_callback' => CreateOptionsEventCallbackFactory::createCallback(
-		RecipientDataContainerEvents::CREATE_UNSUBSCRIBE_TEMPLATE_OPTIONS
-	),
-	'eval'             => array('tl_class' => 'w50')
+	'label'            => &$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_show_mailing_lists'],
+	'inputType'        => 'checkbox',
+	'eval'             => array('tl_class' => 'm12 w50')
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_unsubscribe_confirmation_message'] = array
 (
@@ -211,6 +209,16 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_unsubscribe_confirmation_mess
 		'includeBlankOption' => true,
 		'tl_class'           => 'w50',
 	)
+);
+$GLOBALS['TL_DCA']['tl_module']['fields']['avisota_unsubscribe_form_template']        = array
+(
+	'exclude'          => true,
+	'label'            => &$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_form_template'],
+	'inputType'        => 'select',
+	'options_callback' => CreateOptionsEventCallbackFactory::createCallback(
+		RecipientDataContainerEvents::CREATE_UNSUBSCRIBE_TEMPLATE_OPTIONS
+	),
+	'eval'             => array('tl_class' => 'w50')
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_unsubscribe_confirmation_page']    = array
 (
