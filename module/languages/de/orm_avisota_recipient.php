@@ -8,9 +8,8 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2014-03-11T15:25:42+01:00
+ * last-updated: 2014-03-25T14:15:14+01:00
  */
-
 
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['activateSubscription']     = 'Abonnement direkt aktivieren';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedBy']['0']             = 'Hinzugefügt durch';
@@ -20,7 +19,6 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedBy']['3']             = 'von 
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedOn']['0']             = 'Hinzugefügt am';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedOn']['1']             = 'Datum der Einschreibung';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedOn']['2']             = 'Hinzugefügt am %s';
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['blacklisted']              = 'Die Verteiler <strong>%s</strong> befinden sich in der Blacklist. Wenn Sie die Blacklist ignorieren möchten, speichern Sie erneut!';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['confirm']                  = '%s neue Abonnenten wurden importiert.';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['confirmManualActivation']  = 'Sind Sie sicher, dass Sie dieses Abonnement manuell aktivieren möchten?';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['confirmationSent']         = 'Bestätigungsmail gesendet am %s';
@@ -70,7 +68,6 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient']['show']['1']                = 'Zeig
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribed']               = 'registriert am %s';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscriptionAction']['0']  = 'Aktivierung';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscriptionAction']['1']  = 'Bitte wählen Sie die Aktivierungsmethode für Einschreibungen in neue Mailinglisten aus.';
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']      = 'Global eingeschrieben';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_legend']      = 'Abonnement';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_mailingList'] = 'Mailingliste: %s';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['surname']['0']             = 'Nachname';

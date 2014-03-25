@@ -8,7 +8,7 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2014-03-11T15:25:42+01:00
+ * last-updated: 2014-03-25T14:15:14+01:00
  */
 
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['activateSubscription']     = 'Activar directamain l\'abunament';
@@ -28,7 +28,6 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedOn']['2']             = 'agiu
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['added_at']                 = 'agiuntà ils %s';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by']                 = ', da <a href="%3$s">%1$s &lt;%2$s&gt;</a>';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by_unlinked']        = ', da %1$s &lt;%2$s&gt;';
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['blacklisted']              = 'Ils distributurs <strong>%s</strong> sa chattan en la black-list, sche ti vuls ignorar la black-list stos ti memorisar danovamain!';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['confirm']                  = '%s abunents novs èn vegnids importads.';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['confirmManualActivation']  = 'Es ti segir che ti vuls activar manualmain quest abunament?';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['confirmationSent']         = 'Tramess il mail da confermaziun ils %s';
@@ -80,7 +79,6 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient']['show']['1']                = 'Muss
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribed']               = 'registrà ils %s';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscriptionAction']['0']  = 'Activar';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscriptionAction']['1']  = 'Tscherna ina metoda per activar novs abunaments sin glistas da mail.';
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']      = 'Abunà globalmain';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_legend']      = 'Abunament';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_mailingList'] = 'Glista da mail: %s';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['surname']['0']             = 'Num';

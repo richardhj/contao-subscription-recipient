@@ -8,9 +8,8 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2014-03-11T15:25:42+01:00
+ * last-updated: 2014-03-25T14:15:14+01:00
  */
-
 
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedBy']['0']             = 'Dodany przez';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedBy']['1']             = 'Użytkownik Contao, który dodał tego odbiorcę.';
@@ -58,7 +57,6 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient']['show']['0']                = 'Szcz
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['show']['1']                = 'Pokaż szczegóły odbiorcy ID %s';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscriptionAction']['0']  = 'Aktywacja';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscriptionAction']['1']  = 'Proszę wybrać metodę aktywacji dla subskrypcji na nowych listach mailingowych.';
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']      = 'Subskrybowany globalnie';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_legend']      = 'Subskrypcja';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_mailingList'] = 'Lista mailingowa: %s';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['surname']['0']             = 'Nazwisko';
