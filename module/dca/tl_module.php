@@ -46,6 +46,7 @@ $GLOBALS['TL_DCA']['tl_module']['metapalettes']['avisota_subscribe']    = array
 		'avisota_subscribe_form_template',
 		'avisota_form_target',
 		'avisota_subscribe_confirmation_page',
+		'avisota_subscribe_activation_page',
 	),
 	'protected'            => array(
 		':hide',
@@ -182,6 +183,13 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_subscribe_confirmation_page']
 (
 	'exclude'   => true,
 	'label'     => &$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_confirmation_page'],
+	'inputType' => 'pageTree',
+	'eval'      => array('fieldType' => 'radio')
+);
+$GLOBALS['TL_DCA']['tl_module']['fields']['avisota_subscribe_activation_page']    = array
+(
+	'exclude'   => true,
+	'label'     => &$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_activation_page'],
 	'inputType' => 'pageTree',
 	'eval'      => array('fieldType' => 'radio')
 );

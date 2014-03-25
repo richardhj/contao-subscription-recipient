@@ -61,10 +61,26 @@ class Subscribe extends AbstractRecipientForm
 		/** @var SubscriptionManager $subscriptionManager */
 		$subscriptionManager = $GLOBALS['container']['avisota.subscription'];
 
+		/** @var EventDispatcher $eventDispatcher */
+		$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+
 		$token = (array) $input->get('token');
 
 		if (count($token)) {
 			$subscriptions = $subscriptionManager->confirmByToken($token);
+
+			$_SESSION['AVISOTA_LAST_SUBSCRIPTIONS'] = $subscriptions;
+
+			if ($this->avisota_subscribe_activation_page) {
+				$event = new GetPageDetailsEvents($this->avisota_subscribe_activation_page);
+				$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $event);
+
+				$event = new GenerateFrontendUrlEvent($event->getPageDetails());
+				$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GENERATE_FRONTEND_URL, $event);
+
+				$event = new RedirectEvent($event->getUrl());
+				$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+			}
 
 			$this->Template->confirmed = $subscriptions;
 		}
@@ -81,9 +97,6 @@ class Subscribe extends AbstractRecipientForm
 		if ($form->validate()) {
 			/** @var EntityAccessor $entityAccessor */
 			$entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
-
-			/** @var EventDispatcher $eventDispatcher */
-			$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
 
 			/** @var TransportInterface $transport */
 			$transport = $GLOBALS['container']['avisota.transport.default'];

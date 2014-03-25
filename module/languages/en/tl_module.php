@@ -27,7 +27,7 @@ $GLOBALS['TL_LANG']['tl_module']['avisota_recipient_fields'] = array(
 );
 $GLOBALS['TL_LANG']['tl_module']['avisota_form_target']      = array(
 	'Formular target page (not confirmation page!)',
-	'Please choose a page, the submitted form data will be posted.'
+	'Please choose a page, the submitted form data will be posted. Keep in mind that the module must be added on the page!'
 );
 
 
@@ -45,6 +45,10 @@ $GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_confirmation_message'] = arr
 $GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_confirmation_page']    = array(
 	'Confirmation page',
 	'Please choose the confirmation page.'
+);
+$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_activation_page']    = array(
+	'Activation page',
+	'Please choose the activation page.'
 );
 
 
