@@ -108,6 +108,9 @@ class Subscribe extends AbstractRecipientForm
 				}
 			}
 
+			$entityManager = EntityHelper::getEntityManager();
+			$entityManager->persist($recipient);
+
 			if (in_array('mailingLists', $recipientFields)) {
 				$mailingLists = $this->loadMailingLists($values['mailingLists']);
 			}
@@ -131,6 +134,8 @@ class Subscribe extends AbstractRecipientForm
 			/** @var Subscription[] $subscriptions */
 
 			$_SESSION['AVISOTA_LAST_SUBSCRIPTIONS'] = $subscriptions;
+
+			$entityManager->flush();
 
 			if (count($subscriptions)) {
 				if ($this->avisota_subscribe_confirmation_message) {
