@@ -21,6 +21,7 @@ use Avisota\Contao\Subscription\Event\PrepareSubscriptionEvent;
 use Avisota\Contao\Subscription\Event\ResolveRecipientEvent;
 use Avisota\Contao\Subscription\Event\SubscriptionAwareEvent;
 use Avisota\Contao\Subscription\SubscriptionEvents;
+use Avisota\Contao\SubscriptionNotificationCenterBridge\Event\BuildTokensFromRecipientEvent;
 use Avisota\Contao\SubscriptionRecipient\Event\MigrateRecipientEvent;
 use Contao\Doctrine\DBAL\DoctrineDbalEvents;
 use Contao\Doctrine\DBAL\Event\InitializeEventManager;
@@ -64,6 +65,7 @@ class EventsSubscriber implements EventSubscriberInterface
 			RecipientDataContainerEvents::CREATE_SUBSCRIBE_TEMPLATE_OPTIONS                                     => 'createSubscribeTemplateOptions',
 			RecipientDataContainerEvents::CREATE_UNSUBSCRIBE_TEMPLATE_OPTIONS                                   => 'createUnsubscribeTemplateOptions',
 			RecipientDataContainerEvents::CREATE_SUBSCRIPTION_TEMPLATE_OPTIONS                                  => 'createSubscriptionTemplateOptions',
+			'avisota.subscription-notification-center-bridge.build-tokens-from-recipient'                       => 'buildRecipientTokens',
 		);
 	}
 
@@ -318,6 +320,28 @@ class EventsSubscriber implements EventSubscriberInterface
 
 		foreach ($templates as $key => $value) {
 			$options[$key] = $value;
+		}
+	}
+
+	public function buildRecipientTokens(BuildTokensFromRecipientEvent $event)
+	{
+		$recipient = $event->getRecipient();
+
+		if (!$recipient instanceof Recipient) {
+			return;
+		}
+
+		/** @var EntityAccessor $entityAccessor */
+		$entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
+
+		$tokens = $event->getTokens();
+
+		$properties = $entityAccessor->getProperties($recipient);
+
+		foreach ($properties as $key => $value) {
+			if (!is_object($value)) {
+				$tokens['recipient_' . $key] = $value;
+			}
 		}
 	}
 }
