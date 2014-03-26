@@ -25,7 +25,7 @@ use Contao\Doctrine\ORM\EntityHelper;
 use Contao\Doctrine\ORM\Exception\UnknownPropertyException;
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GenerateFrontendUrlEvent;
-use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GetPageDetailsEvents;
+use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GetPageDetailsEvent;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\RedirectEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -72,7 +72,7 @@ class Subscribe extends AbstractRecipientForm
 			$_SESSION['AVISOTA_LAST_SUBSCRIPTIONS'] = $subscriptions;
 
 			if ($this->avisota_subscribe_activation_page) {
-				$event = new GetPageDetailsEvents($this->avisota_subscribe_activation_page);
+				$event = new GetPageDetailsEvent($this->avisota_subscribe_activation_page);
 				$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $event);
 
 				$event = new GenerateFrontendUrlEvent($event->getPageDetails());
@@ -192,7 +192,7 @@ class Subscribe extends AbstractRecipientForm
 				}
 
 				if ($this->avisota_subscribe_confirmation_page) {
-					$event = new GetPageDetailsEvents($this->avisota_subscribe_confirmation_page);
+					$event = new GetPageDetailsEvent($this->avisota_subscribe_confirmation_page);
 					$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $event);
 
 					$event = new GenerateFrontendUrlEvent($event->getPageDetails());
