@@ -27,7 +27,7 @@ $GLOBALS['TL_LANG']['tl_module']['avisota_recipient_fields'] = array(
 );
 $GLOBALS['TL_LANG']['tl_module']['avisota_form_target']      = array(
 	'Formular target page (not confirmation page!)',
-	'Please choose a page, the submitted form data will be posted. Keep in mind that the module must be added on the page!'
+	'Please choose a page, the submitted form data will be posted (this page will set as &lt;form&gt; action!). Keep in mind that the module must be added on the target page!'
 );
 
 
