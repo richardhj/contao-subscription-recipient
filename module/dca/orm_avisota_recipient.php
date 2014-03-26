@@ -163,6 +163,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 		(
 			'recipient' => array('email'),
 			'personals' => array('salutation', 'title', 'forename', 'surname', 'gender'),
+			'address'   => array('company', 'street', 'postal', 'city', 'state', 'country'),
 		)
 	),
 	// Fields
@@ -306,6 +307,120 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 				'tl_class'           => 'clr',
 			),
 			'field'     => array(),
+		),
+		'company'         => array
+		(
+			'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['company'],
+			'exclude'   => true,
+			'search'    => true,
+			'sorting'   => true,
+			'flag'      => 1,
+			'inputType' => 'text',
+			'eval'      => array(
+				'maxlength'   => 255,
+				'importable'  => true,
+				'exportable'  => true,
+				'migrateFrom' => 'company',
+				'feEditable'  => true,
+				'tl_class'    => 'w50',
+			),
+			'field'     => array(),
+		),
+		'street'          => array
+		(
+			'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['street'],
+			'exclude'   => true,
+			'search'    => true,
+			'sorting'   => true,
+			'flag'      => 1,
+			'inputType' => 'text',
+			'eval'      => array(
+				'maxlength'   => 255,
+				'importable'  => true,
+				'exportable'  => true,
+				'migrateFrom' => 'street',
+				'feEditable'  => true,
+				'tl_class'    => 'w50',
+			),
+			'field'     => array(),
+		),
+		'postal'          => array
+		(
+			'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['postal'],
+			'exclude'   => true,
+			'search'    => true,
+			'sorting'   => true,
+			'flag'      => 1,
+			'inputType' => 'text',
+			'eval'      => array(
+				'maxlength'   => 255,
+				'importable'  => true,
+				'exportable'  => true,
+				'migrateFrom' => 'postal',
+				'feEditable'  => true,
+				'tl_class'    => 'w50',
+			),
+			'field'     => array(),
+		),
+		'city'            => array
+		(
+			'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['city'],
+			'exclude'   => true,
+			'search'    => true,
+			'sorting'   => true,
+			'flag'      => 1,
+			'inputType' => 'text',
+			'eval'      => array(
+				'maxlength'   => 255,
+				'importable'  => true,
+				'exportable'  => true,
+				'migrateFrom' => 'city',
+				'feEditable'  => true,
+				'tl_class'    => 'w50',
+			),
+			'field'     => array(),
+		),
+		'state'           => array
+		(
+			'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['state'],
+			'exclude'   => true,
+			'search'    => true,
+			'sorting'   => true,
+			'flag'      => 1,
+			'inputType' => 'text',
+			'eval'      => array(
+				'maxlength'   => 255,
+				'importable'  => true,
+				'exportable'  => true,
+				'migrateFrom' => 'state',
+				'feEditable'  => true,
+				'tl_class'    => 'w50',
+			),
+			'field'     => array(),
+		),
+		'country'         => array
+		(
+			'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['country'],
+			'exclude'   => true,
+			'search'    => true,
+			'sorting'   => true,
+			'flag'      => 1,
+			'inputType' => 'select',
+			'options'   => $this->getCountries(),
+			'eval'      => array(
+				'includeBlankOption' => true,
+				'chosen' => true,
+				'importable'         => true,
+				'exportable'         => true,
+				'migrateFrom'        => 'country',
+				'feEditable'         => true,
+				'tl_class'           => 'w50',
+			),
+			'field'     => array(
+				'type'    => 'string',
+				'length'  => 2,
+				'options' => array('fixed' => true),
+			),
 		),
 		'mailingLists'    => array
 		(

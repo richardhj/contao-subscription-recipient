@@ -46,7 +46,31 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient']['gender']          = array(
 	'Gender',
 	'Please choose the recipients gender.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingLists']          = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['company']         = array(
+	'Company',
+	'Here you can enter a company name.'
+);
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['street']          = array(
+	'Street',
+	'Please enter the street name and number.'
+);
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['postal']          = array(
+	'Postal code',
+	'Please enter the postal code.'
+);
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['city']            = array(
+	'City',
+	'Plase enter the name of the city.'
+);
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['state']           = array(
+	'State',
+	'Plase enter the name of the state.'
+);
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['country']         = array(
+	'Country',
+	'Please select the country.'
+);
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingLists']    = array(
 	'Mailing lists',
 	''
 );
@@ -138,7 +162,7 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe_globally']           = '
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe']                    = 'Subscribe to this mailing list';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe_globally_confirmed'] = 'Subscribe and activate globally';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe_confirmed']          = 'Subscribe and activate to this mailing list';
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['confirm_subscription']          = 'Confirm subscription';
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['confirm_subscription']         = 'Confirm subscription';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['unsubscribe_globally']         = 'Unsubscribe globally';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['unsubscribe']                  = 'Unsubscribe from this mailing list';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['migrate']                      = array(
