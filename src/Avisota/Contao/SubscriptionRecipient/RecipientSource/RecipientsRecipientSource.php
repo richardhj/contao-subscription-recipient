@@ -101,13 +101,13 @@ class RecipientsRecipientSource implements RecipientSourceInterface
 		if (count($this->filteredMailingLists)) {
 			$queryBuilder->innerJoin('r.subscriptions', 's');
 
-			$or = array();
+			$or = $expr->orX();
 			foreach ($this->filteredMailingLists as $index => $mailingList) {
-				$or[] = $expr->eq('s.mailingList', ':mailingList' . $index);
+				$or->add($expr->eq('s.mailingList', ':mailingList' . $index));
 				$queryBuilder->setParameter('mailingList' . $index, $mailingList->getId());
 			}
 
-			$queryBuilder->andWhere(call_user_func(array($expr, 'orX'), $or));
+			$queryBuilder->andWhere($or);
 		}
 
 		if (count($this->filteredProperties)) {
