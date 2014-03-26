@@ -110,12 +110,14 @@ abstract class AbstractRecipientForm extends \TwigModule
 			(bool) $this->tableless
 		);
 
-		$form->addFieldsFromDca(
-			'orm_avisota_recipient',
-			function ($fieldName) use ($availableFieldNames) {
-				return in_array($fieldName, $availableFieldNames);
+		foreach ($availableFieldNames as $availableFieldName) {
+			if (isset($GLOBALS['TL_DCA']['orm_avisota_recipient']['fields'][$availableFieldName])) {
+				$form->addFormField(
+					$availableFieldName,
+					$GLOBALS['TL_DCA']['orm_avisota_recipient']['fields'][$availableFieldName]
+				);
 			}
-		);
+		}
 
 		if ($this->avisota_form_target) {
 			$form->setFormActionFromPageId($this->avisota_form_target);
