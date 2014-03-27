@@ -69,6 +69,7 @@ $GLOBALS['TL_DCA']['tl_module']['metapalettes']['avisota_activation'] = array
 	),
 	'template'             => array(
 		'tableless',
+		'avisota_activation_redirect_page',
 		'avisota_activation_confirmation_page',
 	),
 	'protected'            => array(
@@ -228,6 +229,13 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_subscribe_activate_confirmati
 /**
  * Activation module fields
  */
+$GLOBALS['TL_DCA']['tl_module']['fields']['avisota_activation_redirect_page']    = array
+(
+	'exclude'   => true,
+	'label'     => &$GLOBALS['TL_LANG']['tl_module']['avisota_activation_redirect_page'],
+	'inputType' => 'pageTree',
+	'eval'      => array('fieldType' => 'radio', 'tl_class' => 'clr')
+);
 $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_activation_confirmation_page']    = array
 (
 	'exclude'   => true,

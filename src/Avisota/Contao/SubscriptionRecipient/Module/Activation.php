@@ -84,5 +84,15 @@ class Activation extends AbstractRecipientForm
 
 			$this->Template->confirmed = $subscriptions;
 		}
+		else if ($this->avisota_activation_redirect_page) {
+			$event = new GetPageDetailsEvent($this->avisota_activation_redirect_page);
+			$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $event);
+
+			$event = new GenerateFrontendUrlEvent($event->getPageDetails());
+			$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GENERATE_FRONTEND_URL, $event);
+
+			$event = new RedirectEvent($event->getUrl());
+			$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+		}
 	}
 }

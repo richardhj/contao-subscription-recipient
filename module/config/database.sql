@@ -20,6 +20,7 @@ CREATE TABLE `tl_module` (
   `avisota_subscribe_confirmation_page` int(10) unsigned NOT NULL default '0',
   `avisota_subscribe_activation_page` int(10) unsigned NOT NULL default '0',
   `avisota_subscribe_activate_confirmation_page` int(10) unsigned NOT NULL default '0',
+  `avisota_activation_redirect_page` int(10) unsigned NOT NULL default '0',
   `avisota_activation_confirmation_page` int(10) unsigned NOT NULL default '0',
   `avisota_unsubscribe_show_mailing_lists` char(1) NOT NULL default '',
   `avisota_unsubscribe_confirmation_message` char(36) NOT NULL default '',
