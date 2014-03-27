@@ -95,6 +95,13 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 				'class'      => 'header_recipient_migrate',
 				'attributes' => 'onclick="Backend.getScrollOffset();"'
 			),
+			'export'  => array
+			(
+				'label'      => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['export'],
+				'href'       => 'table=mem_avisota_recipient_export',
+				'class'      => 'header_recipient_export',
+				'attributes' => 'onclick="Backend.getScrollOffset();"'
+			),
 			// unused functions or broken at the moment - so do not show them
 			/*'all'     => array
 			(
@@ -108,13 +115,6 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 				'label'      => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['import'],
 				'href'       => 'table=orm_avisota_recipient_import&amp;act=edit',
 				'class'      => 'header_recipient_import',
-				'attributes' => 'onclick="Backend.getScrollOffset();"'
-			),
-			'export'  => array
-			(
-				'label'      => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['export'],
-				'href'       => 'table=orm_avisota_recipient_export&amp;act=edit',
-				'class'      => 'header_recipient_export',
 				'attributes' => 'onclick="Backend.getScrollOffset();"'
 			),
 			'remove'  => array
@@ -409,7 +409,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 			'options'   => $this->getCountries(),
 			'eval'      => array(
 				'includeBlankOption' => true,
-				'chosen' => true,
+				'chosen'             => true,
 				'importable'         => true,
 				'exportable'         => true,
 				'migrateFrom'        => 'country',
@@ -422,16 +422,23 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 				'options' => array('fixed' => true),
 			),
 		),
-		'mailingLists'    => array
+		'mailingListIds'    => array
 		(
-			'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingLists'],
-			'inputType' => 'checkbox',
-			'eval'      => array(
+			'label' => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingListIds'],
+			'eval'  => array(
 				'importable' => true,
 				'exportable' => true,
-				'mandatory'  => true,
 			),
-			'field'     => false,
+			'field' => false,
+		),
+		'mailingListNames'    => array
+		(
+			'label' => &$GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingListNames'],
+			'eval'  => array(
+				'importable' => true,
+				'exportable' => true,
+			),
+			'field' => false,
 		),
 		'addedById'       => array
 		(

@@ -70,9 +70,11 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient']['country']         = array(
 	'Country',
 	'Please select the country.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingLists']    = array(
-	'Mailing lists',
-	''
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingListIds']    = array(
+	'Mailing list IDs',
+);
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingListNames']    = array(
+	'Mailing list names',
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedById']       = array(
 	'Added by user ID',

@@ -17,11 +17,13 @@ namespace Avisota\Contao\SubscriptionRecipient;
 
 use Avisota\Contao\Core\DataContainer\OptionsBuilder;
 use Avisota\Contao\Entity\Recipient;
+use Avisota\Contao\Entity\Subscription;
 use Avisota\Contao\Subscription\Event\PrepareSubscriptionEvent;
 use Avisota\Contao\Subscription\Event\ResolveRecipientEvent;
 use Avisota\Contao\Subscription\Event\SubscriptionAwareEvent;
 use Avisota\Contao\Subscription\SubscriptionEvents;
 use Avisota\Contao\SubscriptionNotificationCenterBridge\Event\BuildTokensFromRecipientEvent;
+use Avisota\Contao\SubscriptionRecipient\Event\ExportRecipientPropertyEvent;
 use Avisota\Contao\SubscriptionRecipient\Event\MigrateRecipientEvent;
 use Contao\Doctrine\DBAL\DoctrineDbalEvents;
 use Contao\Doctrine\DBAL\Event\InitializeEventManager;
@@ -55,17 +57,20 @@ class EventsSubscriber implements EventSubscriberInterface
 			SubscriptionEvents::PREPARE_SUBSCRIPTION                                                            => 'prepareSubscription',
 			SubscriptionEvents::RESOLVE_RECIPIENT                                                               => 'resolveRecipient',
 			SubscriptionEvents::CREATE_RECIPIENT_PROPERTIES_OPTIONS                                             => 'createRecipientPropertiesOptions',
+			GetEditModeButtonsEvent::NAME . '[mem_avisota_recipient_export]'                                    => 'getExportButtons',
 			GetPropertyOptionsEvent::NAME . '[orm_avisota_recipient_source][recipientsPropertyFilter_property]' => 'bypassCreateRecipientPropertiesOptions',
 			GetPropertyOptionsEvent::NAME . '[mem_avisota_recipient_migrate][mailingList]'                      => 'bypassCreateMailingListOptions',
 			GetEditModeButtonsEvent::NAME . '[mem_avisota_recipient_migrate]'                                   => 'getMigrateButtons',
 			DoctrineDbalEvents::INITIALIZE_EVENT_MANAGER                                                        => 'initializeEventManager',
 			RecipientEvents::MIGRATE_RECIPIENT                                                                  => 'collectMemberPersonals',
+			RecipientEvents::EXPORT_RECIPIENT_PROPERTY                                                          => 'exportRecipientProperties',
 			RecipientDataContainerEvents::CREATE_IMPORTABLE_RECIPIENT_FIELD_OPTIONS                             => 'createImportableRecipientFieldOptions',
 			RecipientDataContainerEvents::CREATE_EDITABLE_RECIPIENT_FIELD_OPTIONS                               => 'createEditableRecipientFieldOptions',
 			RecipientDataContainerEvents::CREATE_SUBSCRIBE_TEMPLATE_OPTIONS                                     => 'createSubscribeTemplateOptions',
 			RecipientDataContainerEvents::CREATE_UNSUBSCRIBE_TEMPLATE_OPTIONS                                   => 'createUnsubscribeTemplateOptions',
 			RecipientDataContainerEvents::CREATE_SUBSCRIPTION_TEMPLATE_OPTIONS                                  => 'createSubscriptionTemplateOptions',
 			'avisota.subscription-notification-center-bridge.build-tokens-from-recipient'                       => 'buildRecipientTokens',
+
 		);
 	}
 
@@ -120,6 +125,20 @@ class EventsSubscriber implements EventSubscriberInterface
 	{
 		$options = $event->getOptions();
 		$this->getRecipientPropertiesOptions($event->getDataContainer()->getEnvironment(), $options);
+	}
+
+	public function getExportButtons(GetEditModeButtonsEvent $event)
+	{
+		$translator = $event->getEnvironment()->getTranslator();
+
+		$buttons = array(
+			'export' => sprintf(
+				'<input type="submit" name="save" id="save" class="tl_submit" accesskey="s" value="%s" />',
+				$translator->translate('submit', 'mem_avisota_recipient_export')
+			)
+		);
+
+		$event->setButtons($buttons);
 	}
 
 	public function bypassCreateRecipientPropertiesOptions(GetPropertyOptionsEvent $event)
@@ -235,6 +254,46 @@ class EventsSubscriber implements EventSubscriberInterface
 					}
 				}
 			}
+		}
+	}
+
+	public function exportRecipientProperties(ExportRecipientPropertyEvent $event)
+	{
+		switch ($event->getPropertyName()) {
+			case 'mailingListIds':
+			case 'mailingListNames':
+				if ($event->getString() !== null) {
+					return;
+				}
+
+				$subscriptions = $event->getRecipient()->getSubscriptions();
+				$values        = array();
+
+				/** @var Subscription $subscription */
+				foreach ($subscriptions as $subscription) {
+					if (!$subscription->getActive()) {
+						continue;
+					}
+
+					$mailingList = $subscription->getMailingList();
+
+					if ($mailingList) {
+						switch ($event->getPropertyName()) {
+							case 'mailingListIds':
+								$values[] = $mailingList->getId();
+								break;
+							case 'mailingListNames':
+								$values[] = $mailingList->getTitle();
+								break;
+						}
+					}
+					else {
+						$values[] = 'global';
+					}
+				}
+
+				$event->setString(implode("\n", $values));
+				break;
 		}
 	}
 

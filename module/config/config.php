@@ -26,7 +26,7 @@ array_insert(
 				'orm_avisota_recipient',
 				'mem_avisota_recipient_migrate',
 				'orm_avisota_recipient_import',
-				'orm_avisota_recipient_export',
+				'mem_avisota_recipient_export',
 				'orm_avisota_recipient_remove',
 				'orm_avisota_recipient_notify',
 			),

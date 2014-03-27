@@ -74,4 +74,16 @@ class RecipientEvents
 	 * @api
 	 */
 	const MIGRATE_RECIPIENT = 'avisota.subscription-recipient.migrate-recipient';
+
+	/**
+	 * The EXPORT_RECIPIENT_PROPERTY event occurs when a recipient property must be converted for export.
+	 *
+	 * This event allows you to manipulate the recipient data on import. The event listener method receives
+	 * a Avisota\Contao\SubscriptionRecipient\Event\ExportRecipientPropertyEvent instance.
+	 *
+	 * @var string
+	 *
+	 * @api
+	 */
+	const EXPORT_RECIPIENT_PROPERTY = 'avisota.subscription-recipient.export-recipient-property';
 }
