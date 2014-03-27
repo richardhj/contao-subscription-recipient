@@ -43,25 +43,29 @@ $GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_confirmation_message'] = arr
 	'Please choose the confirmation message boilerplate.'
 );
 $GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_confirmation_page']    = array(
-	'Confirmation page',
-	'Please choose the confirmation page.'
+	'Subscribe confirmation page',
+	'Please choose the confirmation page. The user will be redirected to this page, after requesting a new subscription.'
 );
 $GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_activation_page']    = array(
 	'Activation page',
-	'Please choose the activation page.'
+	'Please choose the activation page. The activation link will be link to this page. Keep in mind that you need to add a "Subscription" or "Activation" module to this page.'
 );
 $GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_activate_confirmation_page']    = array(
-	'Activated confirmation page',
-	'Please choose the activated confirmation page.'
+	'Activation confirmation page',
+	'Please choose the activated confirmation page. If you not use a separate activation page, the user will redirected to this page, after clicking on the activation link.'
 );
 
 
 /**
  * Activation module fields
  */
+$GLOBALS['TL_LANG']['tl_module']['avisota_activation_redirect_page']    = array(
+	'Redirect page',
+	'Please choose the redirect page. The user will be redirected to this page, if he call the page without a valid subscription token.'
+);
 $GLOBALS['TL_LANG']['tl_module']['avisota_activation_confirmation_page']    = array(
 	'Confirmation page',
-	'Please choose the confirmation page.'
+	'Please choose the confirmation page. The user will redirected to this page, after clicking on the activation link.'
 );
 
 
