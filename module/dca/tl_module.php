@@ -47,6 +47,29 @@ $GLOBALS['TL_DCA']['tl_module']['metapalettes']['avisota_subscribe']    = array
 		'avisota_form_target',
 		'avisota_subscribe_confirmation_page',
 		'avisota_subscribe_activation_page',
+		'avisota_subscribe_activate_confirmation_page',
+	),
+	'protected'            => array(
+		':hide',
+		'protected',
+	),
+	'expert'               => array(
+		':hide',
+		'guests',
+		'cssID',
+		'space',
+	)
+);
+$GLOBALS['TL_DCA']['tl_module']['metapalettes']['avisota_activation'] = array
+(
+	'title'                => array(
+		'name',
+		'headline',
+		'type',
+	),
+	'template'             => array(
+		'tableless',
+		'avisota_activation_confirmation_page',
 	),
 	'protected'            => array(
 		':hide',
@@ -192,6 +215,25 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_subscribe_activation_page']  
 	'label'     => &$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_activation_page'],
 	'inputType' => 'pageTree',
 	'eval'      => array('fieldType' => 'radio')
+);
+$GLOBALS['TL_DCA']['tl_module']['fields']['avisota_subscribe_activate_confirmation_page']    = array
+(
+	'exclude'   => true,
+	'label'     => &$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_activate_confirmation_page'],
+	'inputType' => 'pageTree',
+	'eval'      => array('fieldType' => 'radio')
+);
+
+
+/**
+ * Activation module fields
+ */
+$GLOBALS['TL_DCA']['tl_module']['fields']['avisota_activation_confirmation_page']    = array
+(
+	'exclude'   => true,
+	'label'     => &$GLOBALS['TL_LANG']['tl_module']['avisota_activation_confirmation_page'],
+	'inputType' => 'pageTree',
+	'eval'      => array('fieldType' => 'radio', 'tl_class' => 'clr')
 );
 
 

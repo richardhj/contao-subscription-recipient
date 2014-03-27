@@ -71,8 +71,8 @@ class Subscribe extends AbstractRecipientForm
 
 			$_SESSION['AVISOTA_LAST_SUBSCRIPTIONS'] = $subscriptions;
 
-			if ($this->avisota_subscribe_activation_page) {
-				$event = new GetPageDetailsEvent($this->avisota_subscribe_activation_page);
+			if ($this->avisota_subscribe_activate_confirmation_page) {
+				$event = new GetPageDetailsEvent($this->avisota_subscribe_activate_confirmation_page);
 				$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $event);
 
 				$event = new GenerateFrontendUrlEvent($event->getPageDetails());
@@ -159,7 +159,17 @@ class Subscribe extends AbstractRecipientForm
 						/** @var MessageRendererInterface $renderer */
 						$renderer = $GLOBALS['container']['avisota.message.renderer'];
 
-						$event = new GenerateFrontendUrlEvent($GLOBALS['objPage']->row());
+						if ($this->avisota_subscribe_activation_page) {
+							$event = new GetPageDetailsEvent($this->avisota_subscribe_activation_page);
+							$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $event);
+
+							$pageDetails = $event->getPageDetails();
+						}
+						else {
+							$pageDetails = $GLOBALS['objPage']->row();
+						}
+
+						$event = new GenerateFrontendUrlEvent($pageDetails);
 						$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GENERATE_FRONTEND_URL, $event);
 
 						$query = array('token' => array());

@@ -50,6 +50,19 @@ $GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_activation_page']    = array
 	'Activation page',
 	'Please choose the activation page.'
 );
+$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_activate_confirmation_page']    = array(
+	'Activated confirmation page',
+	'Please choose the activated confirmation page.'
+);
+
+
+/**
+ * Activation module fields
+ */
+$GLOBALS['TL_LANG']['tl_module']['avisota_activation_confirmation_page']    = array(
+	'Confirmation page',
+	'Please choose the confirmation page.'
+);
 
 
 /**

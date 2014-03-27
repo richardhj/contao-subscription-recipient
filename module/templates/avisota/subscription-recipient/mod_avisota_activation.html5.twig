@@ -1,0 +1,9 @@
+{% extends 'mod_container.html5.twig' %}
+
+{% block content %}
+	<!-- indexer::stop -->
+	{% if confirmed is defined and confirmed|length > 0 %}
+		<p class="confirmation">{{ _lang.fe_avisota_subscription.subscribeConfirmation }}</p>
+	{% endif %}
+	<!-- indexer::continue -->
+{% endblock %}

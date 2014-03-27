@@ -26,5 +26,6 @@ $GLOBALS['TL_LANG']['MOD']['avisota-subscription-recipient'] = array(
  * Frontend modules
  */
 $GLOBALS['TL_LANG']['FMD']['avisota_subscribe']    = array('Recipients - Subscribe');
+$GLOBALS['TL_LANG']['FMD']['avisota_activation']   = array('Recipients - Activation');
 $GLOBALS['TL_LANG']['FMD']['avisota_unsubscribe']  = array('Recipients - Unsubscribe');
 $GLOBALS['TL_LANG']['FMD']['avisota_subscription'] = array('Recipients - Manage subscription');
