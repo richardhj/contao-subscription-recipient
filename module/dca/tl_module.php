@@ -158,7 +158,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_recipient_fields'] = array
 	'label'            => &$GLOBALS['TL_LANG']['tl_module']['avisota_recipient_fields'],
 	'inputType'        => 'checkboxWizard',
 	'options_callback' => CreateOptionsEventCallbackFactory::createCallback(
-		RecipientDataContainerEvents::CREATE_IMPORTABLE_RECIPIENT_FIELD_OPTIONS
+		RecipientDataContainerEvents::CREATE_EDITABLE_RECIPIENT_FIELD_OPTIONS
 	),
 	'eval'             => array('multiple' => true),
 	'load_callback'    => array(
