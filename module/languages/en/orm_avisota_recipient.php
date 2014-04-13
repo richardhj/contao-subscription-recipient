@@ -17,74 +17,77 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['id']              = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['id']               = array(
 	'ID'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['createdAt']       = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['createdAt']        = array(
 	'Created at'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['updatedAt']       = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['updatedAt']        = array(
 	'Last modified at'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['email']           = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['email']            = array(
 	'Email',
 	'Please enter the email address.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['title']           = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['title']            = array(
 	'Title',
 	'Please enter the recipients title.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['forename']        = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['forename']         = array(
 	'Forename',
 	'Please enter the recipients forename.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['surname']         = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['surname']          = array(
 	'Surname',
 	'Please enter the recipients surname.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['gender']          = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['gender']           = array(
 	'Gender',
 	'Please choose the recipients gender.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['company']         = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['company']          = array(
 	'Company',
 	'Here you can enter a company name.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['street']          = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['street']           = array(
 	'Street',
 	'Please enter the street name and number.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['postal']          = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['postal']           = array(
 	'Postal code',
 	'Please enter the postal code.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['city']            = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['city']             = array(
 	'City',
 	'Plase enter the name of the city.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['state']           = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['state']            = array(
 	'State',
 	'Plase enter the name of the state.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['country']         = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['country']          = array(
 	'Country',
 	'Please select the country.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingListIds']    = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingLists']     = array(
+	'Mailing lists',
+);
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingListIds']   = array(
 	'Mailing list IDs',
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingListNames']    = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingListNames'] = array(
 	'Mailing list names',
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedById']       = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedById']        = array(
 	'Added by user ID',
 	'The ID of the user who added this recipient.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedByUsername'] = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedByUsername']  = array(
 	'Added by username',
 	'The username of the user who added this recipient.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedByName']     = array(
+$GLOBALS['TL_LANG']['orm_avisota_recipient']['addedByName']      = array(
 	'Added by name',
 	'The name of the user who added this recipient.'
 );
