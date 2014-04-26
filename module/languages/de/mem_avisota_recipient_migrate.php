@@ -8,9 +8,8 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2014-03-11T15:25:41+01:00
+ * last-updated: 2014-03-25T14:15:12+01:00
  */
-
 
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['channels']['0']             = 'Kanäle';
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['channels']['1']             = 'Bitte wählen Sie die Kanäle und die Ziel-Mailinglisten.';
@@ -22,4 +21,5 @@ $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['migrate_legend']          
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['migrated']                  = '%d Empfänger wurden übertragen, %d Empfänger wurden übersprungen.';
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['overwrite']['0']            = 'Bestehende überschreiben';
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['overwrite']['1']            = 'Die bereits vorhandenen Einträge werden überschrieben.';
+$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['submit']                    = 'Migrieren';
 
