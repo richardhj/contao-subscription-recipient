@@ -13,7 +13,6 @@
  * @filesource
  */
 
-use ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory;
 
 /**
  * Palettes

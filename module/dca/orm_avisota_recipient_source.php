@@ -13,14 +13,6 @@
  * @filesource
  */
 
-use ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory;
-use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Legend;
-use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Palette;
-use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\PalettesDefinitionInterface;
-use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain;
-use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionInterface;
-use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyTrueCondition;
-use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyValueCondition;
 
 /**
  * Table orm_avisota_recipient_source
@@ -36,30 +28,30 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient_source']['metapalettes']['recipients']
 		'recipientsUsePropertyFilter',
 		function (
 			$legendName,
-			Legend $legend,
-			Palette $palette,
-			PalettesDefinitionInterface $palettesDefinition
+			\ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Legend $legend,
+			\ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Palette $palette,
+			\ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\PalettesDefinitionInterface $palettesDefinition
 		) {
 			$filterByMailingListsProperty = $legend->getProperty('filterByMailingLists');
 			$visibleCondition             = $filterByMailingListsProperty->getVisibleCondition();
 
-			$typeCondition   = new PropertyValueCondition('type', 'recipients');
-			$filterCondition = new PropertyTrueCondition('filter');
+			$typeCondition   = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyValueCondition('type', 'recipients');
+			$filterCondition = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyTrueCondition('filter');
 
-			/** @var PropertyConditionInterface|PropertyConditionChain $visibleCondition */
+			/** @var \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionInterface|\ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain $visibleCondition */
 			if (
 				!$visibleCondition ||
-				!$visibleCondition instanceof PropertyConditionChain ||
-				$visibleCondition->getConjunction() != PropertyConditionChain::OR_CONJUNCTION
+				!$visibleCondition instanceof \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain ||
+				$visibleCondition->getConjunction() != \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain::OR_CONJUNCTION
 			) {
-				$visibleCondition = new PropertyConditionChain(
+				$visibleCondition = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain(
 					$visibleCondition ? array($visibleCondition) : array(),
-					PropertyConditionChain::OR_CONJUNCTION
+					\ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain::OR_CONJUNCTION
 				);
 			}
 
 			$visibleCondition->addCondition(
-				new PropertyConditionChain(
+				new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain(
 					array($typeCondition, $filterCondition)
 				)
 			);
@@ -68,23 +60,23 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient_source']['metapalettes']['recipients']
 		},
 		function (
 			$legendName,
-			Legend $legend,
-			Palette $palette,
-			PalettesDefinitionInterface $palettesDefinition
+			\ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Legend $legend,
+			\ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Palette $palette,
+			\ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\PalettesDefinitionInterface $palettesDefinition
 		) {
 			$recipientsUsePropertyFilterProperty = $legend->getProperty('recipientsUsePropertyFilter');
 			$visibleCondition                    = $recipientsUsePropertyFilterProperty->getVisibleCondition();
 
-			$typeCondition   = new PropertyValueCondition('type', 'recipients');
-			$filterCondition = new PropertyTrueCondition('filter');
+			$typeCondition   = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyValueCondition('type', 'recipients');
+			$filterCondition = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyTrueCondition('filter');
 
-			/** @var PropertyConditionInterface|PropertyConditionChain $visibleCondition */
+			/** @var \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionInterface|\ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain $visibleCondition */
 			if (
 				!$visibleCondition ||
-				!$visibleCondition instanceof PropertyConditionChain ||
-				$visibleCondition->getConjunction() != PropertyConditionChain::AND_CONJUNCTION
+				!$visibleCondition instanceof \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain ||
+				$visibleCondition->getConjunction() != \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain::AND_CONJUNCTION
 			) {
-				$visibleCondition = new PropertyConditionChain(
+				$visibleCondition = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain(
 					$visibleCondition ? array($visibleCondition) : array()
 				);
 			}
