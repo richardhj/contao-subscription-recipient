@@ -15,8 +15,11 @@
 
 namespace Avisota\Contao\SubscriptionRecipient\RecipientSource;
 
+use Avisota\Contao\Core\CoreEvents;
+use Avisota\Contao\Core\Event\CreateRecipientSourceEvent;
 use Avisota\Contao\Core\RecipientSource\RecipientSourceFactoryInterface;
 use Avisota\Contao\Entity\RecipientSource;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterface
 {
@@ -31,6 +34,12 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
 			$recipientSource->setFilteredProperties($recipientSourceEntity->getRecipientsPropertyFilter());
 		}
 
-		return $recipientSource;
+		/** @var EventDispatcherInterface $eventDispatcher */
+		$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+
+		$event = new CreateRecipientSourceEvent($recipientSourceEntity, $recipientSource);
+		$eventDispatcher->dispatch(CoreEvents::CREATE_RECIPIENT_SOURCE, $event);
+
+		return $event->getRecipientSource();
 	}
 }
