@@ -77,7 +77,7 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient'] = array
 	(
 		'sorting'           => array
 		(
-			'mode'        => 2,
+			'mode'        => 1,
 			'fields'      => array('email'),
 			'panelLayout' => 'filter;sort,search,limit',
 		),
