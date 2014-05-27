@@ -13,6 +13,7 @@
 
 $GLOBALS['TL_LANG']['tl_module']['avisota_activation_confirmation_page']['0']      = 'Bestätigungsseite';
 $GLOBALS['TL_LANG']['tl_module']['avisota_activation_redirect_page']['0']          = 'Weiterleitungsseite';
+$GLOBALS['TL_LANG']['tl_module']['avisota_activation_redirect_page']['1']          = 'Bitte wählen Sie die Weiterleitungsseite aus. Dorthin wird ein Benutzer weitergeieitet wenn er die Seite ohne gültiges Token aufruft.';
 $GLOBALS['TL_LANG']['tl_module']['avisota_categories']['0']                        = 'Kategorien';
 $GLOBALS['TL_LANG']['tl_module']['avisota_categories']['1']                        = 'Wählen Sie die Kategorien aus, aus denen die Mailing angezeigt werden sollen.';
 $GLOBALS['TL_LANG']['tl_module']['avisota_cleanup_legend']                         = 'Aufräumen';
@@ -28,6 +29,7 @@ $GLOBALS['TL_LANG']['tl_module']['avisota_reader_template']['1']                
 $GLOBALS['TL_LANG']['tl_module']['avisota_recipient_fields']['0']                  = 'Persönliche Daten';
 $GLOBALS['TL_LANG']['tl_module']['avisota_recipient_fields']['1']                  = 'Bitte wählen Sie aus, welche Felder mit persönlichen Daten abgefragt werden sollen.';
 $GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_activation_page']['0']         = 'Aktivierungsseite';
+$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_activation_page']['1']         = 'Bitte wählen Sie die Aktivierungsseite aus. Dorthin wird der AktIvierungslink leiten. Bitte beachten Sie, das Sie ein "Bestellungs-" oder ein "Aktivierungs"-Modul auf dieser Seite einbinden müssen.';
 $GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_confirmation_message']['0']    = 'Bestätigungsnachricht';
 $GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_confirmation_message']['1']    = 'Bitte wählen Sie eine Vorlage für die Bestätigungsnachricht aus.';
 $GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_form_template']['0']           = 'Formular-Template';
