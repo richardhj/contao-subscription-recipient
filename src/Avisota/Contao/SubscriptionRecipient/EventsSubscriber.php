@@ -52,25 +52,24 @@ class EventsSubscriber implements EventSubscriberInterface
 	public static function getSubscribedEvents()
 	{
 		return array(
-			SubscriptionEvents::UNSUBSCRIBE                                                                     => 'cleanRecipient',
-			SubscriptionEvents::CLEAN_SUBSCRIPTION                                                              => 'cleanRecipient',
-			SubscriptionEvents::PREPARE_SUBSCRIPTION                                                            => 'prepareSubscription',
-			SubscriptionEvents::RESOLVE_RECIPIENT                                                               => 'resolveRecipient',
-			SubscriptionEvents::CREATE_RECIPIENT_PROPERTIES_OPTIONS                                             => 'createRecipientPropertiesOptions',
-			GetEditModeButtonsEvent::NAME . '[mem_avisota_recipient_export]'                                    => 'getExportButtons',
-			GetPropertyOptionsEvent::NAME . '[orm_avisota_recipient_source][recipientsPropertyFilter_property]' => 'bypassCreateRecipientPropertiesOptions',
-			GetPropertyOptionsEvent::NAME . '[mem_avisota_recipient_migrate][mailingList]'                      => 'bypassCreateMailingListOptions',
-			GetEditModeButtonsEvent::NAME . '[mem_avisota_recipient_migrate]'                                   => 'getMigrateButtons',
-			DoctrineDbalEvents::INITIALIZE_EVENT_MANAGER                                                        => 'initializeEventManager',
-			RecipientEvents::MIGRATE_RECIPIENT                                                                  => 'collectMemberPersonals',
-			RecipientEvents::EXPORT_RECIPIENT_PROPERTY                                                          => 'exportRecipientProperties',
-			RecipientDataContainerEvents::CREATE_IMPORTABLE_RECIPIENT_FIELD_OPTIONS                             => 'createImportableRecipientFieldOptions',
-			RecipientDataContainerEvents::CREATE_EDITABLE_RECIPIENT_FIELD_OPTIONS                               => 'createEditableRecipientFieldOptions',
-			RecipientDataContainerEvents::CREATE_SUBSCRIBE_TEMPLATE_OPTIONS                                     => 'createSubscribeTemplateOptions',
-			RecipientDataContainerEvents::CREATE_UNSUBSCRIBE_TEMPLATE_OPTIONS                                   => 'createUnsubscribeTemplateOptions',
-			RecipientDataContainerEvents::CREATE_SUBSCRIPTION_TEMPLATE_OPTIONS                                  => 'createSubscriptionTemplateOptions',
-			'avisota.subscription-notification-center-bridge.build-tokens-from-recipient'                       => 'buildRecipientTokens',
-
+			SubscriptionEvents::UNSUBSCRIBE                                                                                               => 'cleanRecipient',
+			SubscriptionEvents::CLEAN_SUBSCRIPTION                                                                                        => 'cleanRecipient',
+			SubscriptionEvents::PREPARE_SUBSCRIPTION                                                                                      => 'prepareSubscription',
+			SubscriptionEvents::RESOLVE_RECIPIENT                                                                                         => 'resolveRecipient',
+			SubscriptionEvents::CREATE_RECIPIENT_PROPERTIES_OPTIONS                                                                       => 'createRecipientPropertiesOptions',
+			GetEditModeButtonsEvent::NAME . '[mem_avisota_recipient_export]'                                                              => 'getExportButtons',
+			GetPropertyOptionsEvent::NAME . '[orm_avisota_recipient_source][recipientsPropertyFilter][recipientsPropertyFilter_property]' => 'bypassCreateRecipientPropertiesOptions',
+			GetPropertyOptionsEvent::NAME . '[mem_avisota_recipient_migrate][channels][mailingList]'                                      => 'bypassCreateMailingListOptions',
+			GetEditModeButtonsEvent::NAME . '[mem_avisota_recipient_migrate]'                                                             => 'getMigrateButtons',
+			DoctrineDbalEvents::INITIALIZE_EVENT_MANAGER                                                                                  => 'initializeEventManager',
+			RecipientEvents::MIGRATE_RECIPIENT                                                                                            => 'collectMemberPersonals',
+			RecipientEvents::EXPORT_RECIPIENT_PROPERTY                                                                                    => 'exportRecipientProperties',
+			RecipientDataContainerEvents::CREATE_IMPORTABLE_RECIPIENT_FIELD_OPTIONS                                                       => 'createImportableRecipientFieldOptions',
+			RecipientDataContainerEvents::CREATE_EDITABLE_RECIPIENT_FIELD_OPTIONS                                                         => 'createEditableRecipientFieldOptions',
+			RecipientDataContainerEvents::CREATE_SUBSCRIBE_TEMPLATE_OPTIONS                                                               => 'createSubscribeTemplateOptions',
+			RecipientDataContainerEvents::CREATE_UNSUBSCRIBE_TEMPLATE_OPTIONS                                                             => 'createUnsubscribeTemplateOptions',
+			RecipientDataContainerEvents::CREATE_SUBSCRIPTION_TEMPLATE_OPTIONS                                                            => 'createSubscriptionTemplateOptions',
+			'avisota.subscription-notification-center-bridge.build-tokens-from-recipient'                                                 => 'buildRecipientTokens',
 		);
 	}
 
