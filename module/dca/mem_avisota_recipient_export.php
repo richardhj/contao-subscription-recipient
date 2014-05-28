@@ -52,9 +52,10 @@ $GLOBALS['TL_DCA']['mem_avisota_recipient_export'] = array
 			'label'     => &$GLOBALS['TL_LANG']['mem_avisota_recipient_export']['columns'],
 			'inputType' => 'checkboxWizard',
 			'options_callback' => \ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory::createCallback(
-					\Avisota\Contao\SubscriptionRecipient\RecipientDataContainerEvents::CREATE_IMPORTABLE_RECIPIENT_FIELD_OPTIONS
-				),
-			'eval'      => array(
+				\Avisota\Contao\SubscriptionRecipient\RecipientDataContainerEvents::CREATE_IMPORTABLE_RECIPIENT_FIELD_OPTIONS,
+				'Avisota\Contao\Core\Event\CreateOptionsEvent'
+			),
+			'eval'             => array(
 				'mandatory' => true,
 				'multiple'  => true,
 			),
