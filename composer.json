@@ -24,7 +24,7 @@
 	"require":{
 		"php":">=5.3",
 		"contao-community-alliance/composer-installer": "~1.6",
-		"avisota/contao-core": "~2.0-RC5",
+		"avisota/contao-core": "~2.0-RC9",
 		"avisota/contao-subscription": "~2.0",
 		"menatwork/contao-multicolumnwizard": "~3.2",
 		"contao-legacy/haste": "~4.0"
