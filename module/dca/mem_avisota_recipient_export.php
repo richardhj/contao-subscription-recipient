@@ -47,19 +47,20 @@ $GLOBALS['TL_DCA']['mem_avisota_recipient_export'] = array
 	// Fields
 	'fields'       => array
 	(
-		'columns'  => array
+		'columns'   => array
 		(
-			'label'     => &$GLOBALS['TL_LANG']['mem_avisota_recipient_export']['columns'],
-			'inputType' => 'checkboxWizard',
+			'label'            => &$GLOBALS['TL_LANG']['mem_avisota_recipient_export']['columns'],
+			'inputType'        => 'checkboxWizard',
 			'options_callback' => \ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory::createCallback(
-					\Avisota\Contao\SubscriptionRecipient\RecipientDataContainerEvents::CREATE_IMPORTABLE_RECIPIENT_FIELD_OPTIONS
-				),
-			'eval'      => array(
+				\Avisota\Contao\SubscriptionRecipient\RecipientDataContainerEvents::CREATE_IMPORTABLE_RECIPIENT_FIELD_OPTIONS,
+				'Avisota\Contao\Core\Event\CreateOptionsEvent'
+			),
+			'eval'             => array(
 				'mandatory' => true,
 				'multiple'  => true,
 			),
 		),
-		'delimiter'     => array
+		'delimiter' => array
 		(
 			'label'     => &$GLOBALS['TL_LANG']['mem_avisota_recipient_export']['delimiter'],
 			'inputType' => 'select',
@@ -70,7 +71,7 @@ $GLOBALS['TL_DCA']['mem_avisota_recipient_export'] = array
 				'tl_class'  => 'clr w50',
 			),
 		),
-		'enclosure'     => array
+		'enclosure' => array
 		(
 			'label'     => &$GLOBALS['TL_LANG']['mem_avisota_recipient_export']['enclosure'],
 			'inputType' => 'select',

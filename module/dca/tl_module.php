@@ -145,7 +145,10 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_mailing_lists']    = array
 	'exclude'          => true,
 	'label'            => &$GLOBALS['TL_LANG']['tl_module']['avisota_mailing_lists'],
 	'inputType'        => 'checkbox',
-	'options_callback' => \ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory::createCallback(\Avisota\Contao\Core\CoreEvents::CREATE_MAILING_LIST_OPTIONS),
+	'options_callback' => \ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory::createCallback(
+		\Avisota\Contao\Core\CoreEvents::CREATE_MAILING_LIST_OPTIONS,
+		'Avisota\Contao\Core\Event\CreateOptionsEvent'
+	),
 	'eval'             => array('multiple' => true)
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_recipient_fields'] = array
@@ -154,7 +157,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_recipient_fields'] = array
 	'label'            => &$GLOBALS['TL_LANG']['tl_module']['avisota_recipient_fields'],
 	'inputType'        => 'checkboxWizard',
 	'options_callback' => \ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory::createCallback(
-		\Avisota\Contao\SubscriptionRecipient\RecipientDataContainerEvents::CREATE_EDITABLE_RECIPIENT_FIELD_OPTIONS
+		\Avisota\Contao\SubscriptionRecipient\RecipientDataContainerEvents::CREATE_EDITABLE_RECIPIENT_FIELD_OPTIONS,
+		'Avisota\Contao\Core\Event\CreateOptionsEvent'
 	),
 	'eval'             => array('multiple' => true),
 	'load_callback'    => array(
@@ -182,7 +186,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_subscribe_form_template']    
 	'label'            => &$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_form_template'],
 	'inputType'        => 'select',
 	'options_callback' => \ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory::createCallback(
-		\Avisota\Contao\SubscriptionRecipient\RecipientDataContainerEvents::CREATE_SUBSCRIBE_TEMPLATE_OPTIONS
+		\Avisota\Contao\SubscriptionRecipient\RecipientDataContainerEvents::CREATE_SUBSCRIBE_TEMPLATE_OPTIONS,
+		'Avisota\Contao\Core\Event\CreateOptionsEvent'
 	),
 	'eval'             => array('tl_class' => 'w50')
 );
@@ -192,7 +197,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_subscribe_confirmation_messag
 	'label'            => &$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_confirmation_message'],
 	'inputType'        => 'select',
 	'options_callback' => \ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory::createCallback(
-		\Avisota\Contao\Message\Core\MessageEvents::CREATE_BOILERPLATE_MESSAGE_OPTIONS
+		\Avisota\Contao\Message\Core\MessageEvents::CREATE_BOILERPLATE_MESSAGE_OPTIONS,
+		'Avisota\Contao\Core\Event\CreateOptionsEvent'
 	),
 	'eval'             => array(
 		'includeBlankOption' => true,
@@ -257,7 +263,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_unsubscribe_confirmation_mess
 	'label'            => &$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_confirmation_message'],
 	'inputType'        => 'select',
 	'options_callback' => \ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory::createCallback(
-		\Avisota\Contao\Message\Core\MessageEvents::CREATE_BOILERPLATE_MESSAGE_OPTIONS
+		\Avisota\Contao\Message\Core\MessageEvents::CREATE_BOILERPLATE_MESSAGE_OPTIONS,
+		'Avisota\Contao\Core\Event\CreateOptionsEvent'
 	),
 	'eval'             => array(
 		'includeBlankOption' => true,
@@ -270,7 +277,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_unsubscribe_form_template']  
 	'label'            => &$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_form_template'],
 	'inputType'        => 'select',
 	'options_callback' => \ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory::createCallback(
-		\Avisota\Contao\SubscriptionRecipient\RecipientDataContainerEvents::CREATE_UNSUBSCRIBE_TEMPLATE_OPTIONS
+		\Avisota\Contao\SubscriptionRecipient\RecipientDataContainerEvents::CREATE_UNSUBSCRIBE_TEMPLATE_OPTIONS,
+		'Avisota\Contao\Core\Event\CreateOptionsEvent'
 	),
 	'eval'             => array('tl_class' => 'w50')
 );
@@ -292,7 +300,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_subscription_form_template'] 
 	'label'            => &$GLOBALS['TL_LANG']['tl_module']['avisota_subscription_form_template'],
 	'inputType'        => 'select',
 	'options_callback' => \ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory::createCallback(
-		\Avisota\Contao\SubscriptionRecipient\RecipientDataContainerEvents::CREATE_SUBSCRIPTION_TEMPLATE_OPTIONS
+		\Avisota\Contao\SubscriptionRecipient\RecipientDataContainerEvents::CREATE_SUBSCRIPTION_TEMPLATE_OPTIONS,
+		'Avisota\Contao\Core\Event\CreateOptionsEvent'
 	),
 	'eval'             => array('tl_class' => 'w50')
 );
@@ -302,7 +311,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['avisota_subscription_confirmation_mes
 	'label'            => &$GLOBALS['TL_LANG']['tl_module']['avisota_subscription_confirmation_message'],
 	'inputType'        => 'select',
 	'options_callback' => \ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory::createCallback(
-		\Avisota\Contao\Message\Core\MessageEvents::CREATE_BOILERPLATE_MESSAGE_OPTIONS
+		\Avisota\Contao\Message\Core\MessageEvents::CREATE_BOILERPLATE_MESSAGE_OPTIONS,
+		'Avisota\Contao\Core\Event\CreateOptionsEvent'
 	),
 	'eval'             => array(
 		'includeBlankOption' => true,
