@@ -17,6 +17,7 @@ namespace Avisota\Contao\SubscriptionRecipient\Entity;
 
 use Avisota\Contao\Subscription\SubscriptionRecipientInterface;
 use Contao\Doctrine\ORM\EntityAccessor;
+use Contao\Doctrine\ORM\Annotation\Accessor;
 
 abstract class AbstractRecipient implements SubscriptionRecipientInterface
 {
@@ -76,6 +77,8 @@ abstract class AbstractRecipient implements SubscriptionRecipientInterface
 
 	/**
 	 * {@inheritdoc}
+	 *
+	 * @Accessor(ignore=true)
 	 */
 	public function getDetails()
 	{
@@ -87,6 +90,8 @@ abstract class AbstractRecipient implements SubscriptionRecipientInterface
 
 	/**
 	 * {@inheritdoc}
+	 *
+	 * @Accessor(ignore=true)
 	 */
 	public function getKeys()
 	{
