@@ -29,7 +29,8 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_co
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparators']['not_empty'] = 'Ist nicht leer';
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_property']['0']            = 'Spalte';
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_value']['0']               = 'Wert';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsUsePropertyFilter']['0']                  = 'Nach ';
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsUsePropertyFilter']['0']                  = 'Nach Eigenschaft Filtern';
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsUsePropertyFilter']['1']                  = 'Abonnenten nach Eigenschaften filtern.';
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipients_details']                                = 'Nur eingegebene Details';
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipients_member_details']                         = 'Eingegebene mit Mitgliederdetails mischen';
 
