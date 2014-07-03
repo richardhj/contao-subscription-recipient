@@ -49,6 +49,11 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipients_legend'] = 'Reci
 /**
  * Reference
  */
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipients'] = array(
+	'Integrated Recipients',
+	'Use the integrated recipient management.'
+);
+
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparators']['empty']     = 'is empty';
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparators']['not_empty'] = 'is not empty';
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparators']['eq']        = '==';
