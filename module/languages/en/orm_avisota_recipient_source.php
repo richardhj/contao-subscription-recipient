@@ -42,6 +42,11 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_co
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_value']      = array('Value');
 
 /**
+ * Legends
+ */
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipients_legend'] = 'Recipient settings';
+
+/**
  * Reference
  */
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparators']['empty']     = 'is empty';
