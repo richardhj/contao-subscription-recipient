@@ -20,7 +20,7 @@
  */
 $GLOBALS['TL_DCA']['orm_avisota_recipient_source']['metapalettes']['recipients'] = array(
 	'source'     => array('title', 'alias', 'type'),
-	'recipients' => array('recipientsManageSubscriptionPage'),
+	'recipients' => array('recipientsManageSubscriptionPage', 'recipientsUnsubscribePage'),
 	'details'    => array('recipientsDetails'),
 	'filter'     => array(
 		'filter',
@@ -99,7 +99,17 @@ $GLOBALS['TL_DCA']['orm_avisota_recipient_source']['fields']['recipientsManageSu
 	'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsManageSubscriptionPage'],
 	'inputType' => 'pageTree',
 	'eval'      => array(
-		'mandatory' => true,
+		'mandatory' => false,
+		'nullable'  => true,
+	),
+);
+
+$GLOBALS['TL_DCA']['orm_avisota_recipient_source']['fields']['recipientsUnsubscribePage'] = array
+(
+	'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsUnsubscribePage'],
+	'inputType' => 'pageTree',
+	'eval'      => array(
+		'mandatory' => false,
 		'nullable'  => true,
 	),
 );

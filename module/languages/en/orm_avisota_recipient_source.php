@@ -17,13 +17,13 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipients']                          = array(
-	'Select recipient&hellip;',
-	'Please choose how recipients are selected.'
-);
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsManageSubscriptionPage']    = array(
 	'Subscription management page',
 	'Please choose the subscription management page.'
+);
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsUnsubscribePage']    = array(
+	'Unsubscribe page',
+	'Please choose the page for direct unsubscription.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsDetails']                   = array(
 	'Fetch details from&hellip;',
