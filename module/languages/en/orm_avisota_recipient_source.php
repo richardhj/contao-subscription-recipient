@@ -53,6 +53,6 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_co
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparators']['lt']        = '<';
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparators']['lte']       = '<=';
 
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipients_details']        = 'only provided details';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['member_details']            = 'only member details';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipients_member_details'] = 'mix provided with member details';
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsDetailsTypes']['recipients_details']        = 'only provided details';
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsDetailsTypes']['member_details']            = 'only member details';
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsDetailsTypes']['recipients_member_details'] = 'mix provided with member details';
