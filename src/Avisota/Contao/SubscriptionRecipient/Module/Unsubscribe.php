@@ -70,7 +70,14 @@ class Unsubscribe extends AbstractRecipientForm
 			$mailingListIds
 		);
 
-		$form = $this->createForm($recipientFields);
+		$input  = \Input::getInstance();
+		$values = array();
+
+		if ($input->get('avisota_subscription_email')) {
+			$values['email'] = $input->get('avisota_subscription_email');
+		}
+
+		$form = $this->createForm($recipientFields, $values);
 
 		if ($form->validate()) {
 			/** @var EventDispatcher $eventDispatcher */

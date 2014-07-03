@@ -86,13 +86,19 @@ class Subscribe extends AbstractRecipientForm
 		}
 
 		$mailingListIds  = deserialize($this->avisota_mailing_lists, true);
-		$recipientFields = deserialize($this->avisota_recipient_fields, true);
+		$recipientFields = array_merge(array('email'), deserialize($this->avisota_recipient_fields, true));
 
 		$GLOBALS['TL_DCA']['orm_avisota_recipient']['fields']['mailingLists']['options'] = $this->loadMailingListOptions(
 			$mailingListIds
 		);
 
-		$form = $this->createForm($recipientFields);
+		$values = array();
+
+		if ($input->get('avisota_subscription_email')) {
+			$values['email'] = $input->get('avisota_subscription_email');
+		}
+
+		$form = $this->createForm($recipientFields, $values);
 
 		if ($form->validate()) {
 			/** @var EntityAccessor $entityAccessor */
