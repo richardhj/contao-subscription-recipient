@@ -35,10 +35,13 @@ use ContaoCommunityAlliance\Contao\Bindings\Events\System\LoadLanguageFileEvent;
 use ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEvent;
 use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\GetEditModeButtonsEvent;
 use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\GetPropertyOptionsEvent;
+use ContaoCommunityAlliance\DcGeneral\DcGeneralEvents;
 use ContaoCommunityAlliance\DcGeneral\EnvironmentInterface;
+use ContaoCommunityAlliance\DcGeneral\Event\ActionEvent;
 use ContaoCommunityAlliance\DcGeneral\Event\EventPropagator;
 use ContaoCommunityAlliance\DcGeneral\Factory\DcGeneralFactory;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -52,6 +55,7 @@ class EventsSubscriber implements EventSubscriberInterface
 	public static function getSubscribedEvents()
 	{
 		return array(
+			DcGeneralEvents::ACTION                                                                                                       => 'injectAutocompleter',
 			SubscriptionEvents::UNSUBSCRIBE                                                                                               => 'cleanRecipient',
 			SubscriptionEvents::CLEAN_SUBSCRIPTION                                                                                        => 'cleanRecipient',
 			SubscriptionEvents::PREPARE_SUBSCRIPTION                                                                                      => 'prepareSubscription',
@@ -71,6 +75,114 @@ class EventsSubscriber implements EventSubscriberInterface
 			RecipientDataContainerEvents::CREATE_SUBSCRIPTION_TEMPLATE_OPTIONS                                                            => 'createSubscriptionTemplateOptions',
 			'avisota.subscription-notification-center-bridge.build-tokens-from-recipient'                                                 => 'buildRecipientTokens',
 		);
+	}
+
+	public function injectAutocompleter(ActionEvent $event, $eventName, EventDispatcherInterface $eventDispatcher = null)
+	{
+		static $injected;
+
+		if (
+			!$injected &&
+			$event->getEnvironment()->getDataDefinition()->getName() == 'orm_avisota_salutation'
+		) {
+			// backwards compatibility
+			if (!$eventDispatcher) {
+				$eventDispatcher = $event->getDispatcher();
+			}
+
+			// load language file
+			$loadEvent = new LoadLanguageFileEvent('orm_avisota_recipient');
+			$eventDispatcher->dispatch(ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE, $loadEvent);
+
+			// load data container
+			$loadEvent = new LoadDataContainerEvent('orm_avisota_recipient');
+			$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_LOAD_DATA_CONTAINER, $loadEvent);
+
+			// inject styles
+			$GLOBALS['TL_CSS'][] = 'assets/avisota/subscription-recipient/css/meio.autocomplete.css';
+
+			// inject scripts
+			$GLOBALS['TL_JAVASCRIPT'][] = 'assets/avisota/subscription-recipient/js/Meio.Autocomplete.js';
+			$GLOBALS['TL_JAVASCRIPT'][] = 'assets/avisota/subscription-recipient/js/mootools-more-1.5.0.js';
+
+			// build container for orm_avisota_recipient
+			$factory = DcGeneralFactory::deriveFromEnvironment($event->getEnvironment());
+			$factory->setContainerName('orm_avisota_recipient');
+			$container = $factory->createContainer();
+
+			// build token list
+			$tokens = array();
+			foreach ($container->getPropertiesDefinition()->getPropertyNames() as $propertyName) {
+				$tokens[] = array(
+					'value' => $propertyName,
+					'text'  => sprintf('##%s##', $propertyName),
+				);
+			}
+			$tokens = json_encode($tokens);
+
+			// inject runtime code
+			$GLOBALS['TL_MOOTOOLS'][] = <<<EOF
+<script>
+var element = $('ctrl_salutation');
+if (element) {
+	var tokens = {$tokens};
+	var options = {
+		filter: {
+			type: 'contains',
+			path: 'text'
+		},
+		tokenize: {
+			get: function(element) {
+				var text     = element.get('value');
+				var position = element.getCaretPosition();
+				var start    = text.lastIndexOf(' ', position - 1);
+				var end      = text.indexOf(' ', position);
+
+				if (start == -1) {
+					start = 0;
+				}
+				else {
+					start ++;
+				}
+				if (end == -1) {
+					end = text.length;
+				}
+
+				var token = text.substring(start, end);
+				console.log('position: ' + position + ', start: ' + start + ', end: ' + end + ', token: ' + token);
+
+				return token;
+			},
+			set: function(element, token) {
+				var text     = element.get('value');
+				var position = element.getCaretPosition();
+				var start    = text.lastIndexOf(' ', position - 1);
+				var end      = text.indexOf(' ', position);
+
+				if (start == -1) {
+					start = 0;
+				}
+				else {
+					start ++;
+				}
+				if (end == -1) {
+					end = text.length;
+				}
+
+				text = text.substring(0, start) + token + text.substring(end);
+
+				element.set('value', text);
+				element.setCaretPosition(start + token.length);
+			}
+		}
+	};
+	new Meio.Autocomplete(element, tokens, options);
+}
+</script>
+EOF;
+
+			$injected = true;
+		}
 	}
 
 	public function cleanRecipient(SubscriptionAwareEvent $event)

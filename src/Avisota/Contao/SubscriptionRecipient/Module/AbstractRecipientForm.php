@@ -97,7 +97,7 @@ abstract class AbstractRecipientForm extends \TwigModule
 		return $options;
 	}
 
-	protected function createForm(array $availableFieldNames)
+	protected function createForm(array $availableFieldNames, array $values = array())
 	{
 		$class = new \ReflectionClass($this);
 
@@ -112,10 +112,13 @@ abstract class AbstractRecipientForm extends \TwigModule
 
 		foreach ($availableFieldNames as $availableFieldName) {
 			if (isset($GLOBALS['TL_DCA']['orm_avisota_recipient']['fields'][$availableFieldName])) {
-				$form->addFormField(
-					$availableFieldName,
-					$GLOBALS['TL_DCA']['orm_avisota_recipient']['fields'][$availableFieldName]
-				);
+				$dca = $GLOBALS['TL_DCA']['orm_avisota_recipient']['fields'][$availableFieldName];
+
+				if (isset($values[$availableFieldName])) {
+					$dca['value'] = $values[$availableFieldName];
+				}
+
+				$form->addFormField($availableFieldName, $dca);
 			}
 		}
 

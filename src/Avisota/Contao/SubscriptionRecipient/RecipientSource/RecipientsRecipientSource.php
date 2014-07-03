@@ -20,8 +20,11 @@ use Avisota\Contao\Entity\Recipient;
 use Avisota\Recipient\MutableRecipient;
 use Avisota\RecipientSource\RecipientSourceInterface;
 use Contao\Doctrine\ORM\EntityHelper;
+use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
+use ContaoCommunityAlliance\Contao\Bindings\Events\System\LoadLanguageFileEvent;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class AvisotaRecipientSourceIntegratedRecipients
@@ -42,6 +45,16 @@ class RecipientsRecipientSource implements RecipientSourceInterface
 	 * @var array
 	 */
 	protected $filteredProperties = array();
+
+	/**
+	 * @var string
+	 */
+	protected $manageSubscriptionUrlPattern = null;
+
+	/**
+	 * @var string
+	 */
+	protected $unsubscribeUrlPattern = null;
 
 	/**
 	 * Count the recipients.
@@ -83,11 +96,60 @@ class RecipientsRecipientSource implements RecipientSourceInterface
 
 		$mutableRecipients = array();
 
+		/** @var EventDispatcherInterface $eventDispatcher */
+		$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+
 		/** @var Recipient $recipient */
 		foreach ($recipients as $recipient) {
+			$properties = $entityAccessor->getPublicProperties($recipient, true);
+
+			if ($this->manageSubscriptionUrlPattern) {
+				$loadLanguageEvent = new LoadLanguageFileEvent('fe_avisota_subscription');
+				$eventDispatcher->dispatch(ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE, $loadLanguageEvent);
+
+				$url = $this->manageSubscriptionUrlPattern;
+				$url = preg_replace_callback(
+					'~##([^#]+)##~',
+					function ($matches) use ($properties) {
+						if (isset($properties[$matches[1]])) {
+							return $properties[$matches[1]];
+						}
+						return $matches[0];
+					},
+					$url
+				);
+
+				$properties['manage_subscription_link'] = array(
+					'url'  => $url,
+					'text' => &$GLOBALS['TL_LANG']['fe_avisota_subscription']['manage_subscription']
+				);
+			}
+
+			if ($this->unsubscribeUrlPattern) {
+				$loadLanguageEvent = new LoadLanguageFileEvent('fe_avisota_subscription');
+				$eventDispatcher->dispatch(ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE, $loadLanguageEvent);
+
+				$url = $this->unsubscribeUrlPattern;
+				$url = preg_replace_callback(
+					'~##([^#]+)##~',
+					function ($matches) use ($properties) {
+						if (isset($properties[$matches[1]])) {
+							return $properties[$matches[1]];
+						}
+						return $matches[0];
+					},
+					$url
+				);
+
+				$properties['unsubscribe_link'] = array(
+					'url'  => $url,
+					'text' => &$GLOBALS['TL_LANG']['fe_avisota_subscription']['unsubscribe_direct']
+				);
+			}
+
 			$mutableRecipients[] = new MutableRecipient(
 				$recipient->getEmail(),
-				$entityAccessor->getPublicProperties($recipient, true)
+				$properties
 			);
 		}
 
@@ -120,25 +182,23 @@ class RecipientsRecipientSource implements RecipientSourceInterface
 					case 'empty':
 						$queryBuilder->andWhere(
 							$expr->orX(
-								$expr->eq($property, ''),
+								$expr->eq($property, ':property' . $index),
 								$expr->isNull($property)
 							)
 						);
+						$value = '';
 						break;
 
 					case 'not empty':
 						$queryBuilder->andWhere(
-							$expr->gt($property, '')
+							$expr->gt($property, ':property' . $index)
 						);
+						$value = '';
 						break;
 
 					case 'eq':
 						$queryBuilder->andWhere(
 							$expr->eq($property, ':property' . $index)
-						);
-						$queryBuilder->setParameter(
-							':property' . $index,
-							$value
 						);
 						break;
 
@@ -146,19 +206,11 @@ class RecipientsRecipientSource implements RecipientSourceInterface
 						$queryBuilder->andWhere(
 							$expr->neq($property, ':property' . $index)
 						);
-						$queryBuilder->setParameter(
-							':property' . $index,
-							$value
-						);
 						break;
 
 					case 'gt':
 						$queryBuilder->andWhere(
 							$expr->gt($property, ':property' . $index)
-						);
-						$queryBuilder->setParameter(
-							':property' . $index,
-							$value
 						);
 						break;
 
@@ -166,19 +218,11 @@ class RecipientsRecipientSource implements RecipientSourceInterface
 						$queryBuilder->andWhere(
 							$expr->gte($property, ':property' . $index)
 						);
-						$queryBuilder->setParameter(
-							':property' . $index,
-							$value
-						);
 						break;
 
 					case 'lt':
 						$queryBuilder->andWhere(
 							$expr->lt($property, ':property' . $index)
-						);
-						$queryBuilder->setParameter(
-							':property' . $index,
-							$value
 						);
 						break;
 
@@ -186,12 +230,13 @@ class RecipientsRecipientSource implements RecipientSourceInterface
 						$queryBuilder->andWhere(
 							$expr->lte($property, ':property' . $index)
 						);
-						$queryBuilder->setParameter(
-							':property' . $index,
-							$value
-						);
 						break;
 				}
+
+				$queryBuilder->setParameter(
+					':property' . $index,
+					$value
+				);
 			}
 		}
 	}
@@ -228,5 +273,43 @@ class RecipientsRecipientSource implements RecipientSourceInterface
 	public function getFilteredProperties()
 	{
 		return $this->filteredProperties;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getManageSubscriptionUrlPattern()
+	{
+		return $this->manageSubscriptionUrlPattern;
+	}
+
+	/**
+	 * @param string $manageSubscriptionUrlPattern
+	 *
+	 * @return RecipientsRecipientSource
+	 */
+	public function setManageSubscriptionUrlPattern($manageSubscriptionUrlPattern)
+	{
+		$this->manageSubscriptionUrlPattern = empty($manageSubscriptionUrlPattern) ? null : (string) $manageSubscriptionUrlPattern;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUnsubscribeUrlPattern()
+	{
+		return $this->unsubscribeUrlPattern;
+	}
+
+	/**
+	 * @param string $unsubscribeUrlPattern
+	 *
+	 * @return RecipientsRecipientSource
+	 */
+	public function setUnsubscribeUrlPattern($unsubscribeUrlPattern)
+	{
+		$this->unsubscribeUrlPattern = empty($unsubscribeUrlPattern) ? null : (string) $unsubscribeUrlPattern;
+		return $this;
 	}
 }
