@@ -22,6 +22,7 @@ $GLOBALS['TL_LANG']['tl_module']['avisota_list_legend']                         
 $GLOBALS['TL_LANG']['tl_module']['avisota_list_template']['0']                     = 'Listen-Template';
 $GLOBALS['TL_LANG']['tl_module']['avisota_list_template']['1']                     = 'Wählen Sie hier das Template für die Mailing-Liste aus.';
 $GLOBALS['TL_LANG']['tl_module']['avisota_mail_legend']                            = 'Mail Einstellungen';
+$GLOBALS['TL_LANG']['tl_module']['avisota_mailing_lists']['0']                     = 'Ausgewählte / auswählbare Mailinglisten';
 $GLOBALS['TL_LANG']['tl_module']['avisota_notification_legend']                    = 'Erinnerung';
 $GLOBALS['TL_LANG']['tl_module']['avisota_reader_legend']                          = 'Mailing-Leser';
 $GLOBALS['TL_LANG']['tl_module']['avisota_reader_template']['0']                   = 'Leser-Template';
