@@ -77,7 +77,7 @@ class EventsSubscriber implements EventSubscriberInterface
 		);
 	}
 
-	public function injectAutocompleter(ActionEvent $event, $eventName, EventDispatcherInterface $eventDispatcher = null)
+	public function injectAutocompleter(ActionEvent $event, $eventName = null, EventDispatcherInterface $eventDispatcher = null)
 	{
 		static $injected;
 
