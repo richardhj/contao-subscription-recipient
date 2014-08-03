@@ -20,6 +20,9 @@ use Avisota\Contao\Entity\Recipient;
 use Avisota\Contao\SubscriptionRecipient\Event\MigrateRecipientEvent;
 use Avisota\Contao\SubscriptionRecipient\RecipientEvents;
 use Contao\Doctrine\ORM\EntityHelper;
+use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
+use ContaoCommunityAlliance\Contao\Bindings\Events\Backend\AddToUrlEvent;
+use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\RedirectEvent;
 use ContaoCommunityAlliance\DcGeneral\Data\ModelInterface;
 use ContaoCommunityAlliance\DcGeneral\Data\NoOpDataProvider;
 use Doctrine\DBAL\Driver\PDOStatement;
@@ -37,95 +40,19 @@ class RecipientMigrateDataProvider extends NoOpDataProvider
 		/** @var EventDispatcher $eventDispatcher */
 		$eventDispatcher = $container['event-dispatcher'];
 
-		/** @var \Doctrine\DBAL\Connection $connection */
-		$connection = $container['doctrine.connection.default'];
-
 		$migrationSettings = $objItem->getPropertiesAsArray();
 
-		$entityManager         = EntityHelper::getEntityManager();
-		$recipientRepository   = EntityHelper::getRepository('Avisota\Contao:Recipient');
-		$mailingListRepository = EntityHelper::getRepository('Avisota\Contao:MailingList');
-
-		$channels                  = array();
-		$channelMailingListMapping = array();
-		foreach ($migrationSettings['channels'] as $channel) {
-			$mailingList                         = $channel['mailingList'];
-			$channel                             = $channel['channel'];
-			$channels[]                          = $connection->quote($channel);
-			$channelMailingListMapping[$channel] = $mailingListRepository->find($mailingList);
+		do {
+			$migrationId = substr(md5(mt_rand()), 0, 8);
 		}
+		while (isset($_SESSION['AVISOTA_MIGRATE_RECIPIENT_' . $migrationId]));
 
-		$queryBuilder = $connection->createQueryBuilder();
-		/** @var PDOStatement $stmt */
-		$stmt = $queryBuilder
-			->select('*')
-			->from('tl_newsletter_recipients', 'r')
-			->where(
-				$queryBuilder
-					->expr()
-					->in('pid', $channels)
-			)
-			->execute();
+		$_SESSION['AVISOTA_MIGRATE_RECIPIENT_' . $migrationId] = $migrationSettings;
 
-		/** @var SubscriptionManager $subscriptionManager */
-		$subscriptionManager = $container['avisota.subscription'];
-		$subscribeOptions    = 0;
+		$addToUrlEvent= new AddToUrlEvent('act=migrate&migration=' . rawurlencode($migrationId));
+		$eventDispatcher->dispatch(ContaoEvents::BACKEND_ADD_TO_URL, $addToUrlEvent);
 
-		if ($migrationSettings['ignoreBlacklist']) {
-			$subscribeOptions |= SubscriptionManager::OPT_IGNORE_BLACKLIST;
-		}
-
-		$user = \BackendUser::getInstance();
-
-		$skipped  = 0;
-		$migrated = 0;
-
-		$contaoRecipients = $stmt->fetchAll();
-		foreach ($contaoRecipients as $contaoRecipientData) {
-			$recipient = $recipientRepository->findOneBy(array('email' => $contaoRecipientData['email']));
-
-			if (!$recipient) {
-				$recipient = new Recipient();
-				$recipient->setEmail($contaoRecipientData['email']);
-				$recipient->setAddedById($user->id);
-				$recipient->setAddedByName($user->name);
-				$recipient->setAddedByUsername($user->username);
-			}
-			else if (!$migrationSettings['overwrite']) {
-				$skipped++;
-				continue;
-			}
-
-			$mailingList = $channelMailingListMapping[$contaoRecipientData['pid']];
-
-			if (!$mailingList) {
-				// graceful ignore missing mailing lists
-				$skipped++;
-				continue;
-			}
-
-			$event = new MigrateRecipientEvent($migrationSettings, $contaoRecipientData, $recipient);
-			$eventDispatcher->dispatch(RecipientEvents::MIGRATE_RECIPIENT, $event);
-
-			$entityManager->persist($recipient);
-
-			$subscriptionManager->subscribe(
-				$recipient,
-				$mailingList,
-				($contaoRecipientData['active'] ? SubscriptionManager::OPT_ACTIVATE : 0) | $subscribeOptions
-			);
-
-			$migrated++;
-		}
-		$entityManager->flush();
-
-		if (!is_array($_SESSION['TL_CONFIRM'])) {
-			$_SESSION['TL_CONFIRM'] = (array) $_SESSION['TL_CONFIRM'];
-		}
-		$_SESSION['TL_CONFIRM'][] = sprintf(
-			$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['migrated'],
-			$migrated,
-			$skipped
-		);
+		$redirectEvent = new RedirectEvent($addToUrlEvent->getUrl());
+		$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $redirectEvent);
 	}
 }
