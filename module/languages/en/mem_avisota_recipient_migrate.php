@@ -36,13 +36,18 @@ $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['importFromMembers']    = a
  * Legends
  */
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['migrate_legend'] = 'Migrate recipients';
+$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['running']        = 'Migrate recipients &hellip;';
 
 /**
  * Messages
  */
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['migrated'] = '%d recipients migrated, %d skipped.';
+$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['created'] = '%s created';
+$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['skipped'] = '%s skipped';
+$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['overwritten'] = '%s overwritten';
 
 /**
  * Buttons
  */
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['submit'] = 'Migrate';
+$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['reload'] = 'Continue migration &hellip;';
