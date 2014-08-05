@@ -21,5 +21,6 @@ $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['migrate_legend']          
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['migrated']                  = '%d destinaturs èn vegnids migrads, %d surseglids.';
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['overwrite']['0']            = 'Surscriver l\'existent';
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['overwrite']['1']            = 'Surscriver ils destinaturs existents.';
+$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['running']                   = 'Migrar ils destinaturs &hellip;';
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['submit']                    = 'Migrar';
 
