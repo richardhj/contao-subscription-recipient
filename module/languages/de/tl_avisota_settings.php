@@ -12,6 +12,6 @@
  */
 
 $GLOBALS['TL_LANG']['tl_avisota_settings']['avisota_subscription_recipient_cleanup']['0'] = 'Empfänger bereinigen';
-$GLOBALS['TL_LANG']['tl_avisota_settings']['avisota_subscription_recipient_cleanup']['1'] = 'Empfänger entfernen, alle seine Abonnements gekündigt wurden.';
+$GLOBALS['TL_LANG']['tl_avisota_settings']['avisota_subscription_recipient_cleanup']['1'] = 'Empfänger werden entfernt wenn alle seine Abonnements gekündigt sind.';
 $GLOBALS['TL_LANG']['tl_avisota_settings']['subscription_recipient_legend']               = 'Empfänger';
 

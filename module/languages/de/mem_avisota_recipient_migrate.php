@@ -15,11 +15,16 @@ $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['channels']['0']           
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['channels']['1']             = 'Bitte wählen Sie die Kanäle und die Ziel-Mailinglisten.';
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['channels_channel']['0']     = 'Kanal';
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['channels_mailingList']['0'] = 'Mailingliste';
+$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['created']                   = '%s erzeugt';
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['importFromMembers']['0']    = 'Persönlichen Daten von Mitgliedern importieren';
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['importFromMembers']['1']    = 'Persönliche Daten von Mitgliedern importieren.';
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['migrate_legend']            = 'Empfänger übertragen';
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['migrated']                  = '%d Empfänger wurden übertragen, %d Empfänger wurden übersprungen.';
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['overwrite']['0']            = 'Bestehende überschreiben';
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['overwrite']['1']            = 'Die bereits vorhandenen Einträge werden überschrieben.';
+$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['overwritten']               = '%s überschrieben';
+$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['reload']                    = 'Mit Empfängerübertragung fortfahren &hellip;';
+$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['running']                   = 'Empfänger übertragen &hellip;';
+$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['skipped']                   = '%s übersprungen';
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['submit']                    = 'Migrieren';
 
