@@ -19,6 +19,10 @@ $GLOBALS['TL_LANG']['tl_module']['avisota_categories']['0']                     
 $GLOBALS['TL_LANG']['tl_module']['avisota_categories']['1']                           = 'Wählen Sie die Kategorien aus, aus denen die Mailing angezeigt werden sollen.';
 $GLOBALS['TL_LANG']['tl_module']['avisota_cleanup_legend']                            = 'Aufräumen';
 $GLOBALS['TL_LANG']['tl_module']['avisota_form_target']['0']                          = 'Zielseite (NICHT die Bestätigungssette)';
+$GLOBALS['TL_LANG']['tl_module']['avisota_form_target']['1']                          = 'Bitte wählen Sie die Seite aus auf der die übermittelten Daten geposted werden (diese Seite wird als &lt;form&gt; action gesetzt!). Beachten Sie dass das Modul dafür auf der Zielseite eingebunden werden muss.
+
+
+Please choose a page, the submitted form data will be posted (this page will set as &lt;form&gt; action!). Keep in mind that the module must be added on the target page!';
 $GLOBALS['TL_LANG']['tl_module']['avisota_list_legend']                               = 'Mailing-Liste';
 $GLOBALS['TL_LANG']['tl_module']['avisota_list_template']['0']                        = 'Listen-Template';
 $GLOBALS['TL_LANG']['tl_module']['avisota_list_template']['1']                        = 'Wählen Sie hier das Template für die Mailing-Liste aus.';
