@@ -1,62 +1,68 @@
 {
-	"name":"avisota/contao-subscription-recipient",
-	"description":"Independent recipients support for Avisota.",
-	"keywords":["avisota", "email", "mail", "newsletter", "marketing"],
-	"type":"contao-module",
-	"homepage":"http://avisota.org",
-	"license":"LGPL-3.0+",
-	"authors":[
-		{
-			"name":"Tristan Lins",
-			"email":"tristan.lins@bit3.de",
-			"homepage":"http://bit3.de",
-			"role":"Developer"
-		}
-	],
-	"support":{
-		"email":"info@bit3.de",
-		"issues":"https://github.com/avisota/contao-subscription-recipient/issues",
-		"forum":"https://community.contao.org/de/forumdisplay.php?121-Avisota",
-		"wiki":"http://de.contaowiki.org/Kategorie:Avisota",
-		"irc":"irc://irc.freenode.org/avisota",
-		"source":"https://github.com/avisota/contao-subscription-recipient"
-	},
-	"require":{
-		"php":">=5.3",
-        "contao-community-alliance/composer-plugin": "~2.0",
-		"contao/core": ">=2.11.11,<3.5",		
-		"avisota/contao-core": "~2.0",
-		"avisota/contao-subscription": "~2.0",
-		"menatwork/contao-multicolumnwizard": "~3.2-RC5",
-		"codefog/contao-haste": "~4.0"
-	},
-	"require-dev":{
-		"phpunit/phpunit":"3.7.*",
-		"squizlabs/php_codesniffer":"1.*",
-		"bit3/php-coding-standard":"~2.2"
-	},
-	"minimum-stability": "dev",
-	"prefer-stable": true,
-	"autoload":{
-		"psr-0":{
-			"Avisota\\Contao\\SubscriptionRecipient": "src/"
-		}
-	},
-	"extra": {
-		"contao": {
-			"sources": {
-				"module": "system/modules/avisota-subscription-recipient",
-				"assets": "assets/avisota/subscription-recipient"
-			},
-			"transifex": {
-				"project": "avisota-contao",
-				"prefix": "contao-subscription-recipient-",
-				"languages_cto": "module/languages",
-				"languages_tx": ".tx"
-			}
-		},
-		"branch-alias": {
-			"dev-develop": "2.0.x-dev"
-		}
-	}
+  "name": "avisota/contao-subscription-recipient",
+  "description": "Independent recipients support for Avisota.",
+  "keywords": [
+    "avisota",
+    "email",
+    "mail",
+    "newsletter",
+    "marketing"
+  ],
+  "type": "contao-module",
+  "homepage": "http://avisota.org",
+  "license": "LGPL-3.0+",
+  "authors": [
+    {
+      "name": "Tristan Lins",
+      "email": "tristan.lins@bit3.de",
+      "homepage": "http://bit3.de",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "email": "info@bit3.de",
+    "issues": "https://github.com/avisota/contao-subscription-recipient/issues",
+    "forum": "https://community.contao.org/de/forumdisplay.php?121-Avisota",
+    "wiki": "http://de.contaowiki.org/Kategorie:Avisota",
+    "irc": "irc://irc.freenode.org/avisota",
+    "source": "https://github.com/avisota/contao-subscription-recipient"
+  },
+  "require": {
+    "php": ">=5.3",
+    "contao-community-alliance/composer-plugin": "~2.0",
+    "contao/core": ">=2.11.11,<3.5",
+    "avisota/contao-core": "~2.0",
+    "avisota/contao-subscription": "~2.0",
+    "menatwork/contao-multicolumnwizard": "~3.2-RC5",
+    "codefog/contao-haste": "~4.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "3.7.*",
+    "squizlabs/php_codesniffer": "1.*",
+    "bit3/php-coding-standard": "~2.2"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-0": {
+      "Avisota\\Contao\\SubscriptionRecipient": "src/"
+    }
+  },
+  "extra": {
+    "contao": {
+      "sources": {
+        "module": "system/modules/avisota-subscription-recipient",
+        "assets": "assets/avisota/subscription-recipient"
+      },
+      "transifex": {
+        "project": "avisota-contao",
+        "prefix": "contao-subscription-recipient-",
+        "languages_cto": "module/languages",
+        "languages_tx": ".tx"
+      }
+    },
+    "branch-alias": {
+      "dev-develop": "2.0.x-dev"
+    }
+  }
 }
