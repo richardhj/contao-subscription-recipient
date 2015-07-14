@@ -35,12 +35,12 @@
     },
     "require": {
         "php": ">=5.3",
-        "contao-community-alliance/composer-plugin": "~2.0",
-        "contao/core": ">=2.11.11,<3.5",
-        "avisota/contao-core": "~2.0",
+        "contao-community-alliance/composer-plugin": "~2.3",
+        "contao/core": ">=2.11.11,<3.6",
+        "avisota/contao-core": "~2.2",
         "avisota/contao-subscription": "~2.0",
-        "menatwork/contao-multicolumnwizard": "~3.2-RC5",
-        "codefog/contao-haste": "~4.0"
+        "menatwork/contao-multicolumnwizard": "~3.3",
+        "codefog/contao-haste": "~4.7"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
