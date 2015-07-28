@@ -71,7 +71,7 @@ class EventsSubscriber implements EventSubscriberInterface
             SubscriptionEvents::CREATE_RECIPIENT_PROPERTIES_OPTIONS                                                                       => 'createRecipientPropertiesOptions',
             GetEditModeButtonsEvent::NAME                                                                                                 => 'getExportButtons',
             GetPropertyOptionsEvent::NAME . '[orm_avisota_recipient_source][recipientsPropertyFilter][recipientsPropertyFilter_property]' => 'bypassCreateRecipientPropertiesOptions',
-            GetPropertyOptionsEvent::NAME . '[mem_avisota_recipient_migrate][channels][mailingList]'                                      => 'bypassCreateMailingListOptions',
+            GetPropertyOptionsEvent::NAME                                                                                                 => 'bypassCreateMailingListOptions',
             GetEditModeButtonsEvent::NAME                                                                                                 => 'getMigrateButtons',
             DoctrineDbalEvents::INITIALIZE_EVENT_MANAGER                                                                                  => 'initializeEventManager',
             RecipientEvents::MIGRATE_RECIPIENT                                                                                            => 'collectMemberPersonals',
@@ -451,6 +451,10 @@ EOF;
 
     public function bypassCreateMailingListOptions(GetPropertyOptionsEvent $event)
     {
+        if (!in_array($event->getPropertyName(), array('mailingList', 'channel'))) {
+            return;
+        }
+
         /** @var OptionsBuilder $optionsBuilder */
         $optionsBuilder = $GLOBALS['container']['avisota.core.options-builder'];
 
