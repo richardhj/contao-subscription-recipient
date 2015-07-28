@@ -98,7 +98,8 @@ class EventsSubscriber implements EventSubscriberInterface
         ) {
             // backwards compatibility
             if (!$eventDispatcher) {
-                $eventDispatcher = $event->getDispatcher();
+                /** @var EventDispatcher $eventDispatcher */
+                $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
             }
 
             // load language file
@@ -507,7 +508,9 @@ EOF;
 
     public function initializeEventManager(InitializeEventManager $event)
     {
-        $bridge = new DoctrineBridgeSubscriber($event->getDispatcher());
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        $bridge = new DoctrineBridgeSubscriber($eventDispatcher);
 
         $eventManager = $event->getEventManager();
         $eventManager->addEventSubscriber($bridge);
