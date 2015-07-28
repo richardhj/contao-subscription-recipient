@@ -72,7 +72,7 @@ class EventsSubscriber implements EventSubscriberInterface
             GetEditModeButtonsEvent::NAME                                                                                                 => 'getExportButtons',
             GetPropertyOptionsEvent::NAME . '[orm_avisota_recipient_source][recipientsPropertyFilter][recipientsPropertyFilter_property]' => 'bypassCreateRecipientPropertiesOptions',
             GetPropertyOptionsEvent::NAME . '[mem_avisota_recipient_migrate][channels][mailingList]'                                      => 'bypassCreateMailingListOptions',
-            GetEditModeButtonsEvent::NAME . '[mem_avisota_recipient_migrate]'                                                             => 'getMigrateButtons',
+            GetEditModeButtonsEvent::NAME                                                                                                 => 'getMigrateButtons',
             DoctrineDbalEvents::INITIALIZE_EVENT_MANAGER                                                                                  => 'initializeEventManager',
             RecipientEvents::MIGRATE_RECIPIENT                                                                                            => 'collectMemberPersonals',
             RecipientEvents::EXPORT_RECIPIENT_PROPERTY                                                                                    => 'exportRecipientProperties',
@@ -485,6 +485,10 @@ EOF;
 
     public function getMigrateButtons(GetEditModeButtonsEvent $event)
     {
+        if ($event->getEnvironment()->getDataDefinition()->getName() != 'mem_avisota_recipient_migrate') {
+            return;
+        }
+
         $translator = $event->getEnvironment()->getTranslator();
 
         $buttons = array(
