@@ -45,6 +45,7 @@ use ContaoCommunityAlliance\DcGeneral\EnvironmentInterface;
 use ContaoCommunityAlliance\DcGeneral\Event\ActionEvent;
 use ContaoCommunityAlliance\DcGeneral\Event\EventPropagator;
 use ContaoCommunityAlliance\DcGeneral\Factory\DcGeneralFactory;
+use MenAtWork\MultiColumnWizard\Event\GetOptionsEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -72,7 +73,7 @@ class EventsSubscriber implements EventSubscriberInterface
             GetEditModeButtonsEvent::NAME                                                                                                 => 'getExportButtons',
             // TODO: Where come this event ??
             GetPropertyOptionsEvent::NAME . '[orm_avisota_recipient_source][recipientsPropertyFilter][recipientsPropertyFilter_property]' => 'bypassCreateRecipientPropertiesOptions',
-            GetPropertyOptionsEvent::NAME                                                                                                 => 'bypassCreateMailingListOptions',
+            GetOptionsEvent::NAME                                                                                                 => 'bypassCreateMailingListOptions',
             GetEditModeButtonsEvent::NAME                                                                                                 => 'getMigrateButtons',
             DoctrineDbalEvents::INITIALIZE_EVENT_MANAGER                                                                                  => 'initializeEventManager',
             RecipientEvents::MIGRATE_RECIPIENT                                                                                            => 'collectMemberPersonals',
@@ -451,9 +452,9 @@ EOF;
         $event->setOptions($options);
     }
 
-    public function bypassCreateMailingListOptions(GetPropertyOptionsEvent $event)
+    public function bypassCreateMailingListOptions(GetOptionsEvent $event)
     {
-        if (!in_array($event->getPropertyName(), array('mailingList', 'channel'))) {
+        if (!in_array($event->getSubPropertyName(), array('mailingList', 'channel'))) {
             return;
         }
 
