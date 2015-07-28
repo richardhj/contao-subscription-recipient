@@ -603,11 +603,9 @@ EOF;
         /** @var EventDispatcher $eventDispatcher */
         $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
 
-        $propagator = new EventPropagator($eventDispatcher);
-
         $dcGeneralFactory = new DcGeneralFactory();
         $dcGeneralFactory->setContainerName('orm_avisota_recipient');
-        $dcGeneralFactory->setEventPropagator($propagator);
+        $dcGeneralFactory->setEventDispatcher($eventDispatcher);
         $container = $dcGeneralFactory->createContainer();
 
         foreach ($container->getPropertiesDefinition()->getProperties() as $property) {
