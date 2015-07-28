@@ -69,7 +69,7 @@ class EventsSubscriber implements EventSubscriberInterface
             SubscriptionEvents::PREPARE_SUBSCRIPTION                                                                                      => 'prepareSubscription',
             SubscriptionEvents::RESOLVE_RECIPIENT                                                                                         => 'resolveRecipient',
             SubscriptionEvents::CREATE_RECIPIENT_PROPERTIES_OPTIONS                                                                       => 'createRecipientPropertiesOptions',
-            GetEditModeButtonsEvent::NAME . '[mem_avisota_recipient_export]'                                                              => 'getExportButtons',
+            GetEditModeButtonsEvent::NAME                                                                                                 => 'getExportButtons',
             GetPropertyOptionsEvent::NAME . '[orm_avisota_recipient_source][recipientsPropertyFilter][recipientsPropertyFilter_property]' => 'bypassCreateRecipientPropertiesOptions',
             GetPropertyOptionsEvent::NAME . '[mem_avisota_recipient_migrate][channels][mailingList]'                                      => 'bypassCreateMailingListOptions',
             GetEditModeButtonsEvent::NAME . '[mem_avisota_recipient_migrate]'                                                             => 'getMigrateButtons',
@@ -426,6 +426,10 @@ EOF;
 
     public function getExportButtons(GetEditModeButtonsEvent $event)
     {
+        if ($event->getEnvironment()->getDataDefinition()->getName() != 'mem_avisota_recipient_export') {
+            return;
+        }
+
         $translator = $event->getEnvironment()->getTranslator();
 
         $buttons = array(
