@@ -70,6 +70,7 @@ class EventsSubscriber implements EventSubscriberInterface
             SubscriptionEvents::RESOLVE_RECIPIENT                                                                                         => 'resolveRecipient',
             SubscriptionEvents::CREATE_RECIPIENT_PROPERTIES_OPTIONS                                                                       => 'createRecipientPropertiesOptions',
             GetEditModeButtonsEvent::NAME                                                                                                 => 'getExportButtons',
+            // TODO: Where come this event ??
             GetPropertyOptionsEvent::NAME . '[orm_avisota_recipient_source][recipientsPropertyFilter][recipientsPropertyFilter_property]' => 'bypassCreateRecipientPropertiesOptions',
             GetPropertyOptionsEvent::NAME                                                                                                 => 'bypassCreateMailingListOptions',
             GetEditModeButtonsEvent::NAME                                                                                                 => 'getMigrateButtons',
