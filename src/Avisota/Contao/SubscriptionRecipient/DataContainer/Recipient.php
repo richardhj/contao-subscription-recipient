@@ -50,7 +50,7 @@ class Recipient implements EventSubscriberInterface
 	{
 		return array(
 			DcGeneralEvents::ACTION                                                    => 'handleAction',
-			ModelToLabelEvent::NAME . '[orm_avisota_recipient]'                        => 'createLabel',
+			ModelToLabelEvent::NAME                        => 'createLabel',
 			DecodePropertyValueForWidgetEvent::NAME . '[orm_avisota_recipient][email]' => 'decodeEmail',
 		);
 	}
@@ -75,7 +75,7 @@ class Recipient implements EventSubscriberInterface
 		}
 
 		$environment      = $event->getEnvironment();
-		$eventPropagator  = $environment->getEventPropagator();
+		$eventDispatcher  = $environment->getEventDispatcher();
 		$action           = $event->getAction();
 		$name             = $action->getName();
 		$input            = $environment->getInputProvider();
@@ -101,12 +101,12 @@ class Recipient implements EventSubscriberInterface
 							: $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']
 					)
 				);
-				$eventPropagator->dispatch(ContaoEvents::MESSAGE_ADD, $event);
+				$eventDispatcher->dispatch(ContaoEvents::MESSAGE_ADD, $event);
 
 				$event = new RedirectEvent(
 					'contao/main.php?do=avisota_recipients#' . md5($subscription->getRecipient()->getEmail())
 				);
-				$environment->getEventPropagator()->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+				$environment->getEventDispatcher()->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
 				break;
 
 			case 'remove-subscription':
@@ -128,12 +128,12 @@ class Recipient implements EventSubscriberInterface
 							: $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']
 					)
 				);
-				$eventPropagator->dispatch(ContaoEvents::MESSAGE_ADD, $event);
+				$eventDispatcher->dispatch(ContaoEvents::MESSAGE_ADD, $event);
 
 				$event = new RedirectEvent(
 					'contao/main.php?do=avisota_recipients#' . md5($subscription->getRecipient()->getEmail())
 				);
-				$environment->getEventPropagator()->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+				$environment->getEventDispatcher()->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
 				break;
 
 			case 'subscribe-confirmed':
@@ -163,12 +163,12 @@ class Recipient implements EventSubscriberInterface
 							: $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']
 					)
 				);
-				$eventPropagator->dispatch(ContaoEvents::MESSAGE_ADD, $event);
+				$eventDispatcher->dispatch(ContaoEvents::MESSAGE_ADD, $event);
 
 				$event = new RedirectEvent(
 					'contao/main.php?do=avisota_recipients#' . md5($recipient->getEmail())
 				);
-				$eventPropagator->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+				$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
 				break;
 		}
 	}
@@ -182,6 +182,10 @@ class Recipient implements EventSubscriberInterface
 	 */
 	public function createLabel(ModelToLabelEvent $event)
 	{
+		if ($event->getModel()->getProviderName() != 'orm_avisota_recipient') {
+			return;
+		}
+
 		global $container;
 
 		/** @var EntityModel $model */
