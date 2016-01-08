@@ -2,12 +2,12 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright (C) 2013 Tristan Lins
+ * Copyright © 2015 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
+ * @copyright  way.vision 2015
+ * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-subscription-recipient
  * @license    LGPL-3.0+
  * @filesource
@@ -25,11 +25,6 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class ModuleAvisotaRecipientForm
- *
- *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
- * @package    avisota/contao-subscription-recipient
  */
 abstract class AbstractRecipientForm extends \TwigModule
 {
