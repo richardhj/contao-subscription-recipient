@@ -19,18 +19,18 @@
  */
 $GLOBALS['TL_DCA']['orm_avisota_subscription']['fields']['recipient'] = array
 (
-	'label'     => &$GLOBALS['TL_LANG']['orm_avisota_subscription']['recipient'],
-	'manyToOne' => array(
-		'index'        => true,
-		'targetEntity' => 'Avisota\Contao\Entity\Recipient',
-		'cascade'      => array('persist', 'detach', 'merge', 'refresh'),
-		'inversedBy'   => 'subscriptions',
-		'joinColumns'  => array(
-			array(
-				'name'                 => 'recipient',
-				'referencedColumnName' => 'id',
-				'nullable'             => true,
-			)
-		),
-	),
+    'label'     => &$GLOBALS['TL_LANG']['orm_avisota_subscription']['recipient'],
+    'manyToOne' => array(
+        'index'        => true,
+        'targetEntity' => 'Avisota\Contao\Entity\Recipient',
+        'cascade'      => array('persist', 'detach', 'merge', 'refresh'),
+        'inversedBy'   => 'subscriptions',
+        'joinColumns'  => array(
+            array(
+                'name'                 => 'recipient',
+                'referencedColumnName' => 'id',
+                'nullable'             => true,
+            )
+        ),
+    ),
 );

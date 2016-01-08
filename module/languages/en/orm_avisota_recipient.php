@@ -18,93 +18,93 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['id']               = array(
-	'ID'
+    'ID'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['createdAt']        = array(
-	'Created at'
+    'Created at'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['updatedAt']        = array(
-	'Last modified at'
+    'Last modified at'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['email']            = array(
-	'Email',
-	'Please enter the email address.'
+    'Email',
+    'Please enter the email address.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['title']            = array(
-	'Title',
-	'Please enter the recipients title.'
+    'Title',
+    'Please enter the recipients title.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['forename']         = array(
-	'Forename',
-	'Please enter the recipients forename.'
+    'Forename',
+    'Please enter the recipients forename.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['surname']          = array(
-	'Surname',
-	'Please enter the recipients surname.'
+    'Surname',
+    'Please enter the recipients surname.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['gender']           = array(
-	'Gender',
-	'Please choose the recipients gender.'
+    'Gender',
+    'Please choose the recipients gender.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['company']          = array(
-	'Company',
-	'Here you can enter a company name.'
+    'Company',
+    'Here you can enter a company name.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['street']           = array(
-	'Street',
-	'Please enter the street name and number.'
+    'Street',
+    'Please enter the street name and number.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['postal']           = array(
-	'Postal code',
-	'Please enter the postal code.'
+    'Postal code',
+    'Please enter the postal code.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['city']             = array(
-	'City',
-	'Plase enter the name of the city.'
+    'City',
+    'Plase enter the name of the city.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['state']            = array(
-	'State',
-	'Plase enter the name of the state.'
+    'State',
+    'Plase enter the name of the state.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['country']          = array(
-	'Country',
-	'Please select the country.'
+    'Country',
+    'Please select the country.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingLists']     = array(
-	'Mailing lists',
+    'Mailing lists',
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingListIds']   = array(
-	'Mailing list IDs',
+    'Mailing list IDs',
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['mailingListNames'] = array(
-	'Mailing list names',
+    'Mailing list names',
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedById']        = array(
-	'Added by user ID',
-	'The ID of the user who added this recipient.'
+    'Added by user ID',
+    'The ID of the user who added this recipient.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedByUsername']  = array(
-	'Added by username',
-	'The username of the user who added this recipient.'
+    'Added by username',
+    'The username of the user who added this recipient.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['addedByName']      = array(
-	'Added by name',
-	'The name of the user who added this recipient.'
+    'Added by name',
+    'The name of the user who added this recipient.'
 );
 
 
 // TODO remove
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['confirmed']          = array(
-	'Confirmed',
-	'This account has been confirmed.'
+    'Confirmed',
+    'This account has been confirmed.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['lists']              = array(
-	'Mailing lists',
-	'Please choose the subscribed mailing lists.'
+    'Mailing lists',
+    'Please choose the subscribed mailing lists.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscriptionAction'] = array(
-	'Activation',
-	'Please choose the activation method for subscriptions on new mailing lists.'
+    'Activation',
+    'Please choose the activation method for subscriptions on new mailing lists.'
 );
 
 
@@ -148,20 +148,20 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_mailingList'] = 'Mail
  * Buttons
  */
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['new']                          = array(
-	'New recipient',
-	'Add a new recipient'
+    'New recipient',
+    'Add a new recipient'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['show']                         = array(
-	'Recipient details',
-	'Show the details of recipient ID %s'
+    'Recipient details',
+    'Show the details of recipient ID %s'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['delete']                       = array(
-	'Delete recipient',
-	'Delete recipient ID %s'
+    'Delete recipient',
+    'Delete recipient ID %s'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['edit']                         = array(
-	'Edit recipient',
-	'Edit recipient ID %s'
+    'Edit recipient',
+    'Edit recipient ID %s'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe_globally']           = 'Subscribe globally';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe']                    = 'Subscribe to this mailing list';
@@ -171,18 +171,18 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient']['confirm_subscription']         = '
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['unsubscribe_globally']         = 'Unsubscribe globally';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['unsubscribe']                  = 'Unsubscribe from this mailing list';
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['migrate']                      = array(
-	'Migrate',
-	'Migrate recipients from Contao newsletter system.'
+    'Migrate',
+    'Migrate recipients from Contao newsletter system.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['import']                       = array(
-	'CSV import',
-	'Import recipients from a CSV file.'
+    'CSV import',
+    'Import recipients from a CSV file.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['export']                       = array(
-	'CSV export',
-	'Export recipients to a CSV file.'
+    'CSV export',
+    'Export recipients to a CSV file.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient']['remove']                       = array(
-	'CSV delete',
-	'Delete recipients from a CSV file.'
+    'CSV delete',
+    'Delete recipients from a CSV file.'
 );

@@ -20,5 +20,5 @@ use Symfony\Component\EventDispatcher\Event;
 
 class CreateRecipientEvent extends RecipientAwareEvent
 {
-	const NAME = 'Avisota\Contao\Core\Event\CreateRecipient';
+    const NAME = 'Avisota\Contao\Core\Event\CreateRecipient';
 }

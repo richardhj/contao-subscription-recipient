@@ -18,8 +18,8 @@
  * Module
  */
 $GLOBALS['TL_LANG']['MOD']['avisota-subscription-recipient'] = array(
-	'Avisota - Subscription for recipients',
-	'Recipient management and subscription for Avisota.'
+    'Avisota - Subscription for recipients',
+    'Recipient management and subscription for Avisota.'
 );
 
 /**

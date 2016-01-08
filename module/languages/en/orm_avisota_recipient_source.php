@@ -18,24 +18,24 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsManageSubscriptionPage']    = array(
-	'Subscription management page',
-	'Please choose the subscription management page.'
+    'Subscription management page',
+    'Please choose the subscription management page.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsUnsubscribePage']    = array(
-	'Unsubscribe page',
-	'Please choose the page for direct unsubscription.'
+$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsUnsubscribePage']           = array(
+    'Unsubscribe page',
+    'Please choose the page for direct unsubscription.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsDetails']                   = array(
-	'Fetch details from&hellip;',
-	'Please choose where the details should be fetched from.'
+    'Fetch details from&hellip;',
+    'Please choose where the details should be fetched from.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsUsePropertyFilter']         = array(
-	'Filter by properties',
-	'Filter recipients by properties and values.'
+    'Filter by properties',
+    'Filter recipients by properties and values.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter']            = array(
-	'Properties filter',
-	'Filter the recipients by property values.'
+    'Properties filter',
+    'Filter the recipients by property values.'
 );
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_property']   = array('Column');
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparator'] = array('Comparator');
@@ -50,8 +50,8 @@ $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipients_legend'] = 'Reci
  * Reference
  */
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipients'] = array(
-	'Integrated Recipients',
-	'Use the integrated recipient management.'
+    'Integrated Recipients',
+    'Use the integrated recipient management.'
 );
 
 $GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_comparators']['empty']     = 'is empty';

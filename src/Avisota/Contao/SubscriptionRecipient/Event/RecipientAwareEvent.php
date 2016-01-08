@@ -20,21 +20,21 @@ use Symfony\Component\EventDispatcher\Event;
 
 class RecipientAwareEvent extends Event
 {
-	/**
-	 * @var Recipient
-	 */
-	protected $recipient;
+    /**
+     * @var Recipient
+     */
+    protected $recipient;
 
-	function __construct(Recipient $recipient)
-	{
-		$this->recipient = $recipient;
-	}
+    function __construct(Recipient $recipient)
+    {
+        $this->recipient = $recipient;
+    }
 
-	/**
-	 * @return Recipient
-	 */
-	public function getRecipient()
-	{
-		return $this->recipient;
-	}
+    /**
+     * @return Recipient
+     */
+    public function getRecipient()
+    {
+        return $this->recipient;
+    }
 }

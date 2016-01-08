@@ -21,18 +21,18 @@ use Contao\Doctrine\ORM\EntityHelper;
 
 class Subscription extends \Controller
 {
-	static public function collectSubscriptionLists(CollectSubscriptionListsEvent $event)
-	{
-		$mailingListRepository = EntityHelper::getRepository('Avisota\Contao:MailingList');
-		/** @var MailingList[] $mailingLists */
-		$mailingLists = $mailingListRepository->findAll();
+    static public function collectSubscriptionLists(CollectSubscriptionListsEvent $event)
+    {
+        $mailingListRepository = EntityHelper::getRepository('Avisota\Contao:MailingList');
+        /** @var MailingList[] $mailingLists */
+        $mailingLists = $mailingListRepository->findAll();
 
-		$mailingListOptions = array();
-		foreach ($mailingLists as $mailingList) {
-			$mailingListOptions['mailing_list:' . $mailingList->id()] = $mailingList->getTitle();
-		}
+        $mailingListOptions = array();
+        foreach ($mailingLists as $mailingList) {
+            $mailingListOptions['mailing_list:' . $mailingList->id()] = $mailingList->getTitle();
+        }
 
-		$options = $event->getOptions();
-		$options['mailing_list'] = $mailingListOptions;
-	}
+        $options                 = $event->getOptions();
+        $options['mailing_list'] = $mailingListOptions;
+    }
 }

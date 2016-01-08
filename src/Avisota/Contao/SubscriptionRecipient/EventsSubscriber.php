@@ -73,7 +73,7 @@ class EventsSubscriber implements EventSubscriberInterface
             GetEditModeButtonsEvent::NAME                                                                                                 => 'getExportButtons',
             // TODO: Where come this event ??
             GetPropertyOptionsEvent::NAME . '[orm_avisota_recipient_source][recipientsPropertyFilter][recipientsPropertyFilter_property]' => 'bypassCreateRecipientPropertiesOptions',
-            GetOptionsEvent::NAME                                                                                                 => 'bypassCreateMailingListOptions',
+            GetOptionsEvent::NAME                                                                                                         => 'bypassCreateMailingListOptions',
             GetEditModeButtonsEvent::NAME                                                                                                 => 'getMigrateButtons',
             DoctrineDbalEvents::INITIALIZE_EVENT_MANAGER                                                                                  => 'initializeEventManager',
             RecipientEvents::MIGRATE_RECIPIENT                                                                                            => 'collectMemberPersonals',
@@ -512,7 +512,7 @@ EOF;
     {
         /** @var EventDispatcher $eventDispatcher */
         $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
-        $bridge = new DoctrineBridgeSubscriber($eventDispatcher);
+        $bridge          = new DoctrineBridgeSubscriber($eventDispatcher);
 
         $eventManager = $event->getEventManager();
         $eventManager->addEventSubscriber($bridge);

@@ -20,5 +20,5 @@ use Symfony\Component\EventDispatcher\Event;
 
 class RemoveRecipientEvent extends RecipientAwareEvent
 {
-	const NAME = 'Avisota\Contao\Core\Event\RemoveRecipient';
+    const NAME = 'Avisota\Contao\Core\Event\RemoveRecipient';
 }

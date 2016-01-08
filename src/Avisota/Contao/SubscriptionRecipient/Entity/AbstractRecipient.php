@@ -21,80 +21,80 @@ use Contao\Doctrine\ORM\Annotation\Accessor;
 
 abstract class AbstractRecipient implements SubscriptionRecipientInterface
 {
-	/**
-	 * @var string
-	 */
-	protected $id;
+    /**
+     * @var string
+     */
+    protected $id;
 
-	/**
-	 * @var string
-	 */
-	protected $email;
+    /**
+     * @var string
+     */
+    protected $email;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getEmail()
-	{
-		return $this->email;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
 
-	/**
-	 * @param string $email
-	 */
-	public function setEmail($email)
-	{
-		$this->email = strtolower($email);
-		$this->email = \Contao\Doctrine\ORM\EntityHelper::callSetterCallbacks($this, static::TABLE_NAME, 'email', $email);
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = strtolower($email);
+        $this->email = \Contao\Doctrine\ORM\EntityHelper::callSetterCallbacks($this, static::TABLE_NAME, 'email', $email);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function hasDetails()
-	{
-		return true;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function hasDetails()
+    {
+        return true;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get($name)
-	{
-		$getter = 'get' . ucfirst($name);
-		return $this->$getter();
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function get($name)
+    {
+        $getter = 'get' . ucfirst($name);
+        return $this->$getter();
+    }
 
-	/**
-	 * {@inheritdoc}
-	 *
-	 * @Accessor(ignore=true)
-	 */
-	public function getDetails()
-	{
-		/** @var EntityAccessor $entityAccessor */
-		$entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
-		$details = $entityAccessor->getPublicProperties($this, true);
-		return $details;
-	}
+    /**
+     * {@inheritdoc}
+     *
+     * @Accessor(ignore=true)
+     */
+    public function getDetails()
+    {
+        /** @var EntityAccessor $entityAccessor */
+        $entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
+        $details        = $entityAccessor->getPublicProperties($this, true);
+        return $details;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 *
-	 * @Accessor(ignore=true)
-	 */
-	public function getKeys()
-	{
-		return array_keys($this->getDetails());
-	}
+    /**
+     * {@inheritdoc}
+     *
+     * @Accessor(ignore=true)
+     */
+    public function getKeys()
+    {
+        return array_keys($this->getDetails());
+    }
 }

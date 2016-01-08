@@ -34,65 +34,66 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  */
 class Activation extends AbstractRecipientForm
 {
-	protected $strTemplate = 'avisota/subscription-recipient/mod_avisota_activation';
+    protected $strTemplate = 'avisota/subscription-recipient/mod_avisota_activation';
 
-	/**
-	 * @return string
-	 */
-	public function generate()
-	{
-		if (TL_MODE == 'BE') {
-			$template           = new \BackendTemplate('be_wildcard');
-			$template->wildcard = '### Avisota activation module ###';
-			return $template->parse();
-		}
+    /**
+     * @return string
+     */
+    public function generate()
+    {
+        if (TL_MODE == 'BE') {
+            $template           = new \BackendTemplate('be_wildcard');
+            $template->wildcard = '### Avisota activation module ###';
+            return $template->parse();
+        }
 
-		return parent::generate();
-	}
+        return parent::generate();
+    }
 
 
-	/**
-	 * Generate the content element
-	 */
-	public function compile()
-	{
-		$input = \Input::getInstance();
+    /**
+     * Generate the content element
+     */
+    public function compile()
+    {
+        $input = \Input::getInstance();
 
-		/** @var SubscriptionManager $subscriptionManager */
-		$subscriptionManager = $GLOBALS['container']['avisota.subscription'];
+        /** @var SubscriptionManager $subscriptionManager */
+        $subscriptionManager = $GLOBALS['container']['avisota.subscription'];
 
-		/** @var EventDispatcher $eventDispatcher */
-		$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
 
-		$token = (array) $input->get('token');
+        $token = (array) $input->get('token');
 
-		if (count($token)) {
-			$subscriptions = $subscriptionManager->confirmByToken($token);
+        if (count($token)) {
+            $subscriptions = $subscriptionManager->confirmByToken($token);
 
-			$_SESSION['AVISOTA_LAST_SUBSCRIPTIONS'] = $subscriptions;
+            $_SESSION['AVISOTA_LAST_SUBSCRIPTIONS'] = $subscriptions;
 
-			if ($this->avisota_activation_confirmation_page) {
-				$event = new GetPageDetailsEvent($this->avisota_activation_confirmation_page);
-				$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $event);
+            if ($this->avisota_activation_confirmation_page) {
+                $event = new GetPageDetailsEvent($this->avisota_activation_confirmation_page);
+                $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $event);
 
-				$event = new GenerateFrontendUrlEvent($event->getPageDetails());
-				$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GENERATE_FRONTEND_URL, $event);
+                $event = new GenerateFrontendUrlEvent($event->getPageDetails());
+                $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GENERATE_FRONTEND_URL, $event);
 
-				$event = new RedirectEvent($event->getUrl());
-				$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
-			}
+                $event = new RedirectEvent($event->getUrl());
+                $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+            }
 
-			$this->Template->confirmed = $subscriptions;
-		}
-		else if ($this->avisota_activation_redirect_page) {
-			$event = new GetPageDetailsEvent($this->avisota_activation_redirect_page);
-			$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $event);
+            $this->Template->confirmed = $subscriptions;
+        } else {
+            if ($this->avisota_activation_redirect_page) {
+                $event = new GetPageDetailsEvent($this->avisota_activation_redirect_page);
+                $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $event);
 
-			$event = new GenerateFrontendUrlEvent($event->getPageDetails());
-			$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GENERATE_FRONTEND_URL, $event);
+                $event = new GenerateFrontendUrlEvent($event->getPageDetails());
+                $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GENERATE_FRONTEND_URL, $event);
 
-			$event = new RedirectEvent($event->getUrl());
-			$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
-		}
-	}
+                $event = new RedirectEvent($event->getUrl());
+                $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+            }
+        }
+    }
 }

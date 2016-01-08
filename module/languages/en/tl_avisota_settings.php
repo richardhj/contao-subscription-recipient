@@ -18,8 +18,8 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['tl_avisota_settings']['avisota_subscription_recipient_cleanup'] = array(
-	'Clean recipients',
-	'When a recipient remove all its subscriptions, remove him too.'
+    'Clean recipients',
+    'When a recipient remove all its subscriptions, remove him too.'
 );
 
 /**

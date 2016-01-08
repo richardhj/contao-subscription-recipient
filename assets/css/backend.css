@@ -1,34 +1,50 @@
 .header_recipient_migrate {
-  background: url("../images/recipient_migrate.png") no-repeat scroll left center transparent;
-  padding: 2px 0 3px 20px; }
+    background: url("../images/recipient_migrate.png") no-repeat scroll left center transparent;
+    padding: 2px 0 3px 20px;
+}
 
 .header_recipient_import {
-  background: url("../images/recipient_import.png") no-repeat scroll left center transparent;
-  padding: 2px 0 3px 20px; }
+    background: url("../images/recipient_import.png") no-repeat scroll left center transparent;
+    padding: 2px 0 3px 20px;
+}
 
 .header_recipient_export {
-  background: url("../images/recipient_export.png") no-repeat scroll left center transparent;
-  padding: 2px 0 3px 20px; }
+    background: url("../images/recipient_export.png") no-repeat scroll left center transparent;
+    padding: 2px 0 3px 20px;
+}
 
 .header_recipient_remove {
-  background: url("../images/recipient_remove.png") no-repeat scroll left center transparent;
-  padding: 2px 0 3px 20px; }
+    background: url("../images/recipient_remove.png") no-repeat scroll left center transparent;
+    padding: 2px 0 3px 20px;
+}
 
 img.expand,
 img.fold {
-  margin-right: .5em;
-  cursor: pointer; }
+    margin-right: .5em;
+    cursor: pointer;
+}
 
 table.subscriptions {
-  width: 100%; }
-  table.subscriptions .tl_file_list, .tl_listing tr.odd table.subscriptions td, .tl_listing tr.even table.subscriptions td {
-    background-color: transparent; }
-  table.subscriptions tr:last-of-type .tl_file_list {
-    border-bottom: none; }
-  table.subscriptions td.not-subscribed {
-    color: #ccc; }
-  table.subscriptions td:not(.tl_right_nowrap) {
-    padding-left: 26px !important; }
-    table.subscriptions td:not(.tl_right_nowrap) img {
-      float: left;
-      margin-left: -20px; }
+    width: 100%;
+}
+
+table.subscriptions .tl_file_list, .tl_listing tr.odd table.subscriptions td, .tl_listing tr.even table.subscriptions td {
+    background-color: transparent;
+}
+
+table.subscriptions tr:last-of-type .tl_file_list {
+    border-bottom: none;
+}
+
+table.subscriptions td.not-subscribed {
+    color: #ccc;
+}
+
+table.subscriptions td:not(.tl_right_nowrap) {
+    padding-left: 26px !important;
+}
+
+table.subscriptions td:not(.tl_right_nowrap) img {
+    float: left;
+    margin-left: -20px;
+}

@@ -18,18 +18,18 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['channels']             = array(
-	'Channels',
-	'Please choose the channels and the target mailing lists.'
+    'Channels',
+    'Please choose the channels and the target mailing lists.'
 );
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['channels_channel']     = array('Channel');
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['channels_mailingList'] = array('Mailing list');
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['overwrite']            = array(
-	'Overwrite existing',
-	'Overwrite existing recipients.'
+    'Overwrite existing',
+    'Overwrite existing recipients.'
 );
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['importFromMembers']    = array(
-	'Import personals from Members',
-	'Import the personal data from the members.'
+    'Import personals from Members',
+    'Import the personal data from the members.'
 );
 
 /**
@@ -41,9 +41,9 @@ $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['running']        = 'Migrat
 /**
  * Messages
  */
-$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['migrated'] = '%d recipients migrated, %d skipped.';
-$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['created'] = '%s created';
-$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['skipped'] = '%s skipped';
+$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['migrated']    = '%d recipients migrated, %d skipped.';
+$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['created']     = '%s created';
+$GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['skipped']     = '%s skipped';
 $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['overwritten'] = '%s overwritten';
 
 /**

@@ -20,73 +20,73 @@ use Symfony\Component\EventDispatcher\Event;
 
 class ExportRecipientPropertyEvent extends RecipientAwareEvent
 {
-	/**
-	 * @var string
-	 */
-	protected $propertyName;
+    /**
+     * @var string
+     */
+    protected $propertyName;
 
-	/**
-	 * @var mixed
-	 */
-	protected $propertyValue;
+    /**
+     * @var mixed
+     */
+    protected $propertyValue;
 
-	/**
-	 * @var string
-	 */
-	protected $string;
+    /**
+     * @var string
+     */
+    protected $string;
 
-	/**
-	 * @param Recipient $recipient
-	 * @param string    $propertyName
-	 * @param mixed     $propertyValue
-	 */
-	function __construct(Recipient $recipient, $propertyName, $propertyValue = null, $string = null)
-	{
-		parent::__construct($recipient);
-		$this->propertyName  = (string) $propertyName;
-		$this->propertyValue = $propertyValue;
-		$this->string        = $string === null ? null : (string) $string;
-	}
+    /**
+     * @param Recipient $recipient
+     * @param string    $propertyName
+     * @param mixed     $propertyValue
+     */
+    function __construct(Recipient $recipient, $propertyName, $propertyValue = null, $string = null)
+    {
+        parent::__construct($recipient);
+        $this->propertyName  = (string) $propertyName;
+        $this->propertyValue = $propertyValue;
+        $this->string        = $string === null ? null : (string) $string;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getPropertyName()
-	{
-		return $this->propertyName;
-	}
+    /**
+     * @return string
+     */
+    public function getPropertyName()
+    {
+        return $this->propertyName;
+    }
 
-	/**
-	 * @param mixed $propertyValue
-	 */
-	public function setPropertyValue($propertyValue)
-	{
-		$this->propertyValue = $propertyValue;
-		return $this;
-	}
+    /**
+     * @param mixed $propertyValue
+     */
+    public function setPropertyValue($propertyValue)
+    {
+        $this->propertyValue = $propertyValue;
+        return $this;
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function getPropertyValue()
-	{
-		return $this->propertyValue;
-	}
+    /**
+     * @return mixed
+     */
+    public function getPropertyValue()
+    {
+        return $this->propertyValue;
+    }
 
-	/**
-	 * @param string $string
-	 */
-	public function setString($string)
-	{
-		$this->string = $string === null ? null : (string) $string;
-		return $this;
-	}
+    /**
+     * @param string $string
+     */
+    public function setString($string)
+    {
+        $this->string = $string === null ? null : (string) $string;
+        return $this;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getString()
-	{
-		return $this->string;
-	}
+    /**
+     * @return string
+     */
+    public function getString()
+    {
+        return $this->string;
+    }
 }

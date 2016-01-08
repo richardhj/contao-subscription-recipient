@@ -18,7 +18,7 @@
  * Palettes
  */
 $GLOBALS['TL_DCA']['tl_avisota_settings']['metapalettes']['default']['subscription_recipient'] = array(
-	'avisota_subscription_recipient_cleanup'
+    'avisota_subscription_recipient_cleanup'
 );
 
 /**
@@ -26,10 +26,10 @@ $GLOBALS['TL_DCA']['tl_avisota_settings']['metapalettes']['default']['subscripti
  */
 $GLOBALS['TL_DCA']['tl_avisota_settings']['fields']['avisota_subscription_recipient_cleanup'] = array
 (
-	'exclude'   => true,
-	'label'     => &$GLOBALS['TL_LANG']['tl_avisota_settings']['avisota_subscription_recipient_cleanup'],
-	'inputType' => 'checkbox',
-	'eval'      => array(
-		'tl_class' => 'clr'
-	)
+    'exclude'   => true,
+    'label'     => &$GLOBALS['TL_LANG']['tl_avisota_settings']['avisota_subscription_recipient_cleanup'],
+    'inputType' => 'checkbox',
+    'eval'      => array(
+        'tl_class' => 'clr'
+    )
 );

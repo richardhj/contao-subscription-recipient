@@ -30,29 +30,28 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class RecipientMigrateDataProvider extends NoOpDataProvider
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function save(ModelInterface $objItem)
-	{
-		global $container;
+    /**
+     * {@inheritdoc}
+     */
+    public function save(ModelInterface $objItem)
+    {
+        global $container;
 
-		/** @var EventDispatcher $eventDispatcher */
-		$eventDispatcher = $container['event-dispatcher'];
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $container['event-dispatcher'];
 
-		$migrationSettings = $objItem->getPropertiesAsArray();
+        $migrationSettings = $objItem->getPropertiesAsArray();
 
-		do {
-			$migrationId = substr(md5(mt_rand()), 0, 8);
-		}
-		while (isset($_SESSION['AVISOTA_MIGRATE_RECIPIENT_' . $migrationId]));
+        do {
+            $migrationId = substr(md5(mt_rand()), 0, 8);
+        } while (isset($_SESSION['AVISOTA_MIGRATE_RECIPIENT_' . $migrationId]));
 
-		$_SESSION['AVISOTA_MIGRATE_RECIPIENT_' . $migrationId] = $migrationSettings;
+        $_SESSION['AVISOTA_MIGRATE_RECIPIENT_' . $migrationId] = $migrationSettings;
 
-		$addToUrlEvent= new AddToUrlEvent('act=migrate&migration=' . rawurlencode($migrationId));
-		$eventDispatcher->dispatch(ContaoEvents::BACKEND_ADD_TO_URL, $addToUrlEvent);
+        $addToUrlEvent = new AddToUrlEvent('act=migrate&migration=' . rawurlencode($migrationId));
+        $eventDispatcher->dispatch(ContaoEvents::BACKEND_ADD_TO_URL, $addToUrlEvent);
 
-		$redirectEvent = new RedirectEvent($addToUrlEvent->getUrl());
-		$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $redirectEvent);
-	}
+        $redirectEvent = new RedirectEvent($addToUrlEvent->getUrl());
+        $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $redirectEvent);
+    }
 }

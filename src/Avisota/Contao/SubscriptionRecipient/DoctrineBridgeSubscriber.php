@@ -35,72 +35,72 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class DoctrineBridgeSubscriber implements EventSubscriber
 {
-	/**
-	 * @var EventDispatcher
-	 */
-	protected $eventDispatcher;
+    /**
+     * @var EventDispatcher
+     */
+    protected $eventDispatcher;
 
-	function __construct(EventDispatcher $eventDispatcher)
-	{
-		$this->eventDispatcher = $eventDispatcher;
-	}
+    function __construct(EventDispatcher $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
 
-	/**
-	 * @param EventDispatcher $eventDispatcher
-	 */
-	public function setEventDispatcher(EventDispatcher $eventDispatcher)
-	{
-		$this->eventDispatcher = $eventDispatcher;
-		return $this;
-	}
+    /**
+     * @param EventDispatcher $eventDispatcher
+     */
+    public function setEventDispatcher(EventDispatcher $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+        return $this;
+    }
 
-	/**
-	 * @return EventDispatcher
-	 */
-	public function getEventDispatcher()
-	{
-		return $this->eventDispatcher;
-	}
+    /**
+     * @return EventDispatcher
+     */
+    public function getEventDispatcher()
+    {
+        return $this->eventDispatcher;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getSubscribedEvents()
-	{
-		return array(
-			Events::postPersist => 'postPersist',
-			Events::postUpdate  => 'postUpdate',
-			Events::postRemove  => 'postRemove',
-		);
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getSubscribedEvents()
+    {
+        return array(
+            Events::postPersist => 'postPersist',
+            Events::postUpdate  => 'postUpdate',
+            Events::postRemove  => 'postRemove',
+        );
+    }
 
-	public function postPersist(LifecycleEventArgs $eventArgs)
-	{
-		$recipient = $eventArgs->getEntity();
+    public function postPersist(LifecycleEventArgs $eventArgs)
+    {
+        $recipient = $eventArgs->getEntity();
 
-		if ($recipient instanceof Recipient) {
-			$event = new RecipientAwareEvent($recipient);
-			$this->eventDispatcher->dispatch(RecipientEvents::CREATE_RECIPIENT, $event);
-		}
-	}
+        if ($recipient instanceof Recipient) {
+            $event = new RecipientAwareEvent($recipient);
+            $this->eventDispatcher->dispatch(RecipientEvents::CREATE_RECIPIENT, $event);
+        }
+    }
 
-	public function postUpdate(LifecycleEventArgs $eventArgs)
-	{
-		$recipient = $eventArgs->getEntity();
+    public function postUpdate(LifecycleEventArgs $eventArgs)
+    {
+        $recipient = $eventArgs->getEntity();
 
-		if ($recipient instanceof Recipient) {
-			$event = new RecipientAwareEvent($recipient);
-			$this->eventDispatcher->dispatch(RecipientEvents::UPDATE_RECIPIENT, $event);
-		}
-	}
+        if ($recipient instanceof Recipient) {
+            $event = new RecipientAwareEvent($recipient);
+            $this->eventDispatcher->dispatch(RecipientEvents::UPDATE_RECIPIENT, $event);
+        }
+    }
 
-	public function postRemove(LifecycleEventArgs $eventArgs)
-	{
-		$recipient = $eventArgs->getEntity();
+    public function postRemove(LifecycleEventArgs $eventArgs)
+    {
+        $recipient = $eventArgs->getEntity();
 
-		if ($recipient instanceof Recipient) {
-			$event = new RecipientAwareEvent($recipient);
-			$this->eventDispatcher->dispatch(RecipientEvents::REMOVE_RECIPIENT, $event);
-		}
-	}
+        if ($recipient instanceof Recipient) {
+            $event = new RecipientAwareEvent($recipient);
+            $this->eventDispatcher->dispatch(RecipientEvents::REMOVE_RECIPIENT, $event);
+        }
+    }
 }

@@ -33,36 +33,36 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class Module
 {
-	static protected $instance;
+    static protected $instance;
 
-	/**
-	 * @return Recipient
-	 */
-	static public function getInstance()
-	{
-		if (static::$instance === null) {
-			static::$instance = new static();
-		}
-		return static::$instance;
-	}
+    /**
+     * @return Recipient
+     */
+    static public function getInstance()
+    {
+        if (static::$instance === null) {
+            static::$instance = new static();
+        }
+        return static::$instance;
+    }
 
-	/**
-	 * Inject the email field, if it is not selected.
-	 *
-	 * @param array $recipientFields
-	 */
-	public function injectRequiredRecipientFields($recipientFields)
-	{
-		$recipientFields = deserialize($recipientFields, true);
-		if (!in_array('email', $recipientFields)) {
-			$recipientFields[] = 'email';
-		}
-		return $recipientFields;
-	}
+    /**
+     * Inject the email field, if it is not selected.
+     *
+     * @param array $recipientFields
+     */
+    public function injectRequiredRecipientFields($recipientFields)
+    {
+        $recipientFields = deserialize($recipientFields, true);
+        if (!in_array('email', $recipientFields)) {
+            $recipientFields[] = 'email';
+        }
+        return $recipientFields;
+    }
 
-	public function onload_callback()
-	{
-		\MetaPalettes::appendFields('tl_module', 'registration', 'config', array('avisota_selectable_lists'));
-		\MetaPalettes::appendFields('tl_module', 'personalData', 'config', array('avisota_selectable_lists'));
-	}
+    public function onload_callback()
+    {
+        \MetaPalettes::appendFields('tl_module', 'registration', 'config', array('avisota_selectable_lists'));
+        \MetaPalettes::appendFields('tl_module', 'personalData', 'config', array('avisota_selectable_lists'));
+    }
 }
