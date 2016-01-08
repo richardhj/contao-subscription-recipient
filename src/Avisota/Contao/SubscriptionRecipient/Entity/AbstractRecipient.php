@@ -18,6 +18,7 @@ namespace Avisota\Contao\SubscriptionRecipient\Entity;
 use Avisota\Contao\Subscription\SubscriptionRecipientInterface;
 use Contao\Doctrine\ORM\EntityAccessor;
 use Contao\Doctrine\ORM\Annotation\Accessor;
+use Contao\Doctrine\ORM\EntityHelper;
 
 abstract class AbstractRecipient implements SubscriptionRecipientInterface
 {
@@ -53,7 +54,7 @@ abstract class AbstractRecipient implements SubscriptionRecipientInterface
     public function setEmail($email)
     {
         $this->email = strtolower($email);
-        $this->email = \Contao\Doctrine\ORM\EntityHelper::callSetterCallbacks($this, static::TABLE_NAME, 'email', $email);
+        $this->email = EntityHelper::callSetterCallbacks($this, static::TABLE_NAME, 'email', $email);
 
         return $this;
     }
