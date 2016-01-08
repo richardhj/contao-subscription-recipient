@@ -40,7 +40,7 @@ class DoctrineBridgeSubscriber implements EventSubscriber
      */
     protected $eventDispatcher;
 
-    function __construct(EventDispatcher $eventDispatcher)
+    public function __construct(EventDispatcher $eventDispatcher)
     {
         $this->eventDispatcher = $eventDispatcher;
     }

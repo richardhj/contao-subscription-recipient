@@ -242,6 +242,7 @@ class RecipientsRecipientSource implements RecipientSourceInterface
     public function setFilteredMailingLists(array $filteredMailingLists)
     {
         $this->filteredMailingLists = array_values($filteredMailingLists);
+
         return $this;
     }
 
@@ -259,6 +260,7 @@ class RecipientsRecipientSource implements RecipientSourceInterface
     public function setFilteredProperties(array $filteredProperties)
     {
         $this->filteredProperties = $filteredProperties;
+
         return $this;
     }
 
@@ -285,7 +287,9 @@ class RecipientsRecipientSource implements RecipientSourceInterface
      */
     public function setManageSubscriptionUrlPattern($manageSubscriptionUrlPattern)
     {
-        $this->manageSubscriptionUrlPattern = empty($manageSubscriptionUrlPattern) ? null : (string) $manageSubscriptionUrlPattern;
+        $this->manageSubscriptionUrlPattern =
+            empty($manageSubscriptionUrlPattern) ? null : (string) $manageSubscriptionUrlPattern;
+
         return $this;
     }
 
@@ -304,7 +308,9 @@ class RecipientsRecipientSource implements RecipientSourceInterface
      */
     public function setUnsubscribeUrlPattern($unsubscribeUrlPattern)
     {
-        $this->unsubscribeUrlPattern = empty($unsubscribeUrlPattern) ? null : (string) $unsubscribeUrlPattern;
+        $this->unsubscribeUrlPattern =
+            empty($unsubscribeUrlPattern) ? null : (string) $unsubscribeUrlPattern;
+
         return $this;
     }
 }

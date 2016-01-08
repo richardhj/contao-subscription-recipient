@@ -21,7 +21,7 @@ use Contao\Doctrine\ORM\EntityHelper;
 
 class Subscription extends \Controller
 {
-    static public function collectSubscriptionLists(CollectSubscriptionListsEvent $event)
+    public static function collectSubscriptionLists(CollectSubscriptionListsEvent $event)
     {
         $mailingListRepository = EntityHelper::getRepository('Avisota\Contao:MailingList');
         /** @var MailingList[] $mailingLists */

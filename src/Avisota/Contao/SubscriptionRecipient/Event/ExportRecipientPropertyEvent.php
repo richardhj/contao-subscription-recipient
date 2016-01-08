@@ -40,7 +40,7 @@ class ExportRecipientPropertyEvent extends RecipientAwareEvent
      * @param string    $propertyName
      * @param mixed     $propertyValue
      */
-    function __construct(Recipient $recipient, $propertyName, $propertyValue = null, $string = null)
+    public function __construct(Recipient $recipient, $propertyName, $propertyValue = null, $string = null)
     {
         parent::__construct($recipient);
         $this->propertyName  = (string) $propertyName;

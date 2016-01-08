@@ -38,7 +38,7 @@ class Module
     /**
      * @return Recipient
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         if (static::$instance === null) {
             static::$instance = new static();
@@ -60,7 +60,17 @@ class Module
         return $recipientFields;
     }
 
+
+    /**
+     * @deprecated use onLoadCallback instead this method
+     */
     public function onload_callback()
+    {
+        //TODO from who come this?
+        static::onLoadCallback();
+    }
+
+    public function onLoadCallback()
     {
         \MetaPalettes::appendFields('tl_module', 'registration', 'config', array('avisota_selectable_lists'));
         \MetaPalettes::appendFields('tl_module', 'personalData', 'config', array('avisota_selectable_lists'));

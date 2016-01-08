@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Translations are managed using Transifex. To create a new translation
  * or to help to maintain an existing one, please register at transifex.com.
@@ -11,16 +12,48 @@
  * last-updated: 2014-03-25T14:15:20+01:00
  */
 
+global $TL_LANG;
 
-$GLOBALS['TL_LANG']['tl_module']['avisota_categories']['0']           = 'Kategorie';
-$GLOBALS['TL_LANG']['tl_module']['avisota_cleanup_legend']            = 'Czyszczenie';
-$GLOBALS['TL_LANG']['tl_module']['avisota_form_target']['0']          = 'Strona docelowa formularza (nie strona potwierdzenia!)';
-$GLOBALS['TL_LANG']['tl_module']['avisota_list_template']['0']        = 'Szablon listy';
-$GLOBALS['TL_LANG']['tl_module']['avisota_mail_legend']               = 'Ustawienia e-mail';
-$GLOBALS['TL_LANG']['tl_module']['avisota_notification_legend']       = 'Pamięć';
-$GLOBALS['TL_LANG']['tl_module']['avisota_reader_template']['0']      = 'Szablon listy';
-$GLOBALS['TL_LANG']['tl_module']['avisota_recipient_fields']['0']     = 'Dane osobiste';
-$GLOBALS['TL_LANG']['tl_module']['avisota_recipient_fields']['1']     = 'Proszę wybrać dodatkowe dane osobiste, o które zostanie poproszony odbiorca.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_subscription_legend']       = 'Subskrypcja';
-$GLOBALS['TL_LANG']['tl_module']['avisota_template_unsubscribe']['0'] = 'Szablon formularza';
+$tlModule = array(
+    'avisota_mail_legend'
+    => 'Ustawienia e-mail',
 
+    'avisota_notification_legend'
+    => 'Pamięć',
+
+    'avisota_cleanup_legend'
+    => 'Czyszczenie',
+
+    'avisota_subscription_legend'
+    => 'Subskrypcja',
+
+    'avisota_categories' => array(
+        'Kategorie',
+    ),
+
+    'avisota_form_target' => array(
+        'Strona docelowa formularza (nie strona potwierdzenia!)',
+    ),
+
+    'avisota_list_template' => array(
+        'Szablon listy',
+    ),
+
+    'avisota_reader_template' => array(
+        'Szablon listy',
+    ),
+
+    'avisota_recipient_fields' => array(
+        'Dane osobiste',
+        'Proszę wybrać dodatkowe dane osobiste, o które zostanie poproszony odbiorca.',
+    ),
+
+    'avisota_template_unsubscribe' => array(
+        'Szablon formularza',
+    ),
+);
+
+$TL_LANG['tl_module'] = array_merge(
+    $TL_LANG['tl_module'],
+    $tlModule
+);

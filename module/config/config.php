@@ -41,7 +41,8 @@ array_insert(
 /**
  * Entities
  */
-$GLOBALS['DOCTRINE_ENTITY_CLASS']['Avisota\Contao\Entity\Recipient'] = 'Avisota\Contao\SubscriptionRecipient\Entity\AbstractRecipient';
+$GLOBALS['DOCTRINE_ENTITY_CLASS']['Avisota\Contao\Entity\Recipient'] =
+    'Avisota\Contao\SubscriptionRecipient\Entity\AbstractRecipient';
 
 $GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient';
 
@@ -49,7 +50,8 @@ $GLOBALS['DOCTRINE_ENTITIES'][] = 'orm_avisota_recipient';
 /**
  * Recipient sources
  */
-$GLOBALS['AVISOTA_RECIPIENT_SOURCE']['recipients'] = 'Avisota\Contao\SubscriptionRecipient\RecipientSource\RecipientsRecipientSourceFactory';
+$GLOBALS['AVISOTA_RECIPIENT_SOURCE']['recipients'] =
+    'Avisota\Contao\SubscriptionRecipient\RecipientSource\RecipientsRecipientSourceFactory';
 
 /**
  * Front end modules

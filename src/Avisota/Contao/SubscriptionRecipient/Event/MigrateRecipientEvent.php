@@ -30,7 +30,7 @@ class MigrateRecipientEvent extends RecipientAwareEvent
      */
     protected $contaoRecipientData;
 
-    function __construct(array $migrationSettings, array $contaoRecipientData, Recipient $recipient)
+    public function __construct(array $migrationSettings, array $contaoRecipientData, Recipient $recipient)
     {
         parent::__construct($recipient);
         $this->migrationSettings   = $migrationSettings;

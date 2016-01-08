@@ -31,7 +31,7 @@ class OptionsBuilder implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    static public function getSubscribedEvents()
+    public static function getSubscribedEvents()
     {
         return array(
             'avisota.create-salutation-recipient-field-options' => 'createRecipientFieldOptions',
@@ -42,19 +42,22 @@ class OptionsBuilder implements EventSubscriberInterface
 
     public function createRecipientFieldOptions(CreateOptionsEvent $event)
     {
-        $this->getRecipientFieldOptions($event->getOptions(), $event->getDataContainer());
+        $this->getRecipientFieldOptions($event->getDataContainer(), $event->getOptions());
     }
 
     /**
      * @param array               $options
-     * @param DC_General|DcCompat $dc
+     * @param DC_General|DcCompat $general
      *
      * @return array
      */
-    public function getRecipientFieldOptions($options = array(), DC_General $dc)
+    public function getRecipientFieldOptions(DC_General $general, $options = array())
     {
+        global $container;
+
+        //TODO check general parameter
         /** @var EventDispatcher $eventDispatcher */
-        $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        $eventDispatcher = $container['event-dispatcher'];
 
         $eventDispatcher->dispatch(
             ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,
@@ -65,7 +68,7 @@ class OptionsBuilder implements EventSubscriberInterface
             new LoadDataContainerEvent('orm_avisota_recipient')
         );
 
-        $factory = DcGeneralFactory::deriveFromEnvironment($dc->getEnvironment());
+        $factory = DcGeneralFactory::deriveFromEnvironment($general->getEnvironment());
         $factory->setContainerName('orm_avisota_recipient');
         $container = $factory->createContainer();
 

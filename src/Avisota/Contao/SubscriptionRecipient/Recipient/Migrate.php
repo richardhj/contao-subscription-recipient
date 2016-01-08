@@ -20,7 +20,7 @@ use Doctrine\DBAL\Driver\PDOStatement;
 
 class Migrate extends \Controller
 {
-    static public function collectPersonalsFromMembers(MigrateRecipientEvent $event)
+    public static function collectPersonalsFromMembers(MigrateRecipientEvent $event)
     {
         global $container;
 

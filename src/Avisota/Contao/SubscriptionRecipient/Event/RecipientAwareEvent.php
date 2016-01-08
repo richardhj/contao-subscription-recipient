@@ -25,7 +25,7 @@ class RecipientAwareEvent extends Event
      */
     protected $recipient;
 
-    function __construct(Recipient $recipient)
+    public function __construct(Recipient $recipient)
     {
         $this->recipient = $recipient;
     }

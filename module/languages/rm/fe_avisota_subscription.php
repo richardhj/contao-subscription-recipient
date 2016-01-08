@@ -11,14 +11,32 @@
  * last-updated: 2014-03-25T14:15:11+01:00
  */
 
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['allreadySubscribed']    = 'Grazia fitg, ti has dentant gia abunà nos newsletter.';
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['confirm']               = 'Confermar abunaments';
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['manage_subscription']   = 'Administrat tes abunament';
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['notSubscribed']         = 'Ti n\'has betg abunà nos newsletter';
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['subscribe']             = 'Abunar';
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['subscribeConfirmation'] = 'Tes abunament è vegnì activà cun success.';
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['subscribed']            = 'Grazia fitg, ti es ussa abunnent. Ti has retschiert in e-mail da confermaziun.';
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['unsubscribe']           = 'De-abunar';
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['unsubscribe_direct']    = 'De-abunar';
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['unsubscribed']          = 'Ti has ussa de-abunà nos newsletter';
+global $TL_LANG;
 
+$feAvisotaSubscription = array(
+    'allreadySubscribed'
+    => 'Grazia fitg, ti has dentant gia abunà nos newsletter.',
+    'confirm'
+    => 'Confermar abunaments',
+    'manage_subscription'
+    => 'Administrat tes abunament',
+    'notSubscribed'
+    => 'Ti n\'has betg abunà nos newsletter',
+    'subscribe'
+    => 'Abunar',
+    'subscribeConfirmation'
+    => 'Tes abunament è vegnì activà cun success.',
+    'subscribed'
+    => 'Grazia fitg, ti es ussa abunnent. Ti has retschiert in e-mail da confermaziun.',
+    'unsubscribe'
+    => 'De-abunar',
+    'unsubscribe_direct'
+    => 'De-abunar',
+    'unsubscribed'
+    => 'Ti has ussa de-abunà nos newsletter'
+);
+
+$TL_LANG['fe_avisota_subscription'] = array_merge(
+    $TL_LANG['fe_avisota_subscription'],
+    $feAvisotaSubscription
+);

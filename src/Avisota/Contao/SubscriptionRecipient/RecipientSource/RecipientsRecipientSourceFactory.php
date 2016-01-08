@@ -43,7 +43,8 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
         $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
 
         if ($recipientSourceEntity->getRecipientsManageSubscriptionPage()) {
-            $getPageDetailsEvent = new GetPageDetailsEvent($recipientSourceEntity->getRecipientsManageSubscriptionPage());
+            $getPageDetailsEvent =
+                new GetPageDetailsEvent($recipientSourceEntity->getRecipientsManageSubscriptionPage());
             $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $getPageDetailsEvent);
 
             $generateFrontendUrlEvent = new GenerateFrontendUrlEvent($getPageDetailsEvent->getPageDetails());

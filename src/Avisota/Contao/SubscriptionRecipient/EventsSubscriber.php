@@ -61,29 +61,36 @@ class EventsSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            DcGeneralEvents::ACTION                                                                                                       => array(
+            DcGeneralEvents::ACTION => array(
                 array('injectAutocompleter'),
                 array('migrateRecipients'),
             ),
+
             SubscriptionEvents::UNSUBSCRIBE                                                                                               => 'cleanRecipient',
             SubscriptionEvents::CLEAN_SUBSCRIPTION                                                                                        => 'cleanRecipient',
             SubscriptionEvents::PREPARE_SUBSCRIPTION                                                                                      => 'prepareSubscription',
             SubscriptionEvents::RESOLVE_RECIPIENT                                                                                         => 'resolveRecipient',
             SubscriptionEvents::CREATE_RECIPIENT_PROPERTIES_OPTIONS                                                                       => 'createRecipientPropertiesOptions',
-            GetEditModeButtonsEvent::NAME                                                                                                 => 'getExportButtons',
+
             // TODO: Where come this event ??
             GetPropertyOptionsEvent::NAME . '[orm_avisota_recipient_source][recipientsPropertyFilter][recipientsPropertyFilter_property]' => 'bypassCreateRecipientPropertiesOptions',
-            GetOptionsEvent::NAME                                                                                                         => 'bypassCreateMailingListOptions',
-            GetEditModeButtonsEvent::NAME                                                                                                 => 'getMigrateButtons',
-            DoctrineDbalEvents::INITIALIZE_EVENT_MANAGER                                                                                  => 'initializeEventManager',
-            RecipientEvents::MIGRATE_RECIPIENT                                                                                            => 'collectMemberPersonals',
-            RecipientEvents::EXPORT_RECIPIENT_PROPERTY                                                                                    => 'exportRecipientProperties',
-            RecipientDataContainerEvents::CREATE_IMPORTABLE_RECIPIENT_FIELD_OPTIONS                                                       => 'createImportableRecipientFieldOptions',
-            RecipientDataContainerEvents::CREATE_EDITABLE_RECIPIENT_FIELD_OPTIONS                                                         => 'createEditableRecipientFieldOptions',
-            RecipientDataContainerEvents::CREATE_SUBSCRIBE_TEMPLATE_OPTIONS                                                               => 'createSubscribeTemplateOptions',
-            RecipientDataContainerEvents::CREATE_UNSUBSCRIBE_TEMPLATE_OPTIONS                                                             => 'createUnsubscribeTemplateOptions',
-            RecipientDataContainerEvents::CREATE_SUBSCRIPTION_TEMPLATE_OPTIONS                                                            => 'createSubscriptionTemplateOptions',
-            'avisota.subscription-notification-center-bridge.build-tokens-from-recipient'                                                 => 'buildRecipientTokens',
+
+            GetOptionsEvent::NAME => 'bypassCreateMailingListOptions',
+
+            GetEditModeButtonsEvent::NAME => 'getExportButtons',
+            GetEditModeButtonsEvent::NAME => 'getMigrateButtons',
+
+            DoctrineDbalEvents::INITIALIZE_EVENT_MANAGER => 'initializeEventManager',
+
+            RecipientEvents::MIGRATE_RECIPIENT         => 'collectMemberPersonals',
+            RecipientEvents::EXPORT_RECIPIENT_PROPERTY => 'exportRecipientProperties',
+
+            RecipientDataContainerEvents::CREATE_IMPORTABLE_RECIPIENT_FIELD_OPTIONS       => 'createImportableRecipientFieldOptions',
+            RecipientDataContainerEvents::CREATE_EDITABLE_RECIPIENT_FIELD_OPTIONS         => 'createEditableRecipientFieldOptions',
+            RecipientDataContainerEvents::CREATE_SUBSCRIBE_TEMPLATE_OPTIONS               => 'createSubscribeTemplateOptions',
+            RecipientDataContainerEvents::CREATE_UNSUBSCRIBE_TEMPLATE_OPTIONS             => 'createUnsubscribeTemplateOptions',
+            RecipientDataContainerEvents::CREATE_SUBSCRIPTION_TEMPLATE_OPTIONS            => 'createSubscriptionTemplateOptions',
+            'avisota.subscription-notification-center-bridge.build-tokens-from-recipient' => 'buildRecipientTokens',
         );
     }
 
@@ -94,8 +101,7 @@ class EventsSubscriber implements EventSubscriberInterface
     ) {
         static $injected;
 
-        if (
-            !$injected
+        if (!$injected
             && $event->getEnvironment()->getDataDefinition()->getName() == 'orm_avisota_salutation'
         ) {
             // backwards compatibility
@@ -288,7 +294,12 @@ EOF;
 
                 if (!$recipient) {
                     $response->append('<li>');
-                    $response->append(sprintf($translator->translate('created', 'mem_avisota_recipient_migrate'), $contaoRecipientData['email']));
+                    $response->append(
+                        sprintf(
+                            $translator->translate('created', 'mem_avisota_recipient_migrate'),
+                            $contaoRecipientData['email']
+                        )
+                    );
                     $response->append('</li>');
 
                     $recipient = new Recipient();
@@ -299,14 +310,24 @@ EOF;
                 } else {
                     if (!$migrationSettings['overwrite']) {
                         $response->append('<li>');
-                        $response->append(sprintf($translator->translate('skipped', 'mem_avisota_recipient_migrate'), $contaoRecipientData['email']));
+                        $response->append(
+                            sprintf(
+                                $translator->translate('skipped', 'mem_avisota_recipient_migrate'),
+                                $contaoRecipientData['email']
+                            )
+                        );
                         $response->append('</li>');
 
                         $skipped++;
                         continue;
                     } else {
                         $response->append('<li>');
-                        $response->append(sprintf($translator->translate('overwriten', 'mem_avisota_recipient_migrate'), $contaoRecipientData['email']));
+                        $response->append(
+                            sprintf(
+                                $translator->translate('overwriten', 'mem_avisota_recipient_migrate'),
+                                $contaoRecipientData['email']
+                            )
+                        );
                         $response->append('</li>');
                     }
                 }
@@ -319,7 +340,8 @@ EOF;
                     continue;
                 }
 
-                $migrateRecipientEvent = new MigrateRecipientEvent($migrationSettings, $contaoRecipientData, $recipient);
+                $migrateRecipientEvent =
+                    new MigrateRecipientEvent($migrationSettings, $contaoRecipientData, $recipient);
                 $eventDispatcher->dispatch(RecipientEvents::MIGRATE_RECIPIENT, $migrateRecipientEvent);
 
                 $entityManager->persist($recipient);
@@ -360,9 +382,18 @@ EOF;
                 $_SESSION[$migrationId]        = $migrationSettings;
 
                 $response->append('</ul><br>');
-                $response->append('<script>window.onload = function() { document.getElementById("btn_avisota_migrate_reload").disabled = true; location.reload(); };</script>');
+                $response->append(
+                    '<script>'
+                    . 'window.onload = function() { '
+                    . 'document.getElementById("btn_avisota_migrate_reload").disabled = true; '
+                    . 'location.reload(); };'
+                    . '</script>'
+                );
 
-                $response->append('<p><button click="location.reload()" class="tl_submit" id="btn_avisota_migrate_reload">');
+                $response->append(
+                    '<p>'
+                    . '<button click="location.reload()" class="tl_submit" id="btn_avisota_migrate_reload">'
+                );
                 $response->append($translator->translate('reload', 'mem_avisota_recipient_migrate'));
                 $response->append('</button></p>');
 
@@ -386,8 +417,7 @@ EOF;
         if ($recipient) {
             $subscriptions = $recipient->getSubscriptions();
 
-            if (
-                $subscriptions->isEmpty()
+            if ($subscriptions->isEmpty()
                 || $subscriptions->count() == 1
                    && $subscriptions->contains($subscription)
             ) {

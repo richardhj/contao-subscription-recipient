@@ -39,7 +39,7 @@ class Recipient implements EventSubscriberInterface
     /**
      * @return Recipient
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         return self::$instance;
     }
@@ -68,8 +68,7 @@ class Recipient implements EventSubscriberInterface
      */
     public function handleAction(ActionEvent $event)
     {
-        if (
-            $event->getResponse()
+        if ($event->getResponse()
             || $event->getEnvironment()->getDataDefinition()->getName() != 'orm_avisota_recipient'
         ) {
             return;
@@ -295,7 +294,7 @@ class Recipient implements EventSubscriberInterface
             ? $subscriptions['global']
             : null;
 
-        $label .= $this->generateSubscriptionRow($recipient, null, $subscription, $eventDispatcher);
+        $label .= $this->generateSubscriptionRow($recipient, $eventDispatcher, null, $subscription);
 
         // mailing list subscription
         foreach ($mailingLists as $mailingList) {
@@ -303,7 +302,7 @@ class Recipient implements EventSubscriberInterface
                 ? $subscriptions[$mailingList->getId()]
                 : null;
 
-            $label .= $this->generateSubscriptionRow($recipient, $mailingList, $subscription, $eventDispatcher);
+            $label .= $this->generateSubscriptionRow($recipient, $eventDispatcher, $mailingList, $subscription);
         }
 
         $label .= '</table>';
@@ -313,9 +312,9 @@ class Recipient implements EventSubscriberInterface
 
     protected function generateSubscriptionRow(
         \Avisota\Contao\Entity\Recipient $recipient,
+        EventDispatcher $eventDispatcher,
         MailingList $mailingList = null,
-        Subscription $subscription = null,
-        EventDispatcher $eventDispatcher
+        Subscription $subscription = null
     ) {
         /** @var SubscriptionManager $subscriptionManager */
         $subscriptionManager = $GLOBALS['container']['avisota.subscription'];
@@ -337,8 +336,12 @@ class Recipient implements EventSubscriberInterface
         } else {
             if ($subscriptionManager->isBlacklisted($recipient, $mailingList)) {
                 $event = new GenerateHtmlEvent(
-                    'error.gif', $GLOBALS['TL_LANG']['orm_avisota_recipient']['blacklisted'],
-                    sprintf('title="%s"', specialchars($GLOBALS['TL_LANG']['orm_avisota_recipient']['blacklisted']))
+                    'error.gif',
+                    $GLOBALS['TL_LANG']['orm_avisota_recipient']['blacklisted'],
+                    sprintf(
+                        'title="%s"',
+                        specialchars($GLOBALS['TL_LANG']['orm_avisota_recipient']['blacklisted'])
+                    )
                 );
                 $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
 
@@ -371,7 +374,8 @@ class Recipient implements EventSubscriberInterface
                 $icon = $event->getHtml();
 
                 $buffer .= sprintf(
-                    '<a href="contao/main.php?do=avisota_recipients&act=confirm-subscription&subscription=%s&ref=%s">%s</a>',
+                    '<a href="contao/main.php?do=avisota_recipients'
+                    . '&act=confirm-subscription&subscription=%s&ref=%s">%s</a>',
                     $subscription->getId(),
                     defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
                     $icon
@@ -387,7 +391,8 @@ class Recipient implements EventSubscriberInterface
             $icon = $event->getHtml();
 
             $buffer .= sprintf(
-                ' <a href="contao/main.php?do=avisota_recipients&act=remove-subscription&subscription=%s&ref=%s">%s</a>',
+                ' <a href="contao/main.php?do=avisota_recipients'
+                . '&act=remove-subscription&subscription=%s&ref=%s">%s</a>',
                 $subscription->getId(),
                 defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
                 $icon
@@ -402,7 +407,8 @@ class Recipient implements EventSubscriberInterface
             $icon = $event->getHtml();
 
             $buffer .= sprintf(
-                ' <a href="contao/main.php?do=avisota_recipients&act=subscribe&recipient=%s&mailing-list=%s&ref=%s">%s</a>',
+                ' <a href="contao/main.php?do=avisota_recipients'
+                . '&act=subscribe&recipient=%s&mailing-list=%s&ref=%s">%s</a>',
                 $recipient->getId(),
                 $mailingList
                     ? $mailingList->getId()
@@ -420,7 +426,8 @@ class Recipient implements EventSubscriberInterface
             $icon = $event->getHtml();
 
             $buffer .= sprintf(
-                ' <a href="contao/main.php?do=avisota_recipients&act=subscribe-confirmed&recipient=%s&mailing-list=%s&ref=%s">%s</a>',
+                ' <a href="contao/main.php?do=avisota_recipients'
+                . '&act=subscribe-confirmed&recipient=%s&mailing-list=%s&ref=%s">%s</a>',
                 $recipient->getId(),
                 $mailingList
                     ? $mailingList->getId()

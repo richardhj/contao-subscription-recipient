@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Translations are managed using Transifex. To create a new translation
  * or to help to maintain an existing one, please register at transifex.com.
@@ -11,6 +12,15 @@
  * last-updated: 2014-04-07T04:01:36+02:00
  */
 
+global $TL_LANG;
 
-$GLOBALS['TL_LANG']['tl_module']['avisota_recipient_fields']['0'] = 'Dati personali';
+$tlModule = array(
+    'avisota_recipient_fields' => array(
+        'Dati personali',
+    ),
+);
 
+$TL_LANG['tl_module'] = array_merge(
+    $TL_LANG['tl_module'],
+    $tlModule
+);

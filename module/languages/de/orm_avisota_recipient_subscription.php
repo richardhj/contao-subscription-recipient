@@ -11,23 +11,74 @@
  * last-updated: 2014-03-25T14:15:16+01:00
  */
 
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['confirmationSent']['0']             = 'Bestätigung gesendet an';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['confirmed']['0']                    = 'Bestätigt';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['confirmed']['1']                    = 'Dieses Abonnement wurde bestätigt.';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['confirmedAt']['0']                  = 'Bestätigt am';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['createdAt']['0']                    = 'Erstellt am';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['delete']['0']                       = 'Abonnement löschen';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['delete']['1']                       = 'Abonnement ID %s löschen.';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['edit']['0']                         = 'Abonnement bearbeiten';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['edit']['1']                         = 'Bearbeiten Sie das Abonnement ID %s.';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['list']['0']                         = 'Abonnierte Liste';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['new']['0']                          = 'Neues Abonnement';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['recipient']['0']                    = 'Abonnent';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['reminderCount']['0']                = 'Erinnerung gesendet';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['reminderSent']['0']                 = 'Bestätigung gesendet an';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['status_legend']                     = 'Status';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['subscription_legend']               = 'Abonnement';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['subscription_list']['mailing_list'] = 'Mailinglisten';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['token']['0']                        = 'Abonnements-Token';
-$GLOBALS['TL_LANG']['orm_avisota_recipient_subscription']['updatedAt']['0']                    = 'Zuletzt bearbeitet am';
+global $TL_LANG;
 
+$ormAvisotaRecipientSubscription = array(
+    'status_legend' => 'Status',
+
+    'subscription_legend' => 'Abonnement',
+
+    'subscription_list' => array(
+        'mailing_list' => 'Mailinglisten',
+    ),
+
+    'confirmationSent' => array(
+        'Bestätigung gesendet an',
+    ),
+
+    'confirmed' => array(
+        'Bestätigt',
+        'Dieses Abonnement wurde bestätigt.',
+    ),
+
+    'confirmedAt' => array(
+        'Bestätigt am',
+    ),
+
+    'createdAt' => array(
+        'Erstellt am',
+    ),
+
+    'delete' => array(
+        'Abonnement löschen',
+        'Abonnement ID %s löschen.',
+    ),
+
+    'edit' => array(
+        'Abonnement bearbeiten',
+        'Bearbeiten Sie das Abonnement ID %s.',
+    ),
+
+    'list' => array(
+        'Abonnierte Liste',
+    ),
+
+    'new' => array(
+        'Neues Abonnement',
+    ),
+
+    'recipient' => array(
+        'Abonnent',
+    ),
+
+    'reminderCount' => array(
+        'Erinnerung gesendet',
+    ),
+
+    'reminderSent' => array(
+        'Bestätigung gesendet an',
+    ),
+
+    'token' => array(
+        'Abonnements-Token',
+    ),
+
+    'updatedAt' => array(
+        'Zuletzt bearbeitet am',
+    ),
+);
+
+$TL_LANG['orm_avisota_recipient_subscription'] = array_merge(
+    $TL_LANG['orm_avisota_recipient_subscription'],
+    $ormAvisotaRecipientSubscription
+);

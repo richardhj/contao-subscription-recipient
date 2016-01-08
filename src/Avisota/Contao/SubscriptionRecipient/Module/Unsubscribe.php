@@ -56,6 +56,8 @@ class Unsubscribe extends AbstractRecipientForm
      */
     public function compile()
     {
+        global $TL_DCA;
+
         /** @var SubscriptionManager $subscriptionManager */
         $subscriptionManager = $GLOBALS['container']['avisota.subscription'];
 
@@ -66,7 +68,7 @@ class Unsubscribe extends AbstractRecipientForm
             $recipientFields[] = 'mailingLists';
         }
 
-        $GLOBALS['TL_DCA']['orm_avisota_recipient']['fields']['mailingLists']['options'] = $this->loadMailingListOptions(
+        $TL_DCA['orm_avisota_recipient']['fields']['mailingLists']['options'] = $this->loadMailingListOptions(
             $mailingListIds
         );
 
@@ -103,7 +105,8 @@ class Unsubscribe extends AbstractRecipientForm
                 $subscriptions = array_filter(
                     $subscriptions->toArray(),
                     function (Subscription $subscription) use ($mailingListIds) {
-                        return $subscription->getMailingList() && in_array($subscription->getMailingList()->getId(), $mailingListIds);
+                        return $subscription->getMailingList()
+                               && in_array($subscription->getMailingList()->getId(), $mailingListIds);
                     }
                 );
 

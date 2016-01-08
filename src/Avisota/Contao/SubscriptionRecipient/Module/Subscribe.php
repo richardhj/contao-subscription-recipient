@@ -56,6 +56,8 @@ class Subscribe extends AbstractRecipientForm
      */
     public function compile()
     {
+        global $TL_DCA;
+
         $input = \Input::getInstance();
 
         /** @var SubscriptionManager $subscriptionManager */
@@ -88,7 +90,7 @@ class Subscribe extends AbstractRecipientForm
         $mailingListIds  = deserialize($this->avisota_mailing_lists, true);
         $recipientFields = array_merge(array('email'), deserialize($this->avisota_recipient_fields, true));
 
-        $GLOBALS['TL_DCA']['orm_avisota_recipient']['fields']['mailingLists']['options'] = $this->loadMailingListOptions(
+        $TL_DCA['orm_avisota_recipient']['fields']['mailingLists']['options'] = $this->loadMailingListOptions(
             $mailingListIds
         );
 
