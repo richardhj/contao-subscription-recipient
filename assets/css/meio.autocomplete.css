@@ -11,6 +11,7 @@ license: MIT-style license
 ...
 */
 
+/*noinspection ALL*/
 .ma-container {
     color: #000;
     border: 1px solid #aaa;
@@ -36,21 +37,26 @@ license: MIT-style license
     overflow: hidden;
 }
 
+/*noinspection ALL*/
 .ma-container .ma-hover {
     background-color: #ccfda8 !important;
 }
 
+/*noinspection ALL*/
 .ma-container .ma-odd {
 }
 
+/*noinspection ALL*/
 .ma-container .ma-even {
     background-color: #efefef;
 }
 
+/*noinspection ALL*/
 .ma-loading {
     background-color: #fafba4;
 }
 
+/*noinspection ALL*/
 .ma-selected {
     background-color: #ccfda8;
 }
