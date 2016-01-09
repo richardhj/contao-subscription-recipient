@@ -22,6 +22,7 @@ use Avisota\Contao\Entity\Subscription;
 use Avisota\Contao\Subscription\SubscriptionManager;
 use Contao\Doctrine\ORM\DataContainer\General\EntityModel;
 use Contao\Doctrine\ORM\EntityHelper;
+use Contao\Doctrine\ORM\EntityInterface;
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\RedirectEvent;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Image\GenerateHtmlEvent;
@@ -202,8 +203,7 @@ class Recipient implements EventSubscriberInterface
             return;
         }
 
-        global $container,
-               $TL_LANG;
+        global $container;
 
         /** @var EntityModel $model */
         $model = $event->getModel();
@@ -213,22 +213,20 @@ class Recipient implements EventSubscriberInterface
         /** @var EventDispatcher $eventDispatcher */
         $eventDispatcher = $container['event-dispatcher'];
 
-        $database = \Database::getInstance();
-        $label    = '';
+        $label = $this->addExpandFoldIconToLabel($eventDispatcher);
+        $label .= $this->addRecipientToLabel($recipient);
+        $label .= $this->addAddedByToLabel($recipient);
+        $label .= $this->addSubscriptionToLabel($recipient, $eventDispatcher);
 
-        // add expand/fold icon
-        $generateImageEvent = new GenerateHtmlEvent('folPlus.gif', '', 'class="expand" style="display:none"');
-        $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $generateImageEvent);
-        $label .= $generateImageEvent->getHtml();
+        $event->setLabel($label);
+    }
 
-        $generateImageEvent = new GenerateHtmlEvent('folMinus.gif', '', 'class="fold" style="display:none"');
-        $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $generateImageEvent);
-        $label .= $generateImageEvent->getHtml();
-
+    protected function addRecipientToLabel(EntityInterface $recipient)
+    {
         $email = $recipient->getEmail();
         $name  = trim($recipient->getForename() . ' ' . $recipient->getSurname());
 
-        $label .= sprintf('<a name="%s"></a>', md5($email));
+        $label = sprintf('<a name="%s"></a>', md5($email));
 
         if (strlen($name)) {
             $label .= sprintf('%s &lt;%s&gt;', $name, $email);
@@ -236,44 +234,11 @@ class Recipient implements EventSubscriberInterface
             $label .= $email;
         }
 
-        // add recipient email
-        $label .= ' <span style="color:#b3b3b3; padding-left:.5em;">(';
-        $label .= sprintf(
-            $TL_LANG['orm_avisota_recipient']['added_at'],
-            $recipient->getCreatedAt()->format(\Config::get('datimFormat'))
-        );
-        if ($recipient->getAddedById() > 0) {
-            $user = $database
-                ->prepare("SELECT * FROM tl_user WHERE id=?")
-                ->execute($recipient->getAddedById());
+        return $label;
+    }
 
-            if ($user->next()) {
-                $format     = $TL_LANG['orm_avisota_recipient']['added_by'];
-                $parameters = array(
-                    $user->name,
-                    $user->username,
-                    'contao/main.php?' . http_build_query(
-                        array(
-                            'do'  => 'user',
-                            'act' => 'edit',
-                            'id'  => $user->id,
-                            'rt'  => defined('REQUEST_TOKEN') ? REQUEST_TOKEN : null,
-                            'ref' => defined('TL_REFERER_ID') ? TL_REFERER_ID : null,
-                        )
-                    )
-                );
-            } else {
-                $format     = $TL_LANG['orm_avisota_recipient']['added_by_unlinked'];
-                $parameters = array(
-                    $recipient->getAddedByName(),
-                    $recipient->getAddedByUsername()
-                );
-            }
-
-            $label .= vsprintf($format, $parameters);
-        }
-        $label .= ')</span>';
-
+    protected function addSubscriptionToLabel(EntityInterface $recipient, EventDispatcher $eventDispatcher)
+    {
         $mailingListRepository  = EntityHelper::getRepository('Avisota\Contao:MailingList');
         $subscriptionRepository = EntityHelper::getRepository('Avisota\Contao:Subscription');
 
@@ -304,7 +269,7 @@ class Recipient implements EventSubscriberInterface
             $subscriptions[$mailingListId] = $subscription;
         }
 
-        $label .= '<table class="tl_listing subscriptions" style="display: none">';
+        $label = '<table class="tl_listing subscriptions" style="display: none">';
 
         // global subscription
         $subscription = isset($subscriptions['global'])
@@ -324,14 +289,72 @@ class Recipient implements EventSubscriberInterface
 
         $label .= '</table>';
 
-        $event->setLabel($label);
+        return $label;
+    }
+
+    protected function addExpandFoldIconToLabel(EventDispatcher $eventDispatcher)
+    {
+        $label = '';
+
+        foreach (array('expand' => 'folPlus.gif', 'fold' => 'folMinus.gif') as $state => $icon) {
+            $generateImageEvent = new GenerateHtmlEvent($icon, '', 'class="' . $state . '" style="display:none"');
+            $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $generateImageEvent);
+            $label .= $generateImageEvent->getHtml();
+        }
+
+        return $label;
+    }
+
+    protected function addAddedByToLabel(EntityInterface $recipient)
+    {
+        global $TL_LANG;
+
+        $label = ' <span style="color:#b3b3b3; padding-left:.5em;">(';
+        $label .= sprintf(
+            $TL_LANG['orm_avisota_recipient']['added_at'],
+            $recipient->getCreatedAt()->format(\Config::get('datimFormat'))
+        );
+        if ($recipient->getAddedById() > 0) {
+            $database = \Database::getInstance();
+            $user     = $database
+                ->prepare("SELECT * FROM tl_user WHERE id=?")
+                ->execute($recipient->getAddedById());
+
+            if ($user->next()) {
+                $format     = $TL_LANG['orm_avisota_recipient']['added_by'];
+                $parameters = array(
+                    $user->name,
+                    $user->username,
+                    'contao/main.php?' . http_build_query(
+                        array(
+                            'do'  => 'user',
+                            'act' => 'edit',
+                            'id'  => $user->id,
+                            'rt'  => defined('REQUEST_TOKEN') ? REQUEST_TOKEN : null,
+                            'ref' => defined('TL_REFERER_ID') ? TL_REFERER_ID : null,
+                        )
+                    )
+                );
+            } else {
+                $format     = $TL_LANG['orm_avisota_recipient']['added_by_unlinked'];
+                $parameters = array(
+                    $recipient->getAddedByName(),
+                    $recipient->getAddedByUsername()
+                );
+            }
+
+            $label .= vsprintf($format, $parameters);
+        }
+        $label .= ')</span>';
+
+        return $label;
     }
 
     /**
-     * @param RecipientEntity $recipient
-     * @param EventDispatcher                  $eventDispatcher
-     * @param MailingList|null                 $mailingList
-     * @param Subscription|null                $subscription
+     * @param RecipientEntity   $recipient
+     * @param EventDispatcher   $eventDispatcher
+     * @param MailingList|null  $mailingList
+     * @param Subscription|null $subscription
      *
      * @return string
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)
