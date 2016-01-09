@@ -179,11 +179,11 @@ class EventsSubscriber implements EventSubscriberInterface
             // build container for orm_avisota_recipient
             $factory = DcGeneralFactory::deriveFromEnvironment($event->getEnvironment());
             $factory->setContainerName('orm_avisota_recipient');
-            $container = $factory->createContainer();
+            $containerFactory = $factory->createContainer();
 
             // build token list
             $tokens = array();
-            foreach ($container->getPropertiesDefinition()->getPropertyNames() as $propertyName) {
+            foreach ($containerFactory->getPropertiesDefinition()->getPropertyNames() as $propertyName) {
                 $tokens[] = array(
                     'value' => $propertyName,
                     'text'  => sprintf('##%s##', $propertyName),
@@ -770,9 +770,9 @@ EOF;
         $dcGeneralFactory = new DcGeneralFactory();
         $dcGeneralFactory->setContainerName('orm_avisota_recipient');
         $dcGeneralFactory->setEventDispatcher($eventDispatcher);
-        $container = $dcGeneralFactory->createContainer();
+        $containerFactory = $dcGeneralFactory->createContainer();
 
-        foreach ($container->getPropertiesDefinition()->getProperties() as $property) {
+        foreach ($containerFactory->getPropertiesDefinition()->getProperties() as $property) {
             $extra = $property->getExtra();
             if (isset($extra['importable']) && $extra['importable']) {
                 $options[$property->getName()] = $property->getLabel();
