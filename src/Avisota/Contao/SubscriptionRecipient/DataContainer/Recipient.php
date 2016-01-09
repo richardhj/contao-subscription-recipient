@@ -32,6 +32,11 @@ use ContaoCommunityAlliance\DcGeneral\Event\ActionEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Class Recipient
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\DataContainer
+ */
 class Recipient implements EventSubscriberInterface
 {
     static protected $instance;
@@ -45,7 +50,7 @@ class Recipient implements EventSubscriberInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public static function getSubscribedEvents()
     {
@@ -56,6 +61,9 @@ class Recipient implements EventSubscriberInterface
         );
     }
 
+    /**
+     * Recipient constructor.
+     */
     public function __construct()
     {
         static::$instance = $this;
@@ -314,6 +322,14 @@ class Recipient implements EventSubscriberInterface
         $event->setLabel($label);
     }
 
+    /**
+     * @param \Avisota\Contao\Entity\Recipient $recipient
+     * @param EventDispatcher                  $eventDispatcher
+     * @param MailingList|null                 $mailingList
+     * @param Subscription|null                $subscription
+     *
+     * @return string
+     */
     protected function generateSubscriptionRow(
         \Avisota\Contao\Entity\Recipient $recipient,
         EventDispatcher $eventDispatcher,

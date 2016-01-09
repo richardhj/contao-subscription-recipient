@@ -18,6 +18,11 @@ namespace Avisota\Contao\SubscriptionRecipient\Event;
 use Avisota\Contao\Entity\Recipient;
 use Symfony\Component\EventDispatcher\Event;
 
+/**
+ * Class CreateRecipientEvent
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Event
+ */
 class CreateRecipientEvent extends RecipientAwareEvent
 {
     const NAME = 'Avisota\Contao\Core\Event\CreateRecipient';

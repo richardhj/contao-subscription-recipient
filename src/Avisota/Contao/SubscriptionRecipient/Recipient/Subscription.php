@@ -19,8 +19,16 @@ use Avisota\Contao\Entity\MailingList;
 use Avisota\Contao\Subscription\Event\CollectSubscriptionListsEvent;
 use Contao\Doctrine\ORM\EntityHelper;
 
+/**
+ * Class Subscription
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Recipient
+ */
 class Subscription extends \Controller
 {
+    /**
+     * @param CollectSubscriptionListsEvent $event
+     */
     public static function collectSubscriptionLists(CollectSubscriptionListsEvent $event)
     {
         $mailingListRepository = EntityHelper::getRepository('Avisota\Contao:MailingList');

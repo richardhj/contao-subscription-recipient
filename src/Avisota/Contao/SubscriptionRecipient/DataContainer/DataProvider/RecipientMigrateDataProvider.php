@@ -28,10 +28,15 @@ use ContaoCommunityAlliance\DcGeneral\Data\NoOpDataProvider;
 use Doctrine\DBAL\Driver\PDOStatement;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
+/**
+ * Class RecipientMigrateDataProvider
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\DataContainer\DataProvider
+ */
 class RecipientMigrateDataProvider extends NoOpDataProvider
 {
     /**
-     * {@inheritdoc}
+     * @param ModelInterface $objItem
      */
     public function save(ModelInterface $objItem)
     {

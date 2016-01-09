@@ -18,8 +18,16 @@ namespace Avisota\Contao\SubscriptionRecipient\Recipient;
 use Avisota\Contao\SubscriptionRecipient\Event\MigrateRecipientEvent;
 use Doctrine\DBAL\Driver\PDOStatement;
 
+/**
+ * Class Migrate
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Recipient
+ */
 class Migrate extends \Controller
 {
+    /**
+     * @param MigrateRecipientEvent $event
+     */
     public static function collectPersonalsFromMembers(MigrateRecipientEvent $event)
     {
         global $container,

@@ -18,6 +18,11 @@ namespace Avisota\Contao\SubscriptionRecipient\Event;
 use Avisota\Contao\Entity\Recipient;
 use Symfony\Component\EventDispatcher\Event;
 
+/**
+ * Class MigrateRecipientEvent
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Event
+ */
 class MigrateRecipientEvent extends RecipientAwareEvent
 {
     /**
@@ -30,6 +35,13 @@ class MigrateRecipientEvent extends RecipientAwareEvent
      */
     protected $contaoRecipientData;
 
+    /**
+     * MigrateRecipientEvent constructor.
+     *
+     * @param array     $migrationSettings
+     * @param array     $contaoRecipientData
+     * @param Recipient $recipient
+     */
     public function __construct(array $migrationSettings, array $contaoRecipientData, Recipient $recipient)
     {
         parent::__construct($recipient);

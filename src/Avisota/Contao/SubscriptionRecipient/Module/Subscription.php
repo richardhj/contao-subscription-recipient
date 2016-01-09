@@ -31,6 +31,11 @@ class Subscription extends AbstractRecipientForm
      */
     protected $strTemplate = 'mod_avisota_subscription';
 
+    /**
+     * Subscription constructor.
+     *
+     * @param $module
+     */
     public function __construct($module)
     {
         global $container;
@@ -74,6 +79,13 @@ class Subscription extends AbstractRecipientForm
         $this->addForm();
     }
 
+    /**
+     * @param array            $recipientData
+     * @param array            $mailingLists
+     * @param FrontendTemplate $template
+     *
+     * @return null
+     */
     protected function submit(array $recipientData, array $mailingLists, FrontendTemplate $template)
     {
         if ($this->Input->post('subscribe')) {

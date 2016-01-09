@@ -20,6 +20,11 @@ use Contao\Doctrine\ORM\EntityAccessor;
 use Contao\Doctrine\ORM\Annotation\Accessor;
 use Contao\Doctrine\ORM\EntityHelper;
 
+/**
+ * Class AbstractRecipient
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Entity
+ */
 abstract class AbstractRecipient implements SubscriptionRecipientInterface
 {
     /**
@@ -33,7 +38,7 @@ abstract class AbstractRecipient implements SubscriptionRecipientInterface
     protected $email;
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getId()
     {
@@ -41,7 +46,7 @@ abstract class AbstractRecipient implements SubscriptionRecipientInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getEmail()
     {
@@ -50,6 +55,8 @@ abstract class AbstractRecipient implements SubscriptionRecipientInterface
 
     /**
      * @param string $email
+     *
+     * @return $this
      */
     public function setEmail($email)
     {
@@ -60,7 +67,7 @@ abstract class AbstractRecipient implements SubscriptionRecipientInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return bool
      */
     public function hasDetails()
     {
@@ -68,7 +75,9 @@ abstract class AbstractRecipient implements SubscriptionRecipientInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param $name
+     *
+     * @return mixed
      */
     public function get($name)
     {
@@ -77,9 +86,9 @@ abstract class AbstractRecipient implements SubscriptionRecipientInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @Accessor(ignore=true)
+     *
+     * @return mixed
      */
     public function getDetails()
     {
@@ -92,9 +101,9 @@ abstract class AbstractRecipient implements SubscriptionRecipientInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @Accessor(ignore=true)
+     *
+     * @return array
      */
     public function getKeys()
     {

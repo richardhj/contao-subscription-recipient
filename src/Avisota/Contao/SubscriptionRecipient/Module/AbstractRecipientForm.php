@@ -28,6 +28,11 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  */
 abstract class AbstractRecipientForm extends \TwigModule
 {
+    /**
+     * AbstractRecipientForm constructor.
+     *
+     * @param $module
+     */
     public function __construct($module)
     {
         global $container;
@@ -95,6 +100,12 @@ abstract class AbstractRecipientForm extends \TwigModule
         return $options;
     }
 
+    /**
+     * @param array $availableFieldNames
+     * @param array $values
+     *
+     * @return Form
+     */
     protected function createForm(array $availableFieldNames, array $values = array())
     {
         global $TL_DCA;

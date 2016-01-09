@@ -26,10 +26,15 @@ use ContaoCommunityAlliance\DcGeneral\Factory\DcGeneralFactory;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Class OptionsBuilder
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\DataContainer
+ */
 class OptionsBuilder implements EventSubscriberInterface
 {
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public static function getSubscribedEvents()
     {
@@ -40,6 +45,9 @@ class OptionsBuilder implements EventSubscriberInterface
         );
     }
 
+    /**
+     * @param CreateOptionsEvent $event
+     */
     public function createRecipientFieldOptions(CreateOptionsEvent $event)
     {
         $this->getRecipientFieldOptions($event->getDataContainer(), $event->getOptions());
@@ -85,11 +93,19 @@ class OptionsBuilder implements EventSubscriberInterface
         return $options;
     }
 
+    /**
+     * @param CreateOptionsEvent $event
+     */
     public function createRecipientOptions(CreateOptionsEvent $event)
     {
         $this->getRecipientOptions($event->getOptions());
     }
 
+    /**
+     * @param array $options
+     *
+     * @return array
+     */
     public function getRecipientOptions($options = array())
     {
         $recipientRepository = EntityHelper::getRepository('Avisota\Contao:Recipient');

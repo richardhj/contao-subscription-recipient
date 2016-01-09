@@ -24,8 +24,18 @@ use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GenerateFrontendUr
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GetPageDetailsEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * Class RecipientsRecipientSourceFactory
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\RecipientSource
+ */
 class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterface
 {
+    /**
+     * @param RecipientSource $entity
+     *
+     * @return mixed
+     */
     public function createRecipientSource(RecipientSource $entity)
     {
         global $container;

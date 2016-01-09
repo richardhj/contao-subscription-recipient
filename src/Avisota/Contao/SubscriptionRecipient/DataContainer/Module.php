@@ -31,6 +31,11 @@ use ContaoCommunityAlliance\DcGeneral\Event\ActionEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Class Module
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\DataContainer
+ */
 class Module
 {
     static protected $instance;
@@ -50,6 +55,8 @@ class Module
      * Inject the email field, if it is not selected.
      *
      * @param array $recipientFields
+     *
+     * @return array
      */
     public function injectRequiredRecipientFields($recipientFields)
     {

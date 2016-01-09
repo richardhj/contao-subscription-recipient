@@ -18,6 +18,11 @@ namespace Avisota\Contao\SubscriptionRecipient\Event;
 use Avisota\Contao\Entity\Recipient;
 use Symfony\Component\EventDispatcher\Event;
 
+/**
+ * Class ExportRecipientPropertyEvent
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Event
+ */
 class ExportRecipientPropertyEvent extends RecipientAwareEvent
 {
     /**
@@ -39,6 +44,7 @@ class ExportRecipientPropertyEvent extends RecipientAwareEvent
      * @param Recipient $recipient
      * @param string    $propertyName
      * @param mixed     $propertyValue
+     * @param null      $string
      */
     public function __construct(Recipient $recipient, $propertyName, $propertyValue = null, $string = null)
     {
@@ -58,6 +64,8 @@ class ExportRecipientPropertyEvent extends RecipientAwareEvent
 
     /**
      * @param mixed $propertyValue
+     *
+     * @return $this
      */
     public function setPropertyValue($propertyValue)
     {
@@ -75,6 +83,8 @@ class ExportRecipientPropertyEvent extends RecipientAwareEvent
 
     /**
      * @param string $string
+     *
+     * @return $this
      */
     public function setString($string)
     {

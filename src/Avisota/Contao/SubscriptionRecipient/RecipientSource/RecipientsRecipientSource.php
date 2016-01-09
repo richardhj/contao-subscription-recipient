@@ -68,7 +68,10 @@ class RecipientsRecipientSource implements RecipientSourceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param null $limit
+     * @param null $offset
+     *
+     * @return array
      */
     public function getRecipients($limit = null, $offset = null)
     {
@@ -154,6 +157,9 @@ class RecipientsRecipientSource implements RecipientSourceInterface
         return $mutableRecipients;
     }
 
+    /**
+     * @param QueryBuilder $queryBuilder
+     */
     protected function prepareQuery(QueryBuilder $queryBuilder)
     {
         $expr = $queryBuilder->expr();
@@ -241,6 +247,8 @@ class RecipientsRecipientSource implements RecipientSourceInterface
 
     /**
      * @param MailingList[] $filteredMailingLists
+     *
+     * @return $this
      */
     public function setFilteredMailingLists(array $filteredMailingLists)
     {
@@ -259,6 +267,8 @@ class RecipientsRecipientSource implements RecipientSourceInterface
 
     /**
      * @param array $filteredProperties
+     *
+     * @return $this
      */
     public function setFilteredProperties(array $filteredProperties)
     {

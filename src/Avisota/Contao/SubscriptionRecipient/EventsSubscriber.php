@@ -56,7 +56,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class EventsSubscriber implements EventSubscriberInterface
 {
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public static function getSubscribedEvents()
     {
@@ -134,6 +134,11 @@ class EventsSubscriber implements EventSubscriberInterface
         );
     }
 
+    /**
+     * @param ActionEvent                   $event
+     * @param null                          $eventName
+     * @param EventDispatcherInterface|null $eventDispatcher
+     */
     public function injectAutocompleter(
         ActionEvent $event,
         $eventName = null,
@@ -250,6 +255,11 @@ EOF;
         }
     }
 
+    /**
+     * @param ActionEvent                   $event
+     * @param null                          $eventName
+     * @param EventDispatcherInterface|null $eventDispatcher
+     */
     public function migrateRecipients(
         ActionEvent $event,
         $eventName = null,
@@ -454,6 +464,9 @@ EOF;
         }
     }
 
+    /**
+     * @param SubscriptionAwareEvent $event
+     */
     public function cleanRecipient(SubscriptionAwareEvent $event)
     {
         if (!\Config::get('avisota_subscription_recipient_cleanup')) {
@@ -476,6 +489,9 @@ EOF;
         }
     }
 
+    /**
+     * @param PrepareSubscriptionEvent $event
+     */
     public function prepareSubscription(PrepareSubscriptionEvent $event)
     {
         if ($event->getRecipient() instanceof Recipient) {
@@ -483,6 +499,9 @@ EOF;
         }
     }
 
+    /**
+     * @param ResolveRecipientEvent $event
+     */
     public function resolveRecipient(ResolveRecipientEvent $event)
     {
         // some other event listener has already resolved the recipient
@@ -500,12 +519,18 @@ EOF;
         }
     }
 
+    /**
+     * @param CreateOptionsEvent $event
+     */
     public function createRecipientPropertiesOptions(CreateOptionsEvent $event)
     {
         $options = $event->getOptions();
         $this->getRecipientPropertiesOptions($event->getDataContainer()->getEnvironment(), $options);
     }
 
+    /**
+     * @param GetEditModeButtonsEvent $event
+     */
     public function getExportButtons(GetEditModeButtonsEvent $event)
     {
         if ($event->getEnvironment()->getDataDefinition()->getName() != 'mem_avisota_recipient_export') {
@@ -524,6 +549,9 @@ EOF;
         $event->setButtons($buttons);
     }
 
+    /**
+     * @param GetPropertyOptionsEvent $event
+     */
     public function bypassCreateRecipientPropertiesOptions(GetPropertyOptionsEvent $event)
     {
         $options = $event->getOptions();
@@ -531,6 +559,9 @@ EOF;
         $event->setOptions($options);
     }
 
+    /**
+     * @param GetOptionsEvent $event
+     */
     public function bypassCreateMailingListOptions(GetOptionsEvent $event)
     {
         if (!in_array($event->getSubPropertyName(), array('mailingList', 'channel'))) {
@@ -547,6 +578,12 @@ EOF;
         $event->setOptions($options);
     }
 
+    /**
+     * @param EnvironmentInterface $environment
+     * @param array                $options
+     *
+     * @return array
+     */
     public function getRecipientPropertiesOptions(EnvironmentInterface $environment, $options = array())
     {
         global $container;
@@ -573,6 +610,9 @@ EOF;
         return $options;
     }
 
+    /**
+     * @param GetEditModeButtonsEvent $event
+     */
     public function getMigrateButtons(GetEditModeButtonsEvent $event)
     {
         if ($event->getEnvironment()->getDataDefinition()->getName() != 'mem_avisota_recipient_migrate') {
@@ -591,6 +631,9 @@ EOF;
         $event->setButtons($buttons);
     }
 
+    /**
+     * @param InitializeEventManager $event
+     */
     public function initializeEventManager(InitializeEventManager $event)
     {
         global $container;
@@ -658,6 +701,9 @@ EOF;
         }
     }
 
+    /**
+     * @param ExportRecipientPropertyEvent $event
+     */
     public function exportRecipientProperties(ExportRecipientPropertyEvent $event)
     {
         switch ($event->getPropertyName()) {
@@ -697,11 +743,19 @@ EOF;
         }
     }
 
+    /**
+     * @param CreateOptionsEvent $event
+     */
     public function createImportableRecipientFieldOptions(CreateOptionsEvent $event)
     {
         $this->getImportableRecipientFieldOptions($event->getOptions());
     }
 
+    /**
+     * @param array $options
+     *
+     * @return array
+     */
     public function getImportableRecipientFieldOptions($options = array())
     {
         global $container;
@@ -724,11 +778,19 @@ EOF;
         return $options;
     }
 
+    /**
+     * @param CreateOptionsEvent $event
+     */
     public function createEditableRecipientFieldOptions(CreateOptionsEvent $event)
     {
         $this->getEditableRecipientFieldOptions($event->getOptions());
     }
 
+    /**
+     * @param array $options
+     *
+     * @return array
+     */
     public function getEditableRecipientFieldOptions($options = array())
     {
         global $container,
@@ -755,6 +817,9 @@ EOF;
         return $options;
     }
 
+    /**
+     * @param CreateOptionsEvent $event
+     */
     public function createSubscribeTemplateOptions(CreateOptionsEvent $event)
     {
         $options   = $event->getOptions();
@@ -765,6 +830,9 @@ EOF;
         }
     }
 
+    /**
+     * @param CreateOptionsEvent $event
+     */
     public function createUnsubscribeTemplateOptions(CreateOptionsEvent $event)
     {
         $options   = $event->getOptions();
@@ -775,6 +843,9 @@ EOF;
         }
     }
 
+    /**
+     * @param CreateOptionsEvent $event
+     */
     public function createSubscriptionTemplateOptions(CreateOptionsEvent $event)
     {
         $options   = $event->getOptions();
@@ -785,6 +856,9 @@ EOF;
         }
     }
 
+    /**
+     * @param BuildTokensFromRecipientEvent $event
+     */
     public function buildRecipientTokens(BuildTokensFromRecipientEvent $event)
     {
         global $container;

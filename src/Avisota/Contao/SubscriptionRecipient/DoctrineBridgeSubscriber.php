@@ -40,6 +40,11 @@ class DoctrineBridgeSubscriber implements EventSubscriber
      */
     protected $eventDispatcher;
 
+    /**
+     * DoctrineBridgeSubscriber constructor.
+     *
+     * @param EventDispatcher $eventDispatcher
+     */
     public function __construct(EventDispatcher $eventDispatcher)
     {
         $this->eventDispatcher = $eventDispatcher;
@@ -47,6 +52,8 @@ class DoctrineBridgeSubscriber implements EventSubscriber
 
     /**
      * @param EventDispatcher $eventDispatcher
+     *
+     * @return $this
      */
     public function setEventDispatcher(EventDispatcher $eventDispatcher)
     {
@@ -63,7 +70,7 @@ class DoctrineBridgeSubscriber implements EventSubscriber
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public function getSubscribedEvents()
     {
@@ -74,6 +81,9 @@ class DoctrineBridgeSubscriber implements EventSubscriber
         );
     }
 
+    /**
+     * @param LifecycleEventArgs $eventArgs
+     */
     public function postPersist(LifecycleEventArgs $eventArgs)
     {
         $recipient = $eventArgs->getEntity();
@@ -84,6 +94,9 @@ class DoctrineBridgeSubscriber implements EventSubscriber
         }
     }
 
+    /**
+     * @param LifecycleEventArgs $eventArgs
+     */
     public function postUpdate(LifecycleEventArgs $eventArgs)
     {
         $recipient = $eventArgs->getEntity();
@@ -94,6 +107,9 @@ class DoctrineBridgeSubscriber implements EventSubscriber
         }
     }
 
+    /**
+     * @param LifecycleEventArgs $eventArgs
+     */
     public function postRemove(LifecycleEventArgs $eventArgs)
     {
         $recipient = $eventArgs->getEntity();
