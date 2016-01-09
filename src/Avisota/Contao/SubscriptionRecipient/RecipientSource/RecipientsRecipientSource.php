@@ -202,40 +202,12 @@ class RecipientsRecipientSource implements RecipientSourceInterface
                         $value = '';
                         break;
 
-                    case 'eq':
-                        $queryBuilder->andWhere(
-                            $expr->eq($property, ':property' . $index)
-                        );
-                        break;
-
-                    case 'neq':
-                        $queryBuilder->andWhere(
-                            $expr->neq($property, ':property' . $index)
-                        );
-                        break;
-
-                    case 'gt':
-                        $queryBuilder->andWhere(
-                            $expr->gt($property, ':property' . $index)
-                        );
-                        break;
-
-                    case 'gte':
-                        $queryBuilder->andWhere(
-                            $expr->gte($property, ':property' . $index)
-                        );
-                        break;
-
-                    case 'lt':
-                        $queryBuilder->andWhere(
-                            $expr->lt($property, ':property' . $index)
-                        );
-                        break;
-
-                    case 'lte':
-                        $queryBuilder->andWhere(
-                            $expr->lte($property, ':property' . $index)
-                        );
+                    default:
+                        if (method_exists($expr, $comparator)) {
+                            $queryBuilder->andWhere(
+                                $expr->$comparator($property, ':property' . $index)
+                            );
+                        }
                         break;
                 }
 
