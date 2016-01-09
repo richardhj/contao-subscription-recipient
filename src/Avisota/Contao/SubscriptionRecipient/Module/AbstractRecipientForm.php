@@ -30,10 +30,12 @@ abstract class AbstractRecipientForm extends \TwigModule
 {
     public function __construct($module)
     {
+        global $container;
+
         parent::__construct($module);
 
         /** @var EventDispatcher $eventDispatcher */
-        $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        $eventDispatcher = $container['event-dispatcher'];
 
         $eventDispatcher->dispatch(
             ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,
@@ -60,7 +62,8 @@ abstract class AbstractRecipientForm extends \TwigModule
      */
     protected function loadMailingLists($mailingListIds)
     {
-        $mailingLists          = array();
+        // Todo if the variable $mailingLists in use
+        #$mailingLists          = array();
         $mailingListRepository = EntityHelper::getRepository('Avisota\Contao:MailingList');
         $queryBuilder          = $mailingListRepository->createQueryBuilder('ml');
         $expr                  = $queryBuilder->expr();
@@ -94,6 +97,8 @@ abstract class AbstractRecipientForm extends \TwigModule
 
     protected function createForm(array $availableFieldNames, array $values = array())
     {
+        global $TL_DCA;
+
         $class = new \ReflectionClass($this);
 
         $form = new Form(
@@ -106,8 +111,8 @@ abstract class AbstractRecipientForm extends \TwigModule
         );
 
         foreach ($availableFieldNames as $availableFieldName) {
-            if (isset($GLOBALS['TL_DCA']['orm_avisota_recipient']['fields'][$availableFieldName])) {
-                $dca = $GLOBALS['TL_DCA']['orm_avisota_recipient']['fields'][$availableFieldName];
+            if (isset($TL_DCA['orm_avisota_recipient']['fields'][$availableFieldName])) {
+                $dca = $TL_DCA['orm_avisota_recipient']['fields'][$availableFieldName];
 
                 if (isset($values[$availableFieldName])) {
                     $dca['value'] = $values[$availableFieldName];

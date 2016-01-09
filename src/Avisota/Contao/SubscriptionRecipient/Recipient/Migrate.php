@@ -22,7 +22,8 @@ class Migrate extends \Controller
 {
     public static function collectPersonalsFromMembers(MigrateRecipientEvent $event)
     {
-        global $container;
+        global $container,
+               $TL_DCA;
 
         $migrate = new Migrate();
         $migrate->loadLanguageFile('orm_avisota_recipient');
@@ -49,7 +50,7 @@ class Migrate extends \Controller
                 ->execute();
             $member = $stmt->fetch();
 
-            $fields = $GLOBALS['TL_DCA']['orm_avisota_recipient']['fields'];
+            $fields = $TL_DCA['orm_avisota_recipient']['fields'];
             foreach ($fields as $fieldName => $fieldConfig) {
                 if (isset($fieldConfig['eval']['migrateFrom'])) {
                     $recipient->$fieldName = $member[$fieldConfig['eval']['migrateFrom']];

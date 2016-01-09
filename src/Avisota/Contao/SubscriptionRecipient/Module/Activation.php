@@ -56,20 +56,22 @@ class Activation extends AbstractRecipientForm
      */
     public function compile()
     {
+        global $container;
+
         $input = \Input::getInstance();
 
         /** @var SubscriptionManager $subscriptionManager */
-        $subscriptionManager = $GLOBALS['container']['avisota.subscription'];
+        $subscriptionManager = $container['avisota.subscription'];
 
         /** @var EventDispatcher $eventDispatcher */
-        $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        $eventDispatcher = $container['event-dispatcher'];
 
         $token = (array) $input->get('token');
 
         if (count($token)) {
             $subscriptions = $subscriptionManager->confirmByToken($token);
 
-            $_SESSION['AVISOTA_LAST_SUBSCRIPTIONS'] = $subscriptions;
+            \Session::getInstance()->set('AVISOTA_LAST_SUBSCRIPTIONS', $subscriptions);
 
             if ($this->avisota_activation_confirmation_page) {
                 $event = new GetPageDetailsEvent($this->avisota_activation_confirmation_page);

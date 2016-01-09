@@ -66,30 +66,70 @@ class EventsSubscriber implements EventSubscriberInterface
                 array('migrateRecipients'),
             ),
 
-            SubscriptionEvents::UNSUBSCRIBE                                                                                               => 'cleanRecipient',
-            SubscriptionEvents::CLEAN_SUBSCRIPTION                                                                                        => 'cleanRecipient',
-            SubscriptionEvents::PREPARE_SUBSCRIPTION                                                                                      => 'prepareSubscription',
-            SubscriptionEvents::RESOLVE_RECIPIENT                                                                                         => 'resolveRecipient',
-            SubscriptionEvents::CREATE_RECIPIENT_PROPERTIES_OPTIONS                                                                       => 'createRecipientPropertiesOptions',
+            GetEditModeButtonsEvent::NAME => array(
+                array('getExportButtons'),
+                array('getMigrateButtons'),
+            ),
+
+            SubscriptionEvents::UNSUBSCRIBE => array(
+                array('cleanRecipient'),
+            ),
+
+            SubscriptionEvents::CLEAN_SUBSCRIPTION => array(
+                array('cleanRecipient'),
+            ),
+
+            SubscriptionEvents::PREPARE_SUBSCRIPTION => array(
+                array('prepareSubscription'),
+            ),
+
+            SubscriptionEvents::RESOLVE_RECIPIENT => array(
+                array('resolveRecipient'),
+            ),
+
+            SubscriptionEvents::CREATE_RECIPIENT_PROPERTIES_OPTIONS => array(
+                array('createRecipientPropertiesOptions'),
+            ),
 
             // TODO: Where come this event ??
             GetPropertyOptionsEvent::NAME . '[orm_avisota_recipient_source][recipientsPropertyFilter][recipientsPropertyFilter_property]' => 'bypassCreateRecipientPropertiesOptions',
 
-            GetOptionsEvent::NAME => 'bypassCreateMailingListOptions',
+            GetOptionsEvent::NAME => array(
+                array('bypassCreateMailingListOptions'),
+            ),
 
-            GetEditModeButtonsEvent::NAME => 'getExportButtons',
-            GetEditModeButtonsEvent::NAME => 'getMigrateButtons',
+            DoctrineDbalEvents::INITIALIZE_EVENT_MANAGER => array(
+                array('initializeEventManager'),
+            ),
 
-            DoctrineDbalEvents::INITIALIZE_EVENT_MANAGER => 'initializeEventManager',
+            RecipientEvents::MIGRATE_RECIPIENT => array(
+                array('collectMemberPersonals'),
+            ),
 
-            RecipientEvents::MIGRATE_RECIPIENT         => 'collectMemberPersonals',
-            RecipientEvents::EXPORT_RECIPIENT_PROPERTY => 'exportRecipientProperties',
+            RecipientEvents::EXPORT_RECIPIENT_PROPERTY => array(
+                array('exportRecipientProperties'),
+            ),
 
-            RecipientDataContainerEvents::CREATE_IMPORTABLE_RECIPIENT_FIELD_OPTIONS       => 'createImportableRecipientFieldOptions',
-            RecipientDataContainerEvents::CREATE_EDITABLE_RECIPIENT_FIELD_OPTIONS         => 'createEditableRecipientFieldOptions',
-            RecipientDataContainerEvents::CREATE_SUBSCRIBE_TEMPLATE_OPTIONS               => 'createSubscribeTemplateOptions',
-            RecipientDataContainerEvents::CREATE_UNSUBSCRIBE_TEMPLATE_OPTIONS             => 'createUnsubscribeTemplateOptions',
-            RecipientDataContainerEvents::CREATE_SUBSCRIPTION_TEMPLATE_OPTIONS            => 'createSubscriptionTemplateOptions',
+            RecipientDataContainerEvents::CREATE_IMPORTABLE_RECIPIENT_FIELD_OPTIONS => array(
+                array('createImportableRecipientFieldOptions'),
+            ),
+
+            RecipientDataContainerEvents::CREATE_EDITABLE_RECIPIENT_FIELD_OPTIONS => array(
+                array('createEditableRecipientFieldOptions'),
+            ),
+
+            RecipientDataContainerEvents::CREATE_SUBSCRIBE_TEMPLATE_OPTIONS => array(
+                array('createSubscribeTemplateOptions'),
+            ),
+
+            RecipientDataContainerEvents::CREATE_UNSUBSCRIBE_TEMPLATE_OPTIONS => array(
+                array('createUnsubscribeTemplateOptions'),
+            ),
+
+            RecipientDataContainerEvents::CREATE_SUBSCRIPTION_TEMPLATE_OPTIONS => array(
+                array('createSubscriptionTemplateOptions'),
+            ),
+
             'avisota.subscription-notification-center-bridge.build-tokens-from-recipient' => 'buildRecipientTokens',
         );
     }
@@ -99,6 +139,11 @@ class EventsSubscriber implements EventSubscriberInterface
         $eventName = null,
         EventDispatcherInterface $eventDispatcher = null
     ) {
+        global $container,
+               $TL_CSS,
+               $TL_JAVASCRIPT,
+               $TL_MOOTOOLS;
+
         static $injected;
 
         if (!$injected
@@ -107,7 +152,7 @@ class EventsSubscriber implements EventSubscriberInterface
             // backwards compatibility
             if (!$eventDispatcher) {
                 /** @var EventDispatcher $eventDispatcher */
-                $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+                $eventDispatcher = $container['event-dispatcher'];
             }
 
             // load language file
@@ -119,11 +164,11 @@ class EventsSubscriber implements EventSubscriberInterface
             $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_LOAD_DATA_CONTAINER, $loadEvent);
 
             // inject styles
-            $GLOBALS['TL_CSS'][] = 'assets/avisota/subscription-recipient/css/meio.autocomplete.css';
+            $TL_CSS[] = 'assets/avisota/subscription-recipient/css/meio.autocomplete.css';
 
             // inject scripts
-            $GLOBALS['TL_JAVASCRIPT'][] = 'assets/avisota/subscription-recipient/js/Meio.Autocomplete.js';
-            $GLOBALS['TL_JAVASCRIPT'][] = 'assets/avisota/subscription-recipient/js/mootools-more-1.5.0.js';
+            $TL_JAVASCRIPT[] = 'assets/avisota/subscription-recipient/js/Meio.Autocomplete.js';
+            $TL_JAVASCRIPT[] = 'assets/avisota/subscription-recipient/js/mootools-more-1.5.0.js';
 
             // build container for orm_avisota_recipient
             $factory = DcGeneralFactory::deriveFromEnvironment($event->getEnvironment());
@@ -141,7 +186,7 @@ class EventsSubscriber implements EventSubscriberInterface
             $tokens = json_encode($tokens);
 
             // inject runtime code
-            $GLOBALS['TL_MOOTOOLS'][] = <<<EOF
+            $TL_MOOTOOLS[] = <<<EOF
 <script>
 var element = $('ctrl_salutation');
 if (element) {
@@ -215,6 +260,9 @@ EOF;
             && $event->getAction()
                    ->getName() == 'migrate'
         ) {
+            global $container,
+                   $TL_LANG;
+
             if (!$eventDispatcher) {
                 $eventDispatcher = $event->getDispatcher();
             }
@@ -222,7 +270,7 @@ EOF;
             $input       = $environment->getInputProvider();
             $migrationId = 'AVISOTA_MIGRATE_RECIPIENT_' . $input->getParameter('migration');
 
-            if (empty($_SESSION[$migrationId])) {
+            if (empty(\Session::getInstance()->get($migrationId))) {
                 $addToUrlEvent = new AddToUrlEvent('act=&migration=');
                 $eventDispatcher->dispatch(ContaoEvents::BACKEND_ADD_TO_URL, $addToUrlEvent);
 
@@ -231,9 +279,8 @@ EOF;
                 return;
             }
 
-            $migrationSettings = $_SESSION[$migrationId];
+            $migrationSettings = \Session::getInstance()->get($migrationId);
 
-            global $container;
 
             /** @var \Doctrine\DBAL\Connection $connection */
             $connection = $container['doctrine.connection.default'];
@@ -357,17 +404,19 @@ EOF;
             $entityManager->flush();
 
             if (count($contaoRecipients) < 10) {
-                unset($_SESSION[$migrationId]);
+                \Session::getInstance()->remove($migrationId);
 
-                if (!is_array($_SESSION['TL_CONFIRM'])) {
-                    $_SESSION['TL_CONFIRM'] = (array) $_SESSION['TL_CONFIRM'];
+                if (!is_array(\Session::getInstance()->get('TL_CONFIRM'))) {
+                    \Session::getInstance()->set('TL_CONFIRM', (array) \Session::getInstance()->get('TL_CONFIRM'));
                 }
 
-                $_SESSION['TL_CONFIRM'][] = sprintf(
-                    $GLOBALS['TL_LANG']['mem_avisota_recipient_migrate']['migrated'],
+                $confirmSession   = \Session::getInstance()->get('TL_CONFIRM');
+                $confirmSession[] = sprintf(
+                    $TL_LANG['mem_avisota_recipient_migrate']['migrated'],
                     $migrated,
                     $skipped
                 );
+                \Session::getInstance()->set('TL_CONFIRM', $confirmSession);
 
                 $addToUrlEvent = new AddToUrlEvent('act=&migration=');
                 $eventDispatcher->dispatch(ContaoEvents::BACKEND_ADD_TO_URL, $addToUrlEvent);
@@ -379,7 +428,7 @@ EOF;
                 $migrationSettings['offset']   = $offset + count($contaoRecipients);
                 $migrationSettings['skipped']  = $skipped;
                 $migrationSettings['migrated'] = $migrated;
-                $_SESSION[$migrationId]        = $migrationSettings;
+                \Session::getInstance()->set($migrationId, $migrationSettings);
 
                 $response->append('</ul><br>');
                 $response->append(
@@ -407,7 +456,7 @@ EOF;
 
     public function cleanRecipient(SubscriptionAwareEvent $event)
     {
-        if (!$GLOBALS['TL_CONFIG']['avisota_subscription_recipient_cleanup']) {
+        if (!\Config::get('avisota_subscription_recipient_cleanup')) {
             return;
         }
 
@@ -488,8 +537,10 @@ EOF;
             return;
         }
 
+        global $container;
+
         /** @var OptionsBuilder $optionsBuilder */
-        $optionsBuilder = $GLOBALS['container']['avisota.core.options-builder'];
+        $optionsBuilder = $container['avisota.core.options-builder'];
 
         $options = $event->getOptions();
         $options = $optionsBuilder->getMailingListOptions($options);
@@ -498,8 +549,10 @@ EOF;
 
     public function getRecipientPropertiesOptions(EnvironmentInterface $environment, $options = array())
     {
+        global $container;
+
         /** @var EventDispatcher $eventDispatcher */
-        $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        $eventDispatcher = $container['event-dispatcher'];
 
         $loadDataContainerEvent = new LoadDataContainerEvent('orm_avisota_recipient');
         $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_LOAD_DATA_CONTAINER, $loadDataContainerEvent);
@@ -540,8 +593,10 @@ EOF;
 
     public function initializeEventManager(InitializeEventManager $event)
     {
+        global $container;
+
         /** @var EventDispatcher $eventDispatcher */
-        $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        $eventDispatcher = $container['event-dispatcher'];
         $bridge          = new DoctrineBridgeSubscriber($eventDispatcher);
 
         $eventManager = $event->getEventManager();
@@ -555,13 +610,15 @@ EOF;
      */
     public function collectMemberPersonals(MigrateRecipientEvent $event)
     {
+        global $container;
+
         $migrationSettings = $event->getMigrationSettings();
 
         if ($migrationSettings['importFromMembers']) {
             $recipient = $event->getRecipient();
 
             /** @var \Doctrine\DBAL\Connection $connection */
-            $connection = $GLOBALS['container']['doctrine.connection.default'];
+            $connection = $container['doctrine.connection.default'];
 
             $queryBuilder = $connection->createQueryBuilder();
 
@@ -580,7 +637,7 @@ EOF;
 
             if ($member) {
                 /** @var EntityAccessor $entityAccessor */
-                $entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
+                $entityAccessor = $container['doctrine.orm.entityAccessor'];
 
                 foreach ($member as $key => $value) {
                     // graceful conversions
@@ -647,8 +704,10 @@ EOF;
 
     public function getImportableRecipientFieldOptions($options = array())
     {
+        global $container;
+
         /** @var EventDispatcher $eventDispatcher */
-        $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        $eventDispatcher = $container['event-dispatcher'];
 
         $dcGeneralFactory = new DcGeneralFactory();
         $dcGeneralFactory->setContainerName('orm_avisota_recipient');
@@ -672,8 +731,11 @@ EOF;
 
     public function getEditableRecipientFieldOptions($options = array())
     {
+        global $container,
+               $TL_DCA;
+
         /** @var EventDispatcher $eventDispatcher */
-        $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        $eventDispatcher = $container['event-dispatcher'];
 
         $eventDispatcher->dispatch(
             ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,
@@ -684,7 +746,7 @@ EOF;
             new LoadDataContainerEvent('orm_avisota_recipient')
         );
 
-        foreach ($GLOBALS['TL_DCA']['orm_avisota_recipient']['fields'] as $fieldName => $fieldConfig) {
+        foreach ($TL_DCA['orm_avisota_recipient']['fields'] as $fieldName => $fieldConfig) {
             if ($fieldConfig['eval']['feEditable']) {
                 $options[$fieldName] = $fieldConfig['label'][0];
             }
@@ -725,6 +787,8 @@ EOF;
 
     public function buildRecipientTokens(BuildTokensFromRecipientEvent $event)
     {
+        global $container;
+
         $recipient = $event->getRecipient();
 
         if (!$recipient instanceof Recipient) {
@@ -732,7 +796,7 @@ EOF;
         }
 
         /** @var EntityAccessor $entityAccessor */
-        $entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
+        $entityAccessor = $container['doctrine.orm.entityAccessor'];
 
         $tokens = $event->getTokens();
 

@@ -42,7 +42,7 @@ class RecipientExportDataProvider extends NoOpDataProvider
         global $container;
 
         /** @var EntityAccessor $entityAccessor */
-        $entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
+        $entityAccessor = $container['doctrine.orm.entityAccessor'];
 
         /** @var EventDispatcher $eventDispatcher */
         $eventDispatcher = $container['event-dispatcher'];

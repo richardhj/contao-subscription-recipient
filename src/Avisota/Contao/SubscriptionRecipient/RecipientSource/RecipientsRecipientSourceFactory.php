@@ -26,25 +26,27 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterface
 {
-    public function createRecipientSource(RecipientSource $recipientSourceEntity)
+    public function createRecipientSource(RecipientSource $entity)
     {
+        global $container;
+
         $recipientSource = new RecipientsRecipientSource();
 
-        if ($recipientSourceEntity->getFilter()) {
-            if ($recipientSourceEntity->getFilterByMailingLists()) {
-                $recipientSource->setFilteredMailingLists($recipientSourceEntity->getMailingLists()->toArray());
+        if ($entity->getFilter()) {
+            if ($entity->getFilterByMailingLists()) {
+                $recipientSource->setFilteredMailingLists($entity->getMailingLists()->toArray());
             }
-            if ($recipientSourceEntity->getRecipientsUsePropertyFilter()) {
-                $recipientSource->setFilteredProperties($recipientSourceEntity->getRecipientsPropertyFilter());
+            if ($entity->getRecipientsUsePropertyFilter()) {
+                $recipientSource->setFilteredProperties($entity->getRecipientsPropertyFilter());
             }
         }
 
         /** @var EventDispatcherInterface $eventDispatcher */
-        $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        $eventDispatcher = $container['event-dispatcher'];
 
-        if ($recipientSourceEntity->getRecipientsManageSubscriptionPage()) {
+        if ($entity->getRecipientsManageSubscriptionPage()) {
             $getPageDetailsEvent =
-                new GetPageDetailsEvent($recipientSourceEntity->getRecipientsManageSubscriptionPage());
+                new GetPageDetailsEvent($entity->getRecipientsManageSubscriptionPage());
             $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $getPageDetailsEvent);
 
             $generateFrontendUrlEvent = new GenerateFrontendUrlEvent($getPageDetailsEvent->getPageDetails());
@@ -61,8 +63,8 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
             $recipientSource->setManageSubscriptionUrlPattern($url);
         }
 
-        if ($recipientSourceEntity->getRecipientsUnsubscribePage()) {
-            $getPageDetailsEvent = new GetPageDetailsEvent($recipientSourceEntity->getRecipientsUnsubscribePage());
+        if ($entity->getRecipientsUnsubscribePage()) {
+            $getPageDetailsEvent = new GetPageDetailsEvent($entity->getRecipientsUnsubscribePage());
             $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $getPageDetailsEvent);
 
             $generateFrontendUrlEvent = new GenerateFrontendUrlEvent($getPageDetailsEvent->getPageDetails());
@@ -79,7 +81,7 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
             $recipientSource->setUnsubscribeUrlPattern($url);
         }
 
-        $event = new CreateRecipientSourceEvent($recipientSourceEntity, $recipientSource);
+        $event = new CreateRecipientSourceEvent($entity, $recipientSource);
         $eventDispatcher->dispatch(CoreEvents::CREATE_RECIPIENT_SOURCE, $event);
 
         return $event->getRecipientSource();

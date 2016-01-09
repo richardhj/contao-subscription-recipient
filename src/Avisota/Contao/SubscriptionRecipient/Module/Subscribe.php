@@ -56,22 +56,25 @@ class Subscribe extends AbstractRecipientForm
      */
     public function compile()
     {
-        global $TL_DCA;
+        global $TL_DCA,
+               $TL_LANG,
+               $container,
+               $objPage;
 
         $input = \Input::getInstance();
 
         /** @var SubscriptionManager $subscriptionManager */
-        $subscriptionManager = $GLOBALS['container']['avisota.subscription'];
+        $subscriptionManager = $container['avisota.subscription'];
 
         /** @var EventDispatcher $eventDispatcher */
-        $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        $eventDispatcher = $container['event-dispatcher'];
 
         $token = (array) $input->get('token');
 
         if (count($token)) {
             $subscriptions = $subscriptionManager->confirmByToken($token);
 
-            $_SESSION['AVISOTA_LAST_SUBSCRIPTIONS'] = $subscriptions;
+            \Session::getInstance()->set('AVISOTA_LAST_SUBSCRIPTIONS', $subscriptions);
 
             if ($this->avisota_subscribe_activate_confirmation_page) {
                 $event = new GetPageDetailsEvent($this->avisota_subscribe_activate_confirmation_page);
@@ -104,10 +107,10 @@ class Subscribe extends AbstractRecipientForm
 
         if ($form->validate()) {
             /** @var EntityAccessor $entityAccessor */
-            $entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
+            $entityAccessor = $container['doctrine.orm.entityAccessor'];
 
             /** @var TransportInterface $transport */
-            $transport = $GLOBALS['container']['avisota.transport.default'];
+            $transport = $container['avisota.transport.default'];
 
             $values     = $form->fetchAll();
             $email      = $values['email'];
@@ -151,8 +154,7 @@ class Subscribe extends AbstractRecipientForm
             );
 
             /** @var Subscription[] $subscriptions */
-
-            $_SESSION['AVISOTA_LAST_SUBSCRIPTIONS'] = $subscriptions;
+            \Session::getInstance()->set('AVISOTA_LAST_SUBSCRIPTIONS', $subscriptions);
 
             $entityManager->flush();
 
@@ -163,7 +165,7 @@ class Subscribe extends AbstractRecipientForm
 
                     if ($message) {
                         /** @var MessageRendererInterface $renderer */
-                        $renderer = $GLOBALS['container']['avisota.message.renderer'];
+                        $renderer = $container['avisota.message.renderer'];
 
                         if ($this->avisota_subscribe_activation_page) {
                             $event = new GetPageDetailsEvent($this->avisota_subscribe_activation_page);
@@ -171,7 +173,7 @@ class Subscribe extends AbstractRecipientForm
 
                             $pageDetails = $event->getPageDetails();
                         } else {
-                            $pageDetails = $GLOBALS['objPage']->row();
+                            $pageDetails = $objPage->row();
                         }
 
                         $event = new GenerateFrontendUrlEvent($pageDetails);
@@ -190,7 +192,7 @@ class Subscribe extends AbstractRecipientForm
                         $data = array(
                             'link'          => array(
                                 'url'  => $url,
-                                'text' => $GLOBALS['TL_LANG']['fe_avisota_subscription']['confirm'],
+                                'text' => $TL_LANG['fe_avisota_subscription']['confirm'],
                             ),
                             'subscriptions' => $subscriptions,
                         );

@@ -42,11 +42,13 @@ class RecipientMigrateDataProvider extends NoOpDataProvider
 
         $migrationSettings = $objItem->getPropertiesAsArray();
 
+        $session = \Session::getInstance();
+
         do {
             $migrationId = substr(md5(mt_rand()), 0, 8);
-        } while (isset($_SESSION['AVISOTA_MIGRATE_RECIPIENT_' . $migrationId]));
+        } while ($session->get('AVISOTA_MIGRATE_RECIPIENT_' . $migrationId));
 
-        $_SESSION['AVISOTA_MIGRATE_RECIPIENT_' . $migrationId] = $migrationSettings;
+        $session->set('AVISOTA_MIGRATE_RECIPIENT_' . $migrationId, $migrationSettings);
 
         $addToUrlEvent = new AddToUrlEvent('act=migrate&migration=' . rawurlencode($migrationId));
         $eventDispatcher->dispatch(ContaoEvents::BACKEND_ADD_TO_URL, $addToUrlEvent);

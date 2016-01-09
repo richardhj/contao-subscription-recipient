@@ -56,10 +56,11 @@ class Unsubscribe extends AbstractRecipientForm
      */
     public function compile()
     {
-        global $TL_DCA;
+        global $TL_DCA,
+               $container;
 
         /** @var SubscriptionManager $subscriptionManager */
-        $subscriptionManager = $GLOBALS['container']['avisota.subscription'];
+        $subscriptionManager = $container['avisota.subscription'];
 
         $mailingListIds  = deserialize($this->avisota_mailing_lists, true);
         $recipientFields = array('email');
@@ -83,10 +84,10 @@ class Unsubscribe extends AbstractRecipientForm
 
         if ($form->validate()) {
             /** @var EventDispatcher $eventDispatcher */
-            $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+            $eventDispatcher = $container['event-dispatcher'];
 
             /** @var TransportInterface $transport */
-            $transport = $GLOBALS['container']['avisota.transport.default'];
+            $transport = $container['avisota.transport.default'];
 
             $values     = $form->fetchAll();
             $email      = $values['email'];
@@ -114,7 +115,7 @@ class Unsubscribe extends AbstractRecipientForm
 
                 $subscriptionManager->unsubscribe($subscriptions);
 
-                $_SESSION['AVISOTA_LAST_SUBSCRIPTIONS'] = $subscriptions;
+                \Session::getInstance()->set('AVISOTA_LAST_SUBSCRIPTIONS', $subscriptions);
 
                 if (count($subscriptions)) {
                     if ($this->avisota_unsubscribe_confirmation_message) {
@@ -123,7 +124,7 @@ class Unsubscribe extends AbstractRecipientForm
 
                         if ($message) {
                             /** @var MessageRendererInterface $renderer */
-                            $renderer = $GLOBALS['container']['avisota.message.renderer'];
+                            $renderer = $container['avisota.message.renderer'];
 
                             $data = array(
                                 'subscriptions' => $subscriptions,

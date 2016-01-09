@@ -83,8 +83,10 @@ abstract class AbstractRecipient implements SubscriptionRecipientInterface
      */
     public function getDetails()
     {
+        global $container;
+
         /** @var EntityAccessor $entityAccessor */
-        $entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
+        $entityAccessor = $container['doctrine.orm.entityAccessor'];
         $details        = $entityAccessor->getPublicProperties($this, true);
         return $details;
     }

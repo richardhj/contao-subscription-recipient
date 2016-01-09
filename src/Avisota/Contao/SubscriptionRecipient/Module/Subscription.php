@@ -33,10 +33,12 @@ class Subscription extends AbstractRecipientForm
 
     public function __construct($module)
     {
+        global $container;
+
         parent::__construct($module);
 
         /** @var EventDispatcher $eventDispatcher */
-        $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        $eventDispatcher = $container['event-dispatcher'];
 
         $eventDispatcher->dispatch(
             ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,

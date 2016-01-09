@@ -68,6 +68,9 @@ class Recipient implements EventSubscriberInterface
      */
     public function handleAction(ActionEvent $event)
     {
+        global $TL_LANG,
+               $container;
+
         if ($event->getResponse()
             || $event->getEnvironment()->getDataDefinition()->getName() != 'orm_avisota_recipient'
         ) {
@@ -89,16 +92,16 @@ class Recipient implements EventSubscriberInterface
                 /** @var Subscription $subscription */
 
                 /** @var SubscriptionManager $subscriptionManager */
-                $subscriptionManager = $GLOBALS['container']['avisota.subscription'];
+                $subscriptionManager = $container['avisota.subscription'];
                 $subscriptionManager->confirm($subscription);
 
                 $event = AddMessageEvent::createConfirm(
                     sprintf(
-                        $GLOBALS['TL_LANG']['orm_avisota_recipient']['confirm-subscription'],
+                        $TL_LANG['orm_avisota_recipient']['confirm-subscription'],
                         $subscription->getRecipient()->getTitle(),
                         $subscription->getMailingList()
                             ? $subscription->getMailingList()->getTitle()
-                            : $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']
+                            : $TL_LANG['orm_avisota_recipient']['subscription_global']
                     )
                 );
                 $eventDispatcher->dispatch(ContaoEvents::MESSAGE_ADD, $event);
@@ -116,16 +119,16 @@ class Recipient implements EventSubscriberInterface
                 /** @var Subscription $subscription */
 
                 /** @var SubscriptionManager $subscriptionManager */
-                $subscriptionManager = $GLOBALS['container']['avisota.subscription'];
+                $subscriptionManager = $container['avisota.subscription'];
                 $subscriptionManager->unsubscribe($subscription);
 
                 $event = AddMessageEvent::createConfirm(
                     sprintf(
-                        $GLOBALS['TL_LANG']['orm_avisota_recipient']['remove-subscription'],
+                        $TL_LANG['orm_avisota_recipient']['remove-subscription'],
                         $subscription->getRecipient()->getTitle(),
                         $subscription->getMailingList()
                             ? $subscription->getMailingList()->getTitle()
-                            : $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']
+                            : $TL_LANG['orm_avisota_recipient']['subscription_global']
                     )
                 );
                 $eventDispatcher->dispatch(ContaoEvents::MESSAGE_ADD, $event);
@@ -151,16 +154,16 @@ class Recipient implements EventSubscriberInterface
                 /** @var MailingList $mailingList */
 
                 /** @var SubscriptionManager $subscriptionManager */
-                $subscriptionManager = $GLOBALS['container']['avisota.subscription'];
+                $subscriptionManager = $container['avisota.subscription'];
                 $subscriptionManager->subscribe($recipient, $mailingList, $subscribeOptions);
 
                 $event = AddMessageEvent::createConfirm(
                     sprintf(
-                        $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe'],
+                        $TL_LANG['orm_avisota_recipient']['subscribe'],
                         $recipient->getEmail(),
                         $mailingList
                             ? $mailingList->getTitle()
-                            : $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']
+                            : $TL_LANG['orm_avisota_recipient']['subscription_global']
                     )
                 );
                 $eventDispatcher->dispatch(ContaoEvents::MESSAGE_ADD, $event);
@@ -186,7 +189,8 @@ class Recipient implements EventSubscriberInterface
             return;
         }
 
-        global $container;
+        global $container,
+               $TL_LANG;
 
         /** @var EntityModel $model */
         $model = $event->getModel();
@@ -222,8 +226,8 @@ class Recipient implements EventSubscriberInterface
         // add recipient email
         $label .= ' <span style="color:#b3b3b3; padding-left:.5em;">(';
         $label .= sprintf(
-            $GLOBALS['TL_LANG']['orm_avisota_recipient']['added_at'],
-            $recipient->getCreatedAt()->format($GLOBALS['TL_CONFIG']['datimFormat'])
+            $TL_LANG['orm_avisota_recipient']['added_at'],
+            $recipient->getCreatedAt()->format(\Config::get('datimFormat'))
         );
         if ($recipient->getAddedById() > 0) {
             $user = $database
@@ -231,7 +235,7 @@ class Recipient implements EventSubscriberInterface
                 ->execute($recipient->getAddedById());
 
             if ($user->next()) {
-                $format     = $GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by'];
+                $format     = $TL_LANG['orm_avisota_recipient']['added_by'];
                 $parameters = array(
                     $user->name,
                     $user->username,
@@ -246,7 +250,7 @@ class Recipient implements EventSubscriberInterface
                     )
                 );
             } else {
-                $format     = $GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by_unlinked'];
+                $format     = $TL_LANG['orm_avisota_recipient']['added_by_unlinked'];
                 $parameters = array(
                     $recipient->getAddedByName(),
                     $recipient->getAddedByUsername()
@@ -316,8 +320,11 @@ class Recipient implements EventSubscriberInterface
         MailingList $mailingList = null,
         Subscription $subscription = null
     ) {
+        global $container,
+               $TL_LANG;
+
         /** @var SubscriptionManager $subscriptionManager */
-        $subscriptionManager = $GLOBALS['container']['avisota.subscription'];
+        $subscriptionManager = $container['avisota.subscription'];
 
         $buffer = '';
 
@@ -337,10 +344,10 @@ class Recipient implements EventSubscriberInterface
             if ($subscriptionManager->isBlacklisted($recipient, $mailingList)) {
                 $event = new GenerateHtmlEvent(
                     'error.gif',
-                    $GLOBALS['TL_LANG']['orm_avisota_recipient']['blacklisted'],
+                    $TL_LANG['orm_avisota_recipient']['blacklisted'],
                     sprintf(
                         'title="%s"',
-                        specialchars($GLOBALS['TL_LANG']['orm_avisota_recipient']['blacklisted'])
+                        specialchars($TL_LANG['orm_avisota_recipient']['blacklisted'])
                     )
                 );
                 $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
@@ -360,14 +367,14 @@ class Recipient implements EventSubscriberInterface
         if ($mailingList) {
             $buffer .= $mailingList->getTitle();
         } else {
-            $buffer .= $GLOBALS['TL_LANG']['MSC']['avisota-global-subscription-label'];
+            $buffer .= $TL_LANG['MSC']['avisota-global-subscription-label'];
         }
 
         $buffer .= '</td><td class="tl_file_list tl_right_nowrap">';
 
         if ($subscription) {
             if (!$subscription->getActive()) {
-                $title = $GLOBALS['TL_LANG']['orm_avisota_recipient']['confirm_subscription'];
+                $title = $TL_LANG['orm_avisota_recipient']['confirm_subscription'];
 
                 $event = new GenerateHtmlEvent('ok.gif', $title, sprintf('title="%s"', specialchars($title)));
                 $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
@@ -383,8 +390,8 @@ class Recipient implements EventSubscriberInterface
             }
 
             $title = $mailingList
-                ? $GLOBALS['TL_LANG']['orm_avisota_recipient']['unsubscribe']
-                : $GLOBALS['TL_LANG']['orm_avisota_recipient']['unsubscribe_globally'];
+                ? $TL_LANG['orm_avisota_recipient']['unsubscribe']
+                : $TL_LANG['orm_avisota_recipient']['unsubscribe_globally'];
 
             $event = new GenerateHtmlEvent('delete.gif', $title, sprintf('title="%s"', specialchars($title)));
             $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
@@ -399,8 +406,8 @@ class Recipient implements EventSubscriberInterface
             );
         } else {
             $title = $mailingList
-                ? $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe']
-                : $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe_globally'];
+                ? $TL_LANG['orm_avisota_recipient']['subscribe']
+                : $TL_LANG['orm_avisota_recipient']['subscribe_globally'];
 
             $event = new GenerateHtmlEvent('new.gif', $title, sprintf('title="%s"', specialchars($title)));
             $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
@@ -418,8 +425,8 @@ class Recipient implements EventSubscriberInterface
             );
 
             $title = $mailingList
-                ? $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe_confirmed']
-                : $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe_globally_confirmed'];
+                ? $TL_LANG['orm_avisota_recipient']['subscribe_confirmed']
+                : $TL_LANG['orm_avisota_recipient']['subscribe_globally_confirmed'];
 
             $event = new GenerateHtmlEvent('copychilds.gif', $title, sprintf('title="%s"', specialchars($title)));
             $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);

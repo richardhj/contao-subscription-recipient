@@ -65,7 +65,8 @@ class RecipientDataContainerEvents
      *
      * @api
      */
-    const CREATE_SUBSCRIBE_TEMPLATE_OPTIONS = 'avisota.subscription-recipient.create-subscribe-template-options';
+    const CREATE_SUBSCRIBE_TEMPLATE_OPTIONS =
+        'avisota.subscription-recipient.create-subscribe-template-options';
 
     /**
      * The CREATE_UNSUBSCRIBE_TEMPLATE_OPTIONS event occurs
@@ -78,7 +79,8 @@ class RecipientDataContainerEvents
      *
      * @api
      */
-    const CREATE_UNSUBSCRIBE_TEMPLATE_OPTIONS = 'avisota.subscription-recipient.create-unsubscribe-template-options';
+    const CREATE_UNSUBSCRIBE_TEMPLATE_OPTIONS =
+        'avisota.subscription-recipient.create-unsubscribe-template-options';
 
     /**
      * The CREATE_SUBSCRIPTION_TEMPLATE_OPTIONS event occurs
@@ -91,5 +93,6 @@ class RecipientDataContainerEvents
      *
      * @api
      */
-    const CREATE_SUBSCRIPTION_TEMPLATE_OPTIONS = 'avisota.subscription-recipient.create-subscription-template-options';
+    const CREATE_SUBSCRIPTION_TEMPLATE_OPTIONS =
+        'avisota.subscription-recipient.create-subscription-template-options';
 }

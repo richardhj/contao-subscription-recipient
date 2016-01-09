@@ -72,6 +72,9 @@ class RecipientsRecipientSource implements RecipientSourceInterface
      */
     public function getRecipients($limit = null, $offset = null)
     {
+        global $container,
+               $TL_LANG;
+
         $queryBuilder = EntityHelper::getEntityManager()->createQueryBuilder();
         $queryBuilder
             ->select('r')
@@ -92,7 +95,7 @@ class RecipientsRecipientSource implements RecipientSourceInterface
         $mutableRecipients = array();
 
         /** @var EventDispatcherInterface $eventDispatcher */
-        $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        $eventDispatcher = $container['event-dispatcher'];
 
         /** @var Recipient $recipient */
         foreach ($recipients as $recipient) {
@@ -116,7 +119,7 @@ class RecipientsRecipientSource implements RecipientSourceInterface
 
                 $properties['manage_subscription_link'] = array(
                     'url'  => $url,
-                    'text' => &$GLOBALS['TL_LANG']['fe_avisota_subscription']['manage_subscription']
+                    'text' => &$TL_LANG['fe_avisota_subscription']['manage_subscription']
                 );
             }
 
@@ -138,7 +141,7 @@ class RecipientsRecipientSource implements RecipientSourceInterface
 
                 $properties['unsubscribe_link'] = array(
                     'url'  => $url,
-                    'text' => &$GLOBALS['TL_LANG']['fe_avisota_subscription']['unsubscribe_direct']
+                    'text' => &$TL_LANG['fe_avisota_subscription']['unsubscribe_direct']
                 );
             }
 
@@ -158,13 +161,13 @@ class RecipientsRecipientSource implements RecipientSourceInterface
         if (count($this->filteredMailingLists)) {
             $queryBuilder->innerJoin('r.subscriptions', 's');
 
-            $or = $expr->orX();
+            $orExpression = $expr->orX();
             foreach ($this->filteredMailingLists as $index => $mailingList) {
-                $or->add($expr->eq('s.mailingList', ':mailingList' . $index));
+                $orExpression->add($expr->eq('s.mailingList', ':mailingList' . $index));
                 $queryBuilder->setParameter('mailingList' . $index, $mailingList->getId());
             }
 
-            $queryBuilder->andWhere($or);
+            $queryBuilder->andWhere($orExpression);
         }
 
         if (count($this->filteredProperties)) {
