@@ -19,7 +19,7 @@ use Avisota\Contao\Entity\Recipient;
 use Avisota\Contao\Subscription\Event\PrepareSubscriptionEvent;
 use Avisota\Contao\Subscription\Event\ResolveRecipientEvent;
 use Avisota\Contao\Subscription\SubscriptionEvents;
-use Avisota\Contao\SubscriptionRecipient\Event\CreateRecipientEvent;
+
 use Avisota\Contao\SubscriptionRecipient\Event\RecipientAwareEvent;
 use Contao\Doctrine\DBAL\DoctrineDbalEvents;
 use Contao\Doctrine\DBAL\Event\InitializeEventManager;

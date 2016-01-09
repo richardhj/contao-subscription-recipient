@@ -15,10 +15,8 @@
 
 namespace Avisota\Contao\SubscriptionRecipient\DataContainer\DataProvider;
 
-use Avisota\Contao\Subscription\SubscriptionManager;
 use Avisota\Contao\Entity\Recipient;
-use Avisota\Contao\SubscriptionRecipient\Event\MigrateRecipientEvent;
-use Avisota\Contao\SubscriptionRecipient\RecipientEvents;
+use Avisota\Contao\Subscription\SubscriptionManager;
 use Contao\Doctrine\ORM\EntityHelper;
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Backend\AddToUrlEvent;

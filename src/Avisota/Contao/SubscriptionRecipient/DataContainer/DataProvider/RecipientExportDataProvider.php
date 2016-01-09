@@ -18,7 +18,7 @@ namespace Avisota\Contao\SubscriptionRecipient\DataContainer\DataProvider;
 use Avisota\Contao\Subscription\SubscriptionManager;
 use Avisota\Contao\Entity\Recipient;
 use Avisota\Contao\SubscriptionRecipient\Event\ExportRecipientPropertyEvent;
-use Avisota\Contao\SubscriptionRecipient\Event\MigrateRecipientEvent;
+
 use Avisota\Contao\SubscriptionRecipient\RecipientEvents;
 use Contao\Doctrine\ORM\EntityAccessor;
 use Contao\Doctrine\ORM\EntityHelper;
