@@ -342,13 +342,40 @@ class Recipient implements EventSubscriberInterface
         MailingList $mailingList = null,
         Subscription $subscription = null
     ) {
-        global $container,
-               $TL_LANG;
+        global $TL_LANG;
+
+        $buffer = '';
+
+        list($icon, $class) = $this->getStateIconAndClass($recipient, $eventDispatcher, $mailingList, $subscription);
+
+        $buffer .= '<tr><td class="tl_file_list ' . $class . '">';
+        $buffer .= $icon;
+        $buffer .= '&nbsp;';
+
+        if ($mailingList) {
+            $buffer .= $mailingList->getTitle();
+        } else {
+            $buffer .= $TL_LANG['MSC']['avisota-global-subscription-label'];
+        }
+
+        $buffer .= '</td><td class="tl_file_list tl_right_nowrap">';
+        $buffer .= $this->getSubscribeActionLinks($recipient, $eventDispatcher, $mailingList, $subscription);
+        $buffer .= '</td></tr>';
+
+        return $buffer;
+    }
+
+    protected function getStateIconAndClass(
+        RecipientEntity $recipient,
+        EventDispatcher $eventDispatcher,
+        MailingList $mailingList = null,
+        Subscription $subscription = null
+    ) {
+        global $TL_LANG,
+               $container;
 
         /** @var SubscriptionManager $subscriptionManager */
         $subscriptionManager = $container['avisota.subscription'];
-
-        $buffer = '';
 
         if ($subscription) {
             if ($subscription->getActive()) {
@@ -382,17 +409,18 @@ class Recipient implements EventSubscriberInterface
             }
         }
 
-        $buffer .= '<tr><td class="tl_file_list ' . $class . '">';
-        $buffer .= $icon;
-        $buffer .= '&nbsp;';
+        return array($icon, $class);
+    }
 
-        if ($mailingList) {
-            $buffer .= $mailingList->getTitle();
-        } else {
-            $buffer .= $TL_LANG['MSC']['avisota-global-subscription-label'];
-        }
+    protected function getSubscribeActionLinks(
+        RecipientEntity $recipient,
+        EventDispatcher $eventDispatcher,
+        MailingList $mailingList = null,
+        Subscription $subscription = null
+    ) {
+        global $TL_LANG;
 
-        $buffer .= '</td><td class="tl_file_list tl_right_nowrap">';
+        $buffer = '';
 
         if ($subscription) {
             if (!$subscription->getActive()) {
@@ -465,8 +493,6 @@ class Recipient implements EventSubscriberInterface
                 $icon
             );
         }
-
-        $buffer .= '</td></tr>';
 
         return $buffer;
     }
