@@ -28,6 +28,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class AvisotaRecipientSourceIntegratedRecipients
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class RecipientsRecipientSource implements RecipientSourceInterface
 {
@@ -72,6 +73,7 @@ class RecipientsRecipientSource implements RecipientSourceInterface
      * @param null $offset
      *
      * @return array
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     public function getRecipients($limit = null, $offset = null)
     {

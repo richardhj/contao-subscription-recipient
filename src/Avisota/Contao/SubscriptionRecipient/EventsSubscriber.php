@@ -138,6 +138,7 @@ class EventsSubscriber implements EventSubscriberInterface
      * @param ActionEvent                   $event
      * @param null                          $eventName
      * @param EventDispatcherInterface|null $eventDispatcher
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     public function injectAutocompleter(
         ActionEvent $event,
@@ -259,6 +260,8 @@ EOF;
      * @param ActionEvent                   $event
      * @param null                          $eventName
      * @param EventDispatcherInterface|null $eventDispatcher
+     * @SuppressWarnings(PHPMD.LongVariable)
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     public function migrateRecipients(
         ActionEvent $event,
@@ -583,6 +586,7 @@ EOF;
      * @param array                $options
      *
      * @return array
+     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function getRecipientPropertiesOptions(EnvironmentInterface $environment, $options = array())
     {
@@ -790,6 +794,7 @@ EOF;
      * @param array $options
      *
      * @return array
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     public function getEditableRecipientFieldOptions($options = array())
     {

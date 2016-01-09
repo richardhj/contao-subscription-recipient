@@ -73,6 +73,8 @@ class Recipient implements EventSubscriberInterface
      * Handle custom events.
      *
      * @param ActionEvent $event
+     * @SuppressWarnings(PHPMD.LongVariable)
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     public function handleAction(ActionEvent $event)
     {
@@ -190,6 +192,8 @@ class Recipient implements EventSubscriberInterface
      * @param ModelToLabelEvent $event
      *
      * @return string
+     * @SuppressWarnings(PHPMD.LongVariable)
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     public function createLabel(ModelToLabelEvent $event)
     {
@@ -329,6 +333,7 @@ class Recipient implements EventSubscriberInterface
      * @param Subscription|null                $subscription
      *
      * @return string
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     protected function generateSubscriptionRow(
         \Avisota\Contao\Entity\Recipient $recipient,

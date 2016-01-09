@@ -24,6 +24,7 @@ use Contao\Doctrine\ORM\EntityHelper;
  * Class AbstractRecipient
  *
  * @package Avisota\Contao\SubscriptionRecipient\Entity
+ * @SuppressWarnings(PHPMD.ShortVariable)
  */
 abstract class AbstractRecipient implements SubscriptionRecipientInterface
 {

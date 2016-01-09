@@ -28,6 +28,7 @@ class Subscription extends \Controller
 {
     /**
      * @param CollectSubscriptionListsEvent $event
+     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public static function collectSubscriptionLists(CollectSubscriptionListsEvent $event)
     {

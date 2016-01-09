@@ -53,6 +53,7 @@ class Unsubscribe extends AbstractRecipientForm
 
     /**
      * Generate the content element
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     public function compile()
     {

@@ -64,6 +64,7 @@ abstract class AbstractRecipientForm extends \TwigModule
      * @param $mailingListIds
      *
      * @return array|MailingList[]
+     * @SuppressWarnings(PHPMD.LongVariable)
      */
     protected function loadMailingLists($mailingListIds)
     {
@@ -105,6 +106,7 @@ abstract class AbstractRecipientForm extends \TwigModule
      * @param array $values
      *
      * @return Form
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     protected function createForm(array $availableFieldNames, array $values = array())
     {

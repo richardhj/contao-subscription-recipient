@@ -35,6 +35,7 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
      * @param RecipientSource $entity
      *
      * @return mixed
+     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function createRecipientSource(RecipientSource $entity)
     {

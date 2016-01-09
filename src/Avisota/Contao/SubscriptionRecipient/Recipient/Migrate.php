@@ -27,6 +27,7 @@ class Migrate extends \Controller
 {
     /**
      * @param MigrateRecipientEvent $event
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     public static function collectPersonalsFromMembers(MigrateRecipientEvent $event)
     {
