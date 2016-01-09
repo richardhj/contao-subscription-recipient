@@ -17,6 +17,7 @@
 namespace Avisota\Contao\SubscriptionRecipient\DataContainer;
 
 use Avisota\Contao\Entity\MailingList;
+use Avisota\Contao\Entity\Recipient as RecipientEntity;
 use Avisota\Contao\Entity\Subscription;
 use Avisota\Contao\Subscription\SubscriptionManager;
 use Contao\Doctrine\ORM\DataContainer\General\EntityModel;
@@ -327,7 +328,7 @@ class Recipient implements EventSubscriberInterface
     }
 
     /**
-     * @param \Avisota\Contao\Entity\Recipient $recipient
+     * @param RecipientEntity $recipient
      * @param EventDispatcher                  $eventDispatcher
      * @param MailingList|null                 $mailingList
      * @param Subscription|null                $subscription
@@ -336,7 +337,7 @@ class Recipient implements EventSubscriberInterface
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     protected function generateSubscriptionRow(
-        \Avisota\Contao\Entity\Recipient $recipient,
+        RecipientEntity $recipient,
         EventDispatcher $eventDispatcher,
         MailingList $mailingList = null,
         Subscription $subscription = null
