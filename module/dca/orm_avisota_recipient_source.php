@@ -16,7 +16,7 @@
 use \ContaoCommunityAlliance\DcGeneral\DataDefinition;
 use \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property;
 
-global $TL_DCA
+global $TL_DCA;
 
 /**
  * Table orm_avisota_recipient_source
