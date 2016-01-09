@@ -13,6 +13,10 @@
 
 global $TL_LANG;
 
+if (!array_key_exists('fe_avisota_subscription', $TL_LANG)) {
+    $TL_LANG['fe_avisota_subscription'] = array();
+}
+
 $feAvisotaSubscription = array(
     'allreadySubscribed'
     => 'Vielen Dank, aber Sie sind bereits für diesen Newsletter angemeldet.',
