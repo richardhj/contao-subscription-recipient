@@ -25,6 +25,7 @@ use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Backend\AddToUrlEvent;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\RedirectEvent;
 use ContaoCommunityAlliance\DcGeneral\DcGeneralEvents;
+use ContaoCommunityAlliance\DcGeneral\EnvironmentInterface;
 use ContaoCommunityAlliance\DcGeneral\Event\ActionEvent;
 use MenAtWork\MultiColumnWizard\Event\GetOptionsEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -81,197 +82,250 @@ class MigrateRecipientsController implements EventSubscriberInterface
             && $event->getAction()
                    ->getName() == 'migrate'
         ) {
-            global $container,
-                   $TL_LANG;
-
-            if (!$eventDispatcher) {
-                $eventDispatcher = $event->getDispatcher();
-            }
-
             $input       = $environment->getInputProvider();
             $migrationId = 'AVISOTA_MIGRATE_RECIPIENT_' . $input->getParameter('migration');
 
-            if (empty(\Session::getInstance()->get($migrationId))) {
-                $addToUrlEvent = new AddToUrlEvent('act=&migration=');
-                $eventDispatcher->dispatch(ContaoEvents::BACKEND_ADD_TO_URL, $addToUrlEvent);
-
-                $redirectEvent = new RedirectEvent($addToUrlEvent->getUrl());
-                $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $redirectEvent);
+            if (!$migrationSettings = $this->getMigrationSettings($migrationId)) {
                 return;
             }
 
-            $migrationSettings = \Session::getInstance()->get($migrationId);
-
-
-            /** @var \Doctrine\DBAL\Connection $connection */
-            $connection = $container['doctrine.connection.default'];
-            $translator = $environment->getTranslator();
-
-            $entityManager         = EntityHelper::getEntityManager();
-            $recipientRepository   = EntityHelper::getRepository('Avisota\Contao:Recipient');
-            $mailingListRepository = EntityHelper::getRepository('Avisota\Contao:MailingList');
-
-            $channels                  = array();
-            $channelMailingListMapping = array();
-            foreach ($migrationSettings['channels'] as $channel) {
-                $mailingList                         = $channel['mailingList'];
-                $channel                             = $channel['channel'];
-                $channels[]                          = $connection->quote($channel);
-                $channelMailingListMapping[$channel] = $mailingListRepository->find($mailingList);
+            if (!$response = $this->generateResponse($environment, $migrationSettings, $migrationId)) {
+                return;
             }
 
-            $offset   = isset($migrationSettings['offset']) ? $migrationSettings['offset'] : 0;
-            $skipped  = isset($migrationSettings['skipped']) ? $migrationSettings['skipped'] : 0;
-            $migrated = isset($migrationSettings['migrated']) ? $migrationSettings['migrated'] : 0;
+            $event->setResponse($response);
+            $event->stopPropagation();
+        }
+    }
 
-            $queryBuilder = $connection->createQueryBuilder();
-            /** @var \PDOStatement $stmt */
-            $stmt = $queryBuilder
-                ->select('*')
-                ->from('tl_newsletter_recipients', 'r')
-                ->where(
-                    $queryBuilder
-                        ->expr()
-                        ->in('pid', $channels)
-                )
-                ->orderBy('r.pid')
-                ->addOrderBy('r.email')
-                ->setFirstResult($offset)
-                ->setMaxResults(10)
-                ->execute();
+    protected function getMigrationSettings($migrationId)
+    {
+        global $container;
 
-            /** @var SubscriptionManager $subscriptionManager */
-            $subscriptionManager = $container['avisota.subscription'];
-            $subscribeOptions    = 0;
+        $eventDispatcher = $container['event-dispatcher'];
 
-            if ($migrationSettings['ignoreBlacklist']) {
-                $subscribeOptions |= SubscriptionManager::OPT_IGNORE_BLACKLIST;
-            }
+        if (empty(\Session::getInstance()->get($migrationId))) {
+            $addToUrlEvent = new AddToUrlEvent('act=&migration=');
+            $eventDispatcher->dispatch(ContaoEvents::BACKEND_ADD_TO_URL, $addToUrlEvent);
 
-            $user     = \BackendUser::getInstance();
-            $response = new \StringBuilder();
-            $response->append('<div class="tl_buttons">&nbsp;</div>');
-            $response->append('<h2 class="sub_headline">');
-            $response->append($translator->translate('running', 'mem_avisota_recipient_migrate'));
-            $response->append('</h2>');
-            $response->append('<div class="tl_formbody_edit"><ul>');
+            $redirectEvent = new RedirectEvent($addToUrlEvent->getUrl());
+            $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $redirectEvent);
 
-            $contaoRecipients = $stmt->fetchAll();
-            foreach ($contaoRecipients as $contaoRecipientData) {
-                $recipient = $recipientRepository->findOneBy(array('email' => $contaoRecipientData['email']));
+            return null;
+        }
 
-                if (!$recipient) {
+        return \Session::getInstance()->get($migrationId);
+    }
+
+    protected function getMigrationStatement($migrationSettings)
+    {
+        global $container;
+
+        /** @var \Doctrine\DBAL\Connection $connection */
+        $connection = $container['doctrine.connection.default'];
+
+        $offset   = isset($migrationSettings['offset']) ? $migrationSettings['offset'] : 0;
+        $skipped  = isset($migrationSettings['skipped']) ? $migrationSettings['skipped'] : 0;
+        $migrated = isset($migrationSettings['migrated']) ? $migrationSettings['migrated'] : 0;
+
+        list($channels, $channelMailingListMapping) = $this->getChannelsAndMailingListMapping($migrationSettings);
+
+        $queryBuilder = $connection->createQueryBuilder();
+        /** @var \PDOStatement $stmt */
+        $statement = $queryBuilder
+            ->select('*')
+            ->from('tl_newsletter_recipients', 'r')
+            ->where(
+                $queryBuilder
+                    ->expr()
+                    ->in('pid', $channels)
+            )
+            ->orderBy('r.pid')
+            ->addOrderBy('r.email')
+            ->setFirstResult($offset)
+            ->setMaxResults(10)
+            ->execute();
+
+        return array(
+            $offset,
+            $skipped,
+            $migrated,
+            $channelMailingListMapping,
+            $statement
+        );
+    }
+
+    protected function getChannelsAndMailingListMapping($migrationSettings)
+    {
+        global $container;
+
+        /** @var \Doctrine\DBAL\Connection $connection */
+        $connection = $container['doctrine.connection.default'];
+
+        $mailingListRepository = EntityHelper::getRepository('Avisota\Contao:MailingList');
+
+        $channels                  = array();
+        $channelMailingListMapping = array();
+        foreach ($migrationSettings['channels'] as $channel) {
+            $mailingList                         = $channel['mailingList'];
+            $channel                             = $channel['channel'];
+            $channels[]                          = $connection->quote($channel);
+            $channelMailingListMapping[$channel] = $mailingListRepository->find($mailingList);
+        }
+
+        return array($channels, $channelMailingListMapping);
+    }
+
+    protected function generateResponse(EnvironmentInterface $environment, $migrationSettings, $migrationId)
+    {
+        global $container,
+               $TL_LANG;
+
+        $eventDispatcher = $container['event-dispatcher'];
+
+        $translator          = $environment->getTranslator();
+        $entityManager       = EntityHelper::getEntityManager();
+        $recipientRepository = EntityHelper::getRepository('Avisota\Contao:Recipient');
+
+        list($offset,
+            $skipped,
+            $migrated,
+            $channelMailingListMapping,
+            $statement) =
+            $this->getMigrationStatement($migrationSettings);
+
+        /** @var SubscriptionManager $subscriptionManager */
+        $subscriptionManager = $container['avisota.subscription'];
+        $subscribeOptions    = 0;
+
+        if ($migrationSettings['ignoreBlacklist']) {
+            $subscribeOptions |= SubscriptionManager::OPT_IGNORE_BLACKLIST;
+        }
+
+        $user     = \BackendUser::getInstance();
+        $response = new \StringBuilder();
+        $response->append('<div class="tl_buttons">&nbsp;</div>');
+        $response->append('<h2 class="sub_headline">');
+        $response->append($translator->translate('running', 'mem_avisota_recipient_migrate'));
+        $response->append('</h2>');
+        $response->append('<div class="tl_formbody_edit"><ul>');
+
+        $contaoRecipients = $statement->fetchAll();
+        foreach ($contaoRecipients as $contaoRecipientData) {
+            $recipient = $recipientRepository->findOneBy(array('email' => $contaoRecipientData['email']));
+
+            if (!$recipient) {
+                $response->append('<li>');
+                $response->append(
+                    sprintf(
+                        $translator->translate('created', 'mem_avisota_recipient_migrate'),
+                        $contaoRecipientData['email']
+                    )
+                );
+                $response->append('</li>');
+
+                $recipient = new Recipient();
+                $recipient->setEmail($contaoRecipientData['email']);
+                $recipient->setAddedById($user->id);
+                $recipient->setAddedByName($user->name);
+                $recipient->setAddedByUsername($user->username);
+            } else {
+                if (!$migrationSettings['overwrite']) {
                     $response->append('<li>');
                     $response->append(
                         sprintf(
-                            $translator->translate('created', 'mem_avisota_recipient_migrate'),
+                            $translator->translate('skipped', 'mem_avisota_recipient_migrate'),
                             $contaoRecipientData['email']
                         )
                     );
                     $response->append('</li>');
 
-                    $recipient = new Recipient();
-                    $recipient->setEmail($contaoRecipientData['email']);
-                    $recipient->setAddedById($user->id);
-                    $recipient->setAddedByName($user->name);
-                    $recipient->setAddedByUsername($user->username);
-                } else {
-                    if (!$migrationSettings['overwrite']) {
-                        $response->append('<li>');
-                        $response->append(
-                            sprintf(
-                                $translator->translate('skipped', 'mem_avisota_recipient_migrate'),
-                                $contaoRecipientData['email']
-                            )
-                        );
-                        $response->append('</li>');
-
-                        $skipped++;
-                        continue;
-                    } else {
-                        $response->append('<li>');
-                        $response->append(
-                            sprintf(
-                                $translator->translate('overwriten', 'mem_avisota_recipient_migrate'),
-                                $contaoRecipientData['email']
-                            )
-                        );
-                        $response->append('</li>');
-                    }
-                }
-
-                $mailingList = $channelMailingListMapping[$contaoRecipientData['pid']];
-
-                if (!$mailingList) {
-                    // graceful ignore missing mailing lists
                     $skipped++;
                     continue;
+                } else {
+                    $response->append('<li>');
+                    $response->append(
+                        sprintf(
+                            $translator->translate('overwriten', 'mem_avisota_recipient_migrate'),
+                            $contaoRecipientData['email']
+                        )
+                    );
+                    $response->append('</li>');
                 }
-
-                $migrateRecipientEvent =
-                    new MigrateRecipientEvent($migrationSettings, $contaoRecipientData, $recipient);
-                $eventDispatcher->dispatch(RecipientEvents::MIGRATE_RECIPIENT, $migrateRecipientEvent);
-
-                $entityManager->persist($recipient);
-
-                $subscriptionManager->subscribe(
-                    $recipient,
-                    $mailingList,
-                    ($contaoRecipientData['active'] ? SubscriptionManager::OPT_ACTIVATE : 0) | $subscribeOptions
-                );
-
-                $migrated++;
             }
-            $entityManager->flush();
 
-            if (count($contaoRecipients) < 10) {
-                \Session::getInstance()->remove($migrationId);
+            $mailingList = $channelMailingListMapping[$contaoRecipientData['pid']];
 
-                if (!is_array(\Session::getInstance()->get('TL_CONFIRM'))) {
-                    \Session::getInstance()->set('TL_CONFIRM', (array) \Session::getInstance()->get('TL_CONFIRM'));
-                }
-
-                $confirmSession   = \Session::getInstance()->get('TL_CONFIRM');
-                $confirmSession[] = sprintf(
-                    $TL_LANG['mem_avisota_recipient_migrate']['migrated'],
-                    $migrated,
-                    $skipped
-                );
-                \Session::getInstance()->set('TL_CONFIRM', $confirmSession);
-
-                $addToUrlEvent = new AddToUrlEvent('act=&migration=');
-                $eventDispatcher->dispatch(ContaoEvents::BACKEND_ADD_TO_URL, $addToUrlEvent);
-
-                $redirectEvent = new RedirectEvent($addToUrlEvent->getUrl());
-                $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $redirectEvent);
-            } else {
-                // update session data
-                $migrationSettings['offset']   = $offset + count($contaoRecipients);
-                $migrationSettings['skipped']  = $skipped;
-                $migrationSettings['migrated'] = $migrated;
-                \Session::getInstance()->set($migrationId, $migrationSettings);
-
-                $response->append('</ul><br>');
-                $response->append(
-                    '<script>'
-                    . 'window.onload = function() { '
-                    . 'document.getElementById("btn_avisota_migrate_reload").disabled = true; '
-                    . 'location.reload(); };'
-                    . '</script>'
-                );
-
-                $response->append(
-                    '<p>'
-                    . '<button click="location.reload()" class="tl_submit" id="btn_avisota_migrate_reload">'
-                );
-                $response->append($translator->translate('reload', 'mem_avisota_recipient_migrate'));
-                $response->append('</button></p>');
-
-                $response->append('</div>');
-
-                $event->setResponse($response->__toString());
-                $event->stopPropagation();
+            if (!$mailingList) {
+                // graceful ignore missing mailing lists
+                $skipped++;
+                continue;
             }
+
+            $migrateRecipientEvent =
+                new MigrateRecipientEvent($migrationSettings, $contaoRecipientData, $recipient);
+            $eventDispatcher->dispatch(RecipientEvents::MIGRATE_RECIPIENT, $migrateRecipientEvent);
+
+            $entityManager->persist($recipient);
+
+            $subscriptionManager->subscribe(
+                $recipient,
+                $mailingList,
+                ($contaoRecipientData['active'] ? SubscriptionManager::OPT_ACTIVATE : 0) | $subscribeOptions
+            );
+
+            $migrated++;
+        }
+        $entityManager->flush();
+
+        if (count($contaoRecipients) < 10) {
+            \Session::getInstance()->remove($migrationId);
+
+            if (!is_array(\Session::getInstance()->get('TL_CONFIRM'))) {
+                \Session::getInstance()->set('TL_CONFIRM', (array) \Session::getInstance()->get('TL_CONFIRM'));
+            }
+
+            $confirmSession   = \Session::getInstance()->get('TL_CONFIRM');
+            $confirmSession[] = sprintf(
+                $TL_LANG['mem_avisota_recipient_migrate']['migrated'],
+                $migrated,
+                $skipped
+            );
+            \Session::getInstance()->set('TL_CONFIRM', $confirmSession);
+
+            $addToUrlEvent = new AddToUrlEvent('act=&migration=');
+            $eventDispatcher->dispatch(ContaoEvents::BACKEND_ADD_TO_URL, $addToUrlEvent);
+
+            $redirectEvent = new RedirectEvent($addToUrlEvent->getUrl());
+            $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $redirectEvent);
+
+            return null;
+        } else {
+            // update session data
+            $migrationSettings['offset']   = $offset + count($contaoRecipients);
+            $migrationSettings['skipped']  = $skipped;
+            $migrationSettings['migrated'] = $migrated;
+            \Session::getInstance()->set($migrationId, $migrationSettings);
+
+            $response->append('</ul><br>');
+            $response->append(
+                '<script>'
+                . 'window.onload = function() { '
+                . 'document.getElementById("btn_avisota_migrate_reload").disabled = true; '
+                . 'location.reload(); };'
+                . '</script>'
+            );
+
+            $response->append(
+                '<p>'
+                . '<button click="location.reload()" class="tl_submit" id="btn_avisota_migrate_reload">'
+            );
+            $response->append($translator->translate('reload', 'mem_avisota_recipient_migrate'));
+            $response->append('</button></p>');
+
+            $response->append('</div>');
+
+            return $response->__toString();
         }
     }
 
