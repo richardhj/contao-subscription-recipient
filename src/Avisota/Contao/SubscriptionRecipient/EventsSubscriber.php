@@ -592,6 +592,10 @@ EOF;
     {
         global $container;
 
+        if (!is_array($options)) {
+            $options = (array) $options;
+        }
+
         /** @var EventDispatcher $eventDispatcher */
         $eventDispatcher = $container['event-dispatcher'];
 
