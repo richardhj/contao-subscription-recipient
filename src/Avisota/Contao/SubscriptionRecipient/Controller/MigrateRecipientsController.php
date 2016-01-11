@@ -31,6 +31,11 @@ use MenAtWork\MultiColumnWizard\Event\GetOptionsEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Class MigrateRecipientsController
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Controller
+ */
 class MigrateRecipientsController implements EventSubscriberInterface
 {
 
@@ -98,6 +103,11 @@ class MigrateRecipientsController implements EventSubscriberInterface
         }
     }
 
+    /**
+     * @param $migrationId
+     *
+     * @return mixed|null
+     */
     protected function getMigrationSettings($migrationId)
     {
         global $container;
@@ -117,6 +127,11 @@ class MigrateRecipientsController implements EventSubscriberInterface
         return \Session::getInstance()->get($migrationId);
     }
 
+    /**
+     * @param $migrationSettings
+     *
+     * @return array
+     */
     protected function getMigrationStatement($migrationSettings)
     {
         global $container;
@@ -155,6 +170,11 @@ class MigrateRecipientsController implements EventSubscriberInterface
         );
     }
 
+    /**
+     * @param $migrationSettings
+     *
+     * @return array
+     */
     protected function getChannelsAndMailingListMapping($migrationSettings)
     {
         global $container;
@@ -176,6 +196,13 @@ class MigrateRecipientsController implements EventSubscriberInterface
         return array($channels, $channelMailingListMapping);
     }
 
+    /**
+     * @param EnvironmentInterface $environment
+     * @param                      $migrationSettings
+     * @param                      $migrationId
+     *
+     * @return null|string
+     */
     protected function generateResponse(EnvironmentInterface $environment, $migrationSettings, $migrationId)
     {
         global $container,

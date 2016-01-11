@@ -22,6 +22,11 @@ use Avisota\Contao\SubscriptionRecipient\RecipientEvents;
 use Contao\Doctrine\ORM\EntityAccessor;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Class RecipientController
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Controller
+ */
 class RecipientController implements EventSubscriberInterface
 {
 

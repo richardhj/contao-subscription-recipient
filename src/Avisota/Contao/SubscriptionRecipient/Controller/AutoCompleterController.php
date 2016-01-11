@@ -25,6 +25,11 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Class AutoCompleterController
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Controller
+ */
 class AutoCompleterController implements EventSubscriberInterface
 {
 

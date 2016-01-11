@@ -24,9 +24,17 @@ use Contao\Doctrine\ORM\EntityHelper;
 use ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Class SubscriptionController
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Controller
+ */
 class SubscriptionController implements EventSubscriberInterface
 {
 
+    /**
+     * @return array
+     */
     public static function getSubscribedEvents()
     {
         return array(

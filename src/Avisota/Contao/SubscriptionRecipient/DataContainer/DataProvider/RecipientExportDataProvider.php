@@ -41,6 +41,8 @@ class RecipientExportDataProvider extends NoOpDataProvider
 
     /**
      * @param ModelInterface $objItem
+     *
+     * @return ModelInterface|void
      */
     public function save(ModelInterface $objItem)
     {
@@ -138,6 +140,9 @@ class RecipientExportDataProvider extends NoOpDataProvider
         exit;
     }
 
+    /**
+     * @return DefaultModel|ModelInterface
+     */
     public function getEmptyModel()
     {
         $session        = \Session::getInstance();

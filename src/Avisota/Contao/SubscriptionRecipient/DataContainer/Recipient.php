@@ -111,6 +111,9 @@ class Recipient implements EventSubscriberInterface
         }
     }
 
+    /**
+     * @param ActionEvent $event
+     */
     protected function handleConfirmSubscriptionAction(ActionEvent $event)
     {
         global $container,
@@ -145,6 +148,9 @@ class Recipient implements EventSubscriberInterface
         $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
     }
 
+    /**
+     * @param ActionEvent $event
+     */
     protected function handleRemoveSubscriptionAction(ActionEvent $event)
     {
         global $container,
@@ -179,6 +185,10 @@ class Recipient implements EventSubscriberInterface
         $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
     }
 
+    /**
+     * @param ActionEvent $event
+     * @param             $subscribeOptions
+     */
     protected function handleSubscribeAction(ActionEvent $event, $subscribeOptions)
     {
         global $container,
@@ -254,6 +264,11 @@ class Recipient implements EventSubscriberInterface
         $event->setLabel($label);
     }
 
+    /**
+     * @param EntityInterface $recipient
+     *
+     * @return string
+     */
     protected
     function addRecipientToLabel(
         EntityInterface $recipient
@@ -272,6 +287,12 @@ class Recipient implements EventSubscriberInterface
         return $label;
     }
 
+    /**
+     * @param EntityInterface $recipient
+     * @param EventDispatcher $eventDispatcher
+     *
+     * @return string
+     */
     protected
     function addSubscriptionToLabel(
         EntityInterface $recipient,
@@ -330,6 +351,11 @@ class Recipient implements EventSubscriberInterface
         return $label;
     }
 
+    /**
+     * @param EventDispatcher $eventDispatcher
+     *
+     * @return string
+     */
     protected
     function addExpandFoldIconToLabel(
         EventDispatcher $eventDispatcher
@@ -345,6 +371,11 @@ class Recipient implements EventSubscriberInterface
         return $label;
     }
 
+    /**
+     * @param EntityInterface $recipient
+     *
+     * @return string
+     */
     protected
     function addAddedByToLabel(
         EntityInterface $recipient
@@ -431,6 +462,14 @@ class Recipient implements EventSubscriberInterface
         return $buffer;
     }
 
+    /**
+     * @param RecipientEntity   $recipient
+     * @param EventDispatcher   $eventDispatcher
+     * @param MailingList|null  $mailingList
+     * @param Subscription|null $subscription
+     *
+     * @return array
+     */
     protected
     function getStateIconAndClass(
         RecipientEntity $recipient,
@@ -479,6 +518,14 @@ class Recipient implements EventSubscriberInterface
         return array($icon, $class);
     }
 
+    /**
+     * @param RecipientEntity   $recipient
+     * @param EventDispatcher   $eventDispatcher
+     * @param MailingList|null  $mailingList
+     * @param Subscription|null $subscription
+     *
+     * @return string
+     */
     protected
     function getSubscribeActionLinks(
         RecipientEntity $recipient,

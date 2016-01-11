@@ -24,6 +24,11 @@ use MenAtWork\MultiColumnWizard\Event\GetOptionsEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Class RescipiemtSporceController
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Controller
+ */
 class RescipiemtSporceController implements EventSubscriberInterface
 {
 

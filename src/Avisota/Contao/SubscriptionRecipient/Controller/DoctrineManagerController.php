@@ -21,6 +21,11 @@ use Contao\Doctrine\DBAL\Event\InitializeEventManager;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Class DoctrineManagerController
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Controller
+ */
 class DoctrineManagerController implements EventSubscriberInterface
 {
 

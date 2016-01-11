@@ -35,6 +35,8 @@ class RecipientMigrateDataProvider extends NoOpDataProvider
 {
     /**
      * @param ModelInterface $objItem
+     *
+     * @return ModelInterface|void
      */
     public function save(ModelInterface $objItem)
     {

@@ -18,6 +18,11 @@ namespace Avisota\Contao\SubscriptionRecipient\Controller;
 use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\GetEditModeButtonsEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Class ButtonController
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Controller
+ */
 class ButtonController implements EventSubscriberInterface
 {
 

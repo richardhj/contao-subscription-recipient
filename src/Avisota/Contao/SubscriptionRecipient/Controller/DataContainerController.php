@@ -24,6 +24,11 @@ use ContaoCommunityAlliance\DcGeneral\Factory\DcGeneralFactory;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Class DataContainerController
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Controller
+ */
 class DataContainerController implements EventSubscriberInterface
 {
 
