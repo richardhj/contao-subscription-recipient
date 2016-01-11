@@ -76,6 +76,7 @@ class MigrateRecipientsController implements EventSubscriberInterface
      * @param EventDispatcherInterface|null $eventDispatcher
      * @SuppressWarnings(PHPMD.LongVariable)
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function migrateRecipients(
         ActionEvent $event,
@@ -131,6 +132,7 @@ class MigrateRecipientsController implements EventSubscriberInterface
      * @param $migrationSettings
      *
      * @return array
+     * @SuppressWarnings(PHPMD.LongVariable)
      */
     protected function getMigrationStatement($migrationSettings)
     {
@@ -174,6 +176,7 @@ class MigrateRecipientsController implements EventSubscriberInterface
      * @param $migrationSettings
      *
      * @return array
+     * @SuppressWarnings(PHPMD.LongVariable)
      */
     protected function getChannelsAndMailingListMapping($migrationSettings)
     {
@@ -202,6 +205,8 @@ class MigrateRecipientsController implements EventSubscriberInterface
      * @param                      $migrationId
      *
      * @return null|string
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     * @SuppressWarnings(PHPMD.LongVariable)
      */
     protected function generateResponse(EnvironmentInterface $environment, $migrationSettings, $migrationId)
     {
