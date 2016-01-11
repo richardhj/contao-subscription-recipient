@@ -332,7 +332,7 @@ $fields = array(
     'avisota_subscription_form_template' => array(
         'exclude'          => true,
         'label'            =>
-            &$TL_LANG['tl_module']['avisota_subscription_form_template'],
+            &$TL_LANG['tl_module']['avisota_subscription_form_templateddd'],
         'inputType'        => 'select',
         'options_callback' => CreateOptionsEventCallbackFactory::createCallback(
             \Avisota\Contao\SubscriptionRecipient\RecipientDataContainerEvents::CREATE_SUBSCRIPTION_TEMPLATE_OPTIONS,
