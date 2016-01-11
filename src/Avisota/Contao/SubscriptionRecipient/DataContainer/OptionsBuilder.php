@@ -78,10 +78,10 @@ class OptionsBuilder implements EventSubscriberInterface
 
         $factory = DcGeneralFactory::deriveFromEnvironment($general->getEnvironment());
         $factory->setContainerName('orm_avisota_recipient');
-        $container = $factory->createContainer();
+        $containerFactory = $factory->createContainer();
 
-        if ($container->hasPropertiesDefinition()) {
-            $properties = $container->getPropertiesDefinition()->getProperties();
+        if ($containerFactory->hasPropertiesDefinition()) {
+            $properties = $containerFactory->getPropertiesDefinition()->getProperties();
 
             foreach ($properties as $property) {
                 if ($property->getWidgetType()) {

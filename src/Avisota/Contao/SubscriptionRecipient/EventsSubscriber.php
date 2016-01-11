@@ -604,8 +604,8 @@ EOF;
         $dcGeneralFactory = DcGeneralFactory::deriveFromEnvironment($environment);
 
         $dcGeneralFactory->setContainerName('orm_avisota_recipient');
-        $container  = $dcGeneralFactory->createContainer();
-        $properties = $container->getPropertiesDefinition()->getProperties();
+        $containerFactory  = $dcGeneralFactory->createContainer();
+        $properties = $containerFactory->getPropertiesDefinition()->getProperties();
 
         foreach ($properties as $property) {
             $options[$property->getName()] = $property->getLabel() ?: $property->getName();
