@@ -77,5 +77,13 @@ $GLOBALS['TL_EVENTS']['avisota/subscription.collect-lists'][]  = array(
  * Event subscribers
  */
 $GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Avisota\Contao\SubscriptionRecipient\DataContainer\OptionsBuilder';
+$GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Avisota\Contao\SubscriptionRecipient\Controller\RecipientController';
+$GLOBALS['TL_EVENT_SUBSCRIBERS'][] = '\Avisota\Contao\SubscriptionRecipient\Controller\RescipiemtSporceController';
+$GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Avisota\Contao\SubscriptionRecipient\Controller\SubscriptionController';
+$GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Avisota\Contao\SubscriptionRecipient\Controller\DataContainerController';
+$GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Avisota\Contao\SubscriptionRecipient\Controller\ButtonController';
+$GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Avisota\Contao\SubscriptionRecipient\Controller\AutoCompleterController';
+$GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Avisota\Contao\SubscriptionRecipient\Controller\DoctrineManagerController';
+$GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Avisota\Contao\SubscriptionRecipient\Controller\MigrateRecipientsController';
+$GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Avisota\Contao\SubscriptionRecipient\Controller\RecipientTokenController';
 $GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Avisota\Contao\SubscriptionRecipient\DataContainer\Recipient';
-$GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Avisota\Contao\SubscriptionRecipient\EventsSubscriber';
