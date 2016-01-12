@@ -15,14 +15,10 @@
 
 namespace Avisota\Contao\SubscriptionRecipient\Module;
 
-use Avisota\Contao\Entity\Recipient;
-use Avisota\Contao\Entity\Subscription;
-use Avisota\Contao\Message\Core\Renderer\MessageRendererInterface;
+
 use Avisota\Contao\Subscription\SubscriptionManager;
-use Avisota\Transport\TransportInterface;
-use Contao\Doctrine\ORM\EntityAccessor;
-use Contao\Doctrine\ORM\EntityHelper;
-use Contao\Doctrine\ORM\Exception\UnknownPropertyException;
+
+
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GenerateFrontendUrlEvent;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GetPageDetailsEvent;

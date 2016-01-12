@@ -15,22 +15,9 @@
 
 namespace Avisota\Contao\SubscriptionRecipient\DataContainer;
 
-use Avisota\Contao\Entity\MailingList;
-use Avisota\Contao\Entity\Subscription;
-use Avisota\Contao\Subscription\SubscriptionManager;
+
 use Bit3\Contao\MetaPalettes\MetaPalettes;
-use Contao\Doctrine\ORM\DataContainer\General\EntityModel;
-use Contao\Doctrine\ORM\EntityHelper;
-use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
-use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\RedirectEvent;
-use ContaoCommunityAlliance\Contao\Bindings\Events\Image\GenerateHtmlEvent;
-use ContaoCommunityAlliance\Contao\Bindings\Events\Message\AddMessageEvent;
-use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\DecodePropertyValueForWidgetEvent;
-use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\ModelToLabelEvent;
-use ContaoCommunityAlliance\DcGeneral\DcGeneralEvents;
-use ContaoCommunityAlliance\DcGeneral\Event\ActionEvent;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
 
 /**
  * Class Module

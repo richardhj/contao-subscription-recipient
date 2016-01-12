@@ -15,8 +15,6 @@
 
 namespace Avisota\Contao\SubscriptionRecipient\Event;
 
-use Avisota\Contao\Entity\Recipient;
-use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Class CreateRecipientEvent

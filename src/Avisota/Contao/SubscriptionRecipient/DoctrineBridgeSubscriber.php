@@ -16,19 +16,16 @@
 namespace Avisota\Contao\SubscriptionRecipient;
 
 use Avisota\Contao\Entity\Recipient;
-use Avisota\Contao\Subscription\Event\PrepareSubscriptionEvent;
-use Avisota\Contao\Subscription\Event\ResolveRecipientEvent;
-use Avisota\Contao\Subscription\SubscriptionEvents;
+
 
 use Avisota\Contao\SubscriptionRecipient\Event\RecipientAwareEvent;
-use Contao\Doctrine\DBAL\DoctrineDbalEvents;
-use Contao\Doctrine\DBAL\Event\InitializeEventManager;
-use Contao\Doctrine\ORM\EntityHelper;
+
+
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
 
 /**
  * Class DoctrineBridgeSubscriber

@@ -15,12 +15,6 @@
 
 namespace Avisota\Contao\SubscriptionRecipient;
 
-use Avisota\Contao\Entity\Recipient;
-use Avisota\Contao\Subscription\Event\PrepareSubscriptionEvent;
-use Avisota\Contao\Subscription\Event\ResolveRecipientEvent;
-use Avisota\Contao\Subscription\SubscriptionEvents;
-use Contao\Doctrine\ORM\EntityHelper;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class RecipientEvents
