@@ -60,7 +60,7 @@ class Recipient implements EventSubscriberInterface
         return array(
             DcGeneralEvents::ACTION                                                    => 'handleAction',
             ModelToLabelEvent::NAME                                                    => 'createLabel',
-            DecodePropertyValueForWidgetEvent::NAME . '[orm_avisota_recipient][email]' => 'decodeEmail',
+            DecodePropertyValueForWidgetEvent::NAME => 'decodeEmail',
         );
     }
 
@@ -671,6 +671,11 @@ class Recipient implements EventSubscriberInterface
     function decodeEmail(
         DecodePropertyValueForWidgetEvent $event
     ) {
+        if ($event->getModel()->getProviderName() === 'orm_avisota_recipient'
+            && $event->getProperty() != 'email'
+        ) {
+            return;
+        }
         $event->setValue(strtolower($event->getValue()));
     }
 }
