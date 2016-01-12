@@ -46,22 +46,12 @@ class RecipientExportDataProvider extends NoOpDataProvider
      */
     public function save(ModelInterface $objItem)
     {
-        global $container;
-
-        /** @var EntityAccessor $entityAccessor */
-        $entityAccessor = $container['doctrine.orm.entityAccessor'];
-
-        /** @var EventDispatcher $eventDispatcher */
-        $eventDispatcher = $container['event-dispatcher'];
-
         $exportSettings = $objItem->getPropertiesAsArray();
 
         $session             = \Session::getInstance();
         $recipientRepository = EntityHelper::getRepository('Avisota\Contao:Recipient');
 
         $session->set(static::SESSION_NAME, $exportSettings);
-
-        $propertyNames = $exportSettings['columns'];
 
         switch ($exportSettings['delimiter']) {
             case 'semicolon':
@@ -94,36 +84,7 @@ class RecipientExportDataProvider extends NoOpDataProvider
 
         /** @var Recipient $recipient */
         foreach ($recipients as $recipient) {
-            $row = array();
-
-            foreach ($propertyNames as $propertyName) {
-                if ($entityAccessor->hasProperty($recipient, $propertyName)) {
-                    $value = $entityAccessor->getProperty($recipient, $propertyName);
-                } else {
-                    $value = null;
-                }
-
-                if (is_resource($value)) {
-                    $string = stream_get_contents($value);
-                } else {
-                    if (is_object($value)) {
-                        if (method_exists($value, '__toString')) {
-                            $string = (string) $value;
-                        }
-                    } else {
-                        if (is_scalar($value)) {
-                            $string = (string) $value;
-                        } else {
-                            $string = null;
-                        }
-                    }
-                }
-
-                $event = new ExportRecipientPropertyEvent($recipient, $propertyName, $value, $string);
-                $eventDispatcher->dispatch(RecipientEvents::EXPORT_RECIPIENT_PROPERTY, $event);
-
-                $row[] = $event->getString();
-            }
+            $row = $this->generateCSVRows($recipient, $exportSettings);
 
             $length += fputcsv($csv, $row, $delimiter, $enclosure);
         }
@@ -138,6 +99,50 @@ class RecipientExportDataProvider extends NoOpDataProvider
         fpassthru($csv);
         fclose($csv);
         exit;
+    }
+
+    protected function generateCSVRows($recipient, $exportSettings)
+    {
+        global $container;
+
+        /** @var EntityAccessor $entityAccessor */
+        $entityAccessor = $container['doctrine.orm.entityAccessor'];
+
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $container['event-dispatcher'];
+
+        $propertyNames = $exportSettings['columns'];
+
+        $row = array();
+        foreach ($propertyNames as $propertyName) {
+            if ($entityAccessor->hasProperty($recipient, $propertyName)) {
+                $value = $entityAccessor->getProperty($recipient, $propertyName);
+            } else {
+                $value = null;
+            }
+
+            $string = null;
+            if (is_resource($value)) {
+                $string = stream_get_contents($value);
+            } else {
+                if (is_object($value)) {
+                    if (method_exists($value, '__toString')) {
+                        $string = (string) $value;
+                    }
+                } else {
+                    if (is_scalar($value)) {
+                        $string = (string) $value;
+                    }
+                }
+            }
+
+            $event = new ExportRecipientPropertyEvent($recipient, $propertyName, $value, $string);
+            $eventDispatcher->dispatch(RecipientEvents::EXPORT_RECIPIENT_PROPERTY, $event);
+
+            $row[] = $event->getString();
+        }
+
+        return $row;
     }
 
     /**
