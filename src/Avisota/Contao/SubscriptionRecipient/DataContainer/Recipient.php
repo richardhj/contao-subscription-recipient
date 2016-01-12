@@ -121,6 +121,8 @@ class Recipient implements EventSubscriberInterface
 
     /**
      * @param ActionEvent $event
+     * @SuppressWarnings(PHPMD.LongVariable)
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     protected function handleConfirmSubscriptionAction(ActionEvent $event)
     {
@@ -158,6 +160,8 @@ class Recipient implements EventSubscriberInterface
 
     /**
      * @param ActionEvent $event
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     * @SuppressWarnings(PHPMD.LongVariable)
      */
     protected function handleRemoveSubscriptionAction(ActionEvent $event)
     {
@@ -196,6 +200,8 @@ class Recipient implements EventSubscriberInterface
     /**
      * @param ActionEvent $event
      * @param             $subscribeOptions
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     * @SuppressWarnings(PHPMD.LongVariable)
      */
     protected function handleSubscribeAction(ActionEvent $event, $subscribeOptions)
     {
@@ -300,6 +306,7 @@ class Recipient implements EventSubscriberInterface
      * @param EventDispatcher $eventDispatcher
      *
      * @return string
+     * @SuppressWarnings(PHPMD.LongVariable)
      */
     protected
     function addSubscriptionToLabel(
@@ -383,6 +390,7 @@ class Recipient implements EventSubscriberInterface
      * @param EntityInterface $recipient
      *
      * @return string
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     protected
     function addAddedByToLabel(
@@ -477,6 +485,7 @@ class Recipient implements EventSubscriberInterface
      * @param Subscription|null $subscription
      *
      * @return array
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     protected
     function getStateIconAndClass(
@@ -557,6 +566,7 @@ class Recipient implements EventSubscriberInterface
      * @param Subscription $subscription
      *
      * @return string
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     protected function generateSubscriptionActivationLink(Subscription $subscription)
     {
@@ -589,6 +599,7 @@ class Recipient implements EventSubscriberInterface
      * @param MailingList  $mailingList
      *
      * @return string
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     protected function generateSubscriptionRemoveLink(Subscription $subscription, MailingList $mailingList)
     {
@@ -620,6 +631,7 @@ class Recipient implements EventSubscriberInterface
      * @param MailingList|null  $mailingList
      *
      * @return string
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     protected function generateSubscriptionSubscribeLink(
         RecipientEntity $recipient,
@@ -661,6 +673,7 @@ class Recipient implements EventSubscriberInterface
      * @param MailingList|null  $mailingList
      *
      * @return string
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     protected function generateSubscriptionSubscribeConfirmLink(
         RecipientEntity $recipient,

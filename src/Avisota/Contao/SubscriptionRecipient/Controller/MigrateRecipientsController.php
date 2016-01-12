@@ -389,6 +389,7 @@ class MigrateRecipientsController implements EventSubscriberInterface
      * @param $migrationId
      * @param $migrated
      * @param $skipped
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     protected function migrationFinished($migrationId, $migrated, $skipped)
     {

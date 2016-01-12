@@ -59,6 +59,7 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
     /**
      * @param RecipientSource           $entity
      * @param RecipientsRecipientSource $recipientSource
+     * @SuppressWarnings(PHPMD.LongVariable)
      */
     protected function parseRecipientsManageSubscriptionPage(
         RecipientSource $entity,
@@ -99,6 +100,7 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
     /**
      * @param RecipientSource           $entity
      * @param RecipientsRecipientSource $recipientSource
+     * @SuppressWarnings(PHPMD.LongVariable)
      */
     protected function parseRecipientsUnsubscribePage(
         RecipientSource $entity,
