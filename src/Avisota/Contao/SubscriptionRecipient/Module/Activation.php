@@ -50,7 +50,7 @@ class Activation extends AbstractRecipientForm
     {
         global $container;
 
-        $input = \Input::getInstance();
+
 
         /** @var SubscriptionManager $subscriptionManager */
         $subscriptionManager = $container['avisota.subscription'];
@@ -58,7 +58,7 @@ class Activation extends AbstractRecipientForm
         /** @var EventDispatcher $eventDispatcher */
         $eventDispatcher = $container['event-dispatcher'];
 
-        $token = (array) $input->get('token');
+        $token = (array) \Input::get('token');
 
         if (count($token)) {
             $subscriptions = $subscriptionManager->confirmByToken($token);

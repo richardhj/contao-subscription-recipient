@@ -68,12 +68,12 @@ class Unsubscribe extends AbstractRecipientForm
             $mailingListIds
         );
 
-        // TODO deprecated
-        $input  = \Input::getInstance();
+
+
         $values = array();
 
-        if ($input->get('avisota_subscription_email')) {
-            $values['email'] = $input->get('avisota_subscription_email');
+        if (\Input::get('avisota_subscription_email')) {
+            $values['email'] = \Input::get('avisota_subscription_email');
         }
 
         $form = $this->createForm($recipientFields, $values);

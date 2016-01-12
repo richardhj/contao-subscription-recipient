@@ -61,7 +61,7 @@ class Subscribe extends AbstractRecipientForm
                $container,
                $objPage;
 
-        $input = \Input::getInstance();
+
 
         /** @var SubscriptionManager $subscriptionManager */
         $subscriptionManager = $container['avisota.subscription'];
@@ -69,7 +69,7 @@ class Subscribe extends AbstractRecipientForm
         /** @var EventDispatcher $eventDispatcher */
         $eventDispatcher = $container['event-dispatcher'];
 
-        $token = (array) $input->get('token');
+        $token = (array) \Input::get('token');
 
         if (count($token)) {
             $subscriptions = $subscriptionManager->confirmByToken($token);
@@ -99,8 +99,8 @@ class Subscribe extends AbstractRecipientForm
 
         $values = array();
 
-        if ($input->get('avisota_subscription_email')) {
-            $values['email'] = $input->get('avisota_subscription_email');
+        if (\Input::get('avisota_subscription_email')) {
+            $values['email'] = \Input::get('avisota_subscription_email');
         }
 
         $form = $this->createForm($recipientFields, $values);
@@ -185,8 +185,8 @@ class Subscribe extends AbstractRecipientForm
                             $query['token'][] = $subscription->getActivationToken();
                         }
 
-                        $environment = \Environment::getInstance();
-                        $base        = $environment->base;
+
+                        $base        = \Environment::get('base');
                         $url         = $base . $event->getUrl() . '?' . http_build_query($query);
 
                         $data = array(

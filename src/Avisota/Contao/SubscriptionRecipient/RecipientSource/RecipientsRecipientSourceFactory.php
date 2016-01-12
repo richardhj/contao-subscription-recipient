@@ -85,8 +85,8 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
         $url .= (strpos($url, '?') !== false ? '&' : '?') . 'avisota_subscription_email=##email##';
 
         if (!preg_match('~^\w+:~', $url)) {
-            $environment = \Environment::getInstance();
-            $url         = rtrim($environment->base, '/') . '/' . ltrim($url, '/');
+
+            $url         = rtrim(\Environment::get('base'), '/') . '/' . ltrim($url, '/');
         }
 
         $recipientSource->setManageSubscriptionUrlPattern($url);
@@ -125,8 +125,8 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
         $url .= (strpos($url, '?') !== false ? '&' : '?') . 'avisota_subscription_email=##email##';
 
         if (!preg_match('~^\w+:~', $url)) {
-            $environment = \Environment::getInstance();
-            $url         = rtrim($environment->base, '/') . '/' . ltrim($url, '/');
+
+            $url         = rtrim(\Environment::get('base'), '/') . '/' . ltrim($url, '/');
         }
 
         $recipientSource->setUnsubscribeUrlPattern($url);
