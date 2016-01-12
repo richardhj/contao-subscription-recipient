@@ -39,8 +39,6 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
      */
     public function createRecipientSource(RecipientSource $entity)
     {
-        global $container;
-
         $recipientSource = new RecipientsRecipientSource();
 
         if ($entity->getFilter()) {
@@ -52,49 +50,80 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
             }
         }
 
+        $this->parseRecipientsManageSubscriptionPage($entity, $recipientSource);
+        $this->parseRecipientsUnsubscribePage($entity, $recipientSource);
+
+        return $recipientSource;
+    }
+
+    protected function parseRecipientsManageSubscriptionPage(
+        RecipientSource $entity,
+        RecipientsRecipientSource &$recipientSource
+    ) {
+        if (!$entity->getRecipientsManageSubscriptionPage()) {
+            return;
+        }
+
+        global $container;
+
         /** @var EventDispatcherInterface $eventDispatcher */
         $eventDispatcher = $container['event-dispatcher'];
 
-        if ($entity->getRecipientsManageSubscriptionPage()) {
-            $getPageDetailsEvent =
-                new GetPageDetailsEvent($entity->getRecipientsManageSubscriptionPage());
-            $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $getPageDetailsEvent);
+        $getPageDetailsEvent =
+            new GetPageDetailsEvent($entity->getRecipientsManageSubscriptionPage());
+        $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $getPageDetailsEvent);
 
-            $generateFrontendUrlEvent = new GenerateFrontendUrlEvent($getPageDetailsEvent->getPageDetails());
-            $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GENERATE_FRONTEND_URL, $generateFrontendUrlEvent);
+        $generateFrontendUrlEvent = new GenerateFrontendUrlEvent($getPageDetailsEvent->getPageDetails());
+        $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GENERATE_FRONTEND_URL, $generateFrontendUrlEvent);
 
-            $url = $generateFrontendUrlEvent->getUrl();
-            $url .= (strpos($url, '?') !== false ? '&' : '?') . 'avisota_subscription_email=##email##';
+        $url = $generateFrontendUrlEvent->getUrl();
+        $url .= (strpos($url, '?') !== false ? '&' : '?') . 'avisota_subscription_email=##email##';
 
-            if (!preg_match('~^\w+:~', $url)) {
-                $environment = \Environment::getInstance();
-                $url         = rtrim($environment->base, '/') . '/' . ltrim($url, '/');
-            }
-
-            $recipientSource->setManageSubscriptionUrlPattern($url);
+        if (!preg_match('~^\w+:~', $url)) {
+            $environment = \Environment::getInstance();
+            $url         = rtrim($environment->base, '/') . '/' . ltrim($url, '/');
         }
 
-        if ($entity->getRecipientsUnsubscribePage()) {
-            $getPageDetailsEvent = new GetPageDetailsEvent($entity->getRecipientsUnsubscribePage());
-            $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $getPageDetailsEvent);
-
-            $generateFrontendUrlEvent = new GenerateFrontendUrlEvent($getPageDetailsEvent->getPageDetails());
-            $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GENERATE_FRONTEND_URL, $generateFrontendUrlEvent);
-
-            $url = $generateFrontendUrlEvent->getUrl();
-            $url .= (strpos($url, '?') !== false ? '&' : '?') . 'avisota_subscription_email=##email##';
-
-            if (!preg_match('~^\w+:~', $url)) {
-                $environment = \Environment::getInstance();
-                $url         = rtrim($environment->base, '/') . '/' . ltrim($url, '/');
-            }
-
-            $recipientSource->setUnsubscribeUrlPattern($url);
-        }
+        $recipientSource->setManageSubscriptionUrlPattern($url);
 
         $event = new CreateRecipientSourceEvent($entity, $recipientSource);
         $eventDispatcher->dispatch(CoreEvents::CREATE_RECIPIENT_SOURCE, $event);
 
-        return $event->getRecipientSource();
+        $recipientSource = $event->getRecipientSource();
+    }
+
+    protected function parseRecipientsUnsubscribePage(
+        RecipientSource $entity,
+        RecipientsRecipientSource &$recipientSource
+    ) {
+        if (!$entity->getRecipientsUnsubscribePage()) {
+            return;
+        }
+
+        global $container;
+
+        /** @var EventDispatcherInterface $eventDispatcher */
+        $eventDispatcher = $container['event-dispatcher'];
+
+        $getPageDetailsEvent = new GetPageDetailsEvent($entity->getRecipientsUnsubscribePage());
+        $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $getPageDetailsEvent);
+
+        $generateFrontendUrlEvent = new GenerateFrontendUrlEvent($getPageDetailsEvent->getPageDetails());
+        $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GENERATE_FRONTEND_URL, $generateFrontendUrlEvent);
+
+        $url = $generateFrontendUrlEvent->getUrl();
+        $url .= (strpos($url, '?') !== false ? '&' : '?') . 'avisota_subscription_email=##email##';
+
+        if (!preg_match('~^\w+:~', $url)) {
+            $environment = \Environment::getInstance();
+            $url         = rtrim($environment->base, '/') . '/' . ltrim($url, '/');
+        }
+
+        $recipientSource->setUnsubscribeUrlPattern($url);
+
+        $event = new CreateRecipientSourceEvent($entity, $recipientSource);
+        $eventDispatcher->dispatch(CoreEvents::CREATE_RECIPIENT_SOURCE, $event);
+
+        $recipientSource = $event->getRecipientSource();
     }
 }
