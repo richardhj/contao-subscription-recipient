@@ -18,6 +18,7 @@ namespace Avisota\Contao\SubscriptionRecipient\DataContainer;
 use Avisota\Contao\Entity\MailingList;
 use Avisota\Contao\Entity\Subscription;
 use Avisota\Contao\Subscription\SubscriptionManager;
+use Bit3\Contao\MetaPalettes\MetaPalettes;
 use Contao\Doctrine\ORM\DataContainer\General\EntityModel;
 use Contao\Doctrine\ORM\EntityHelper;
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
@@ -79,7 +80,7 @@ class Module
 
     public function onLoadCallback()
     {
-        \MetaPalettes::appendFields('tl_module', 'registration', 'config', array('avisota_selectable_lists'));
-        \MetaPalettes::appendFields('tl_module', 'personalData', 'config', array('avisota_selectable_lists'));
+        MetaPalettes::appendFields('tl_module', 'registration', 'config', array('avisota_selectable_lists'));
+        MetaPalettes::appendFields('tl_module', 'personalData', 'config', array('avisota_selectable_lists'));
     }
 }

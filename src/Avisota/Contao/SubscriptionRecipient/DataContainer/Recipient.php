@@ -252,10 +252,8 @@ class Recipient implements EventSubscriberInterface
      * @SuppressWarnings(PHPMD.LongVariable)
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
-    public
-    function createLabel(
-        ModelToLabelEvent $event
-    ) {
+    public function createLabel(ModelToLabelEvent $event)
+    {
         if ($event->getModel()->getProviderName() != 'orm_avisota_recipient') {
             return;
         }
@@ -283,10 +281,8 @@ class Recipient implements EventSubscriberInterface
      *
      * @return string
      */
-    protected
-    function addRecipientToLabel(
-        EntityInterface $recipient
-    ) {
+    protected function addRecipientToLabel(EntityInterface $recipient)
+    {
         $email = $recipient->getEmail();
         $name  = trim($recipient->getForename() . ' ' . $recipient->getSurname());
 
@@ -308,11 +304,8 @@ class Recipient implements EventSubscriberInterface
      * @return string
      * @SuppressWarnings(PHPMD.LongVariable)
      */
-    protected
-    function addSubscriptionToLabel(
-        EntityInterface $recipient,
-        EventDispatcher $eventDispatcher
-    ) {
+    protected function addSubscriptionToLabel(EntityInterface $recipient, EventDispatcher $eventDispatcher)
+    {
         $mailingListRepository  = EntityHelper::getRepository('Avisota\Contao:MailingList');
         $subscriptionRepository = EntityHelper::getRepository('Avisota\Contao:Subscription');
 
@@ -371,10 +364,8 @@ class Recipient implements EventSubscriberInterface
      *
      * @return string
      */
-    protected
-    function addExpandFoldIconToLabel(
-        EventDispatcher $eventDispatcher
-    ) {
+    protected function addExpandFoldIconToLabel(EventDispatcher $eventDispatcher)
+    {
         $label = '';
 
         foreach (array('expand' => 'folPlus.gif', 'fold' => 'folMinus.gif') as $state => $icon) {
@@ -392,10 +383,8 @@ class Recipient implements EventSubscriberInterface
      * @return string
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
-    protected
-    function addAddedByToLabel(
-        EntityInterface $recipient
-    ) {
+    protected function addAddedByToLabel(EntityInterface $recipient)
+    {
         global $TL_LANG;
 
         $label = ' <span style="color:#b3b3b3; padding-left:.5em;">(';
@@ -448,8 +437,7 @@ class Recipient implements EventSubscriberInterface
      * @return string
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
-    protected
-    function generateSubscriptionRow(
+    protected function generateSubscriptionRow(
         RecipientEntity $recipient,
         EventDispatcher $eventDispatcher,
         MailingList $mailingList = null,
@@ -487,8 +475,7 @@ class Recipient implements EventSubscriberInterface
      * @return array
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
-    protected
-    function getStateIconAndClass(
+    protected function getStateIconAndClass(
         RecipientEntity $recipient,
         EventDispatcher $eventDispatcher,
         MailingList $mailingList = null,
@@ -543,8 +530,7 @@ class Recipient implements EventSubscriberInterface
      *
      * @return string
      */
-    protected
-    function getSubscribeActionLinks(
+    protected function getSubscribeActionLinks(
         RecipientEntity $recipient,
         EventDispatcher $eventDispatcher,
         MailingList $mailingList = null,
@@ -713,8 +699,7 @@ class Recipient implements EventSubscriberInterface
      *
      * @param DecodePropertyValueForWidgetEvent $event
      */
-    public
-    function decodeEmail(
+    public function decodeEmail(
         DecodePropertyValueForWidgetEvent $event
     ) {
         if ($event->getModel()->getProviderName() === 'orm_avisota_recipient'

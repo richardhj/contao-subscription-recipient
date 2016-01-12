@@ -206,7 +206,8 @@ $fields = array(
                     ),
                 ),
                 'recipientsPropertyFilter_value'      => array(
-                    'label'     => &$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_value'],
+                    'label'     =>
+                        &$GLOBALS['TL_LANG']['orm_avisota_recipient_source']['recipientsPropertyFilter_value'],
                     'inputType' => 'text',
                     'eval'      => array(
                         'style' => 'width:200px'

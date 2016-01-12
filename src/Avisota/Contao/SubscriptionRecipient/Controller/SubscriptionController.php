@@ -20,6 +20,7 @@ use Avisota\Contao\Subscription\Event\PrepareSubscriptionEvent;
 use Avisota\Contao\Subscription\Event\ResolveRecipientEvent;
 use Avisota\Contao\Subscription\Event\SubscriptionAwareEvent;
 use Avisota\Contao\Subscription\SubscriptionEvents;
+use Avisota\Contao\SubscriptionMember\EventsSubscriber;
 use Contao\Doctrine\ORM\EntityHelper;
 use ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -46,7 +47,7 @@ class SubscriptionController implements EventSubscriberInterface
                 array('prepareSubscription'),
             ),
 
-            SubscriptionEvents::RESOLVE_RECIPIENT => array(
+            SubscriptionEvents::RESOLVE_RECIPIENT                   => array(
                 array('resolveRecipient'),
             ),
 
@@ -121,7 +122,11 @@ class SubscriptionController implements EventSubscriberInterface
 
         #$baseSubscriber = new \Avisota\Contao\SubscriptionRecipient\EventsSubscriber();
         $baseSubscriber = new EventsSubscriber();
-        $options = $baseSubscriber->getRecipientPropertiesOptions($event->getDataContainer()->getEnvironment(), $options);
+        $options        =
+            $baseSubscriber->getRecipientPropertiesOptions(
+                $event->getDataContainer()->getEnvironment(),
+                $options
+            );
 
         $event->setOptions($options);
     }
