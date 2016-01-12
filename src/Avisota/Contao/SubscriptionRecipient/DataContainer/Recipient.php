@@ -58,9 +58,17 @@ class Recipient implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            DcGeneralEvents::ACTION                                                    => 'handleAction',
-            ModelToLabelEvent::NAME                                                    => 'createLabel',
-            DecodePropertyValueForWidgetEvent::NAME => 'decodeEmail',
+            DcGeneralEvents::ACTION => array(
+                array('handleAction'),
+            ),
+
+            ModelToLabelEvent::NAME => array(
+                array('createLabel'),
+            ),
+
+            DecodePropertyValueForWidgetEvent::NAME => array(
+                array('decodeEmail'),
+            ),
         );
     }
 
