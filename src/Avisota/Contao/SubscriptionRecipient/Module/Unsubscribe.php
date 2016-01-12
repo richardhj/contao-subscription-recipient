@@ -68,8 +68,6 @@ class Unsubscribe extends AbstractRecipientForm
             $mailingListIds
         );
 
-
-
         $values = array();
 
         if (\Input::get('avisota_subscription_email')) {

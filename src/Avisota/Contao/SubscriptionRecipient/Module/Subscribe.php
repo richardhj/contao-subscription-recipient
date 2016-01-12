@@ -61,8 +61,6 @@ class Subscribe extends AbstractRecipientForm
                $container,
                $objPage;
 
-
-
         /** @var SubscriptionManager $subscriptionManager */
         $subscriptionManager = $container['avisota.subscription'];
 
@@ -185,9 +183,8 @@ class Subscribe extends AbstractRecipientForm
                             $query['token'][] = $subscription->getActivationToken();
                         }
 
-
-                        $base        = \Environment::get('base');
-                        $url         = $base . $event->getUrl() . '?' . http_build_query($query);
+                        $base = \Environment::get('base');
+                        $url  = $base . $event->getUrl() . '?' . http_build_query($query);
 
                         $data = array(
                             'link'          => array(

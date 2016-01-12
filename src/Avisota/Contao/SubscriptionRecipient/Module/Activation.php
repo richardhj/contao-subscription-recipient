@@ -50,8 +50,6 @@ class Activation extends AbstractRecipientForm
     {
         global $container;
 
-
-
         /** @var SubscriptionManager $subscriptionManager */
         $subscriptionManager = $container['avisota.subscription'];
 
