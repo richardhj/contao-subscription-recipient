@@ -30,7 +30,6 @@ use ContaoCommunityAlliance\Contao\Bindings\Events\Message\AddMessageEvent;
 use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\DecodePropertyValueForWidgetEvent;
 use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\ModelToLabelEvent;
 use ContaoCommunityAlliance\DcGeneral\DcGeneralEvents;
-
 use ContaoCommunityAlliance\DcGeneral\Event\ActionEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -392,6 +391,7 @@ class Recipient implements EventSubscriberInterface
             $TL_LANG['orm_avisota_recipient']['added_at'],
             $recipient->getCreatedAt()->format(\Config::get('datimFormat'))
         );
+
         if ($recipient->getAddedById() > 0) {
             $database = \Database::getInstance();
             $user     = $database
@@ -699,14 +699,14 @@ class Recipient implements EventSubscriberInterface
      *
      * @param DecodePropertyValueForWidgetEvent $event
      */
-    public function decodeEmail(
-        DecodePropertyValueForWidgetEvent $event
-    ) {
+    public function decodeEmail(DecodePropertyValueForWidgetEvent $event)
+    {
         if ($event->getModel()->getProviderName() != 'orm_avisota_recipient'
             && $event->getProperty() != 'email'
         ) {
             return;
         }
+
         $event->setValue(strtolower($event->getValue()));
     }
 }

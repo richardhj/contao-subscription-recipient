@@ -50,7 +50,6 @@ class Subscribe extends AbstractRecipientForm
         return parent::generate();
     }
 
-
     /**
      * Generate the content element
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)

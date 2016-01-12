@@ -96,7 +96,7 @@ class DataContainerController implements EventSubscriberInterface
         \System::loadLanguageFile('orm_avisota_recipient');
 
         /** @var EventDispatcher $eventDispatcher */
-        $eventDispatcher = $container['event-dispatcher'];
+        $eventDispatcher  = $container['event-dispatcher'];
         $dcGeneralFactory = new DcGeneralFactory();
         $dcGeneralFactory->setContainerName('orm_avisota_recipient');
         $dcGeneralFactory->setEventDispatcher($eventDispatcher);

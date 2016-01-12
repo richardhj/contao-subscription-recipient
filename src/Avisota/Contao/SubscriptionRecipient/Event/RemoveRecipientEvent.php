@@ -15,7 +15,6 @@
 
 namespace Avisota\Contao\SubscriptionRecipient\Event;
 
-
 /**
  * Class RemoveRecipientEvent
  *

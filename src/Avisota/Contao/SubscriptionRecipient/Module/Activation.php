@@ -15,10 +15,7 @@
 
 namespace Avisota\Contao\SubscriptionRecipient\Module;
 
-
 use Avisota\Contao\Subscription\SubscriptionManager;
-
-
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GenerateFrontendUrlEvent;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GetPageDetailsEvent;
@@ -45,7 +42,6 @@ class Activation extends AbstractRecipientForm
 
         return parent::generate();
     }
-
 
     /**
      * Generate the content element

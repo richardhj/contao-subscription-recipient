@@ -15,13 +15,11 @@
 
 namespace Avisota\Contao\SubscriptionRecipient\DataContainer\DataProvider;
 
-
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Backend\AddToUrlEvent;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\RedirectEvent;
 use ContaoCommunityAlliance\DcGeneral\Data\ModelInterface;
 use ContaoCommunityAlliance\DcGeneral\Data\NoOpDataProvider;
-
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**

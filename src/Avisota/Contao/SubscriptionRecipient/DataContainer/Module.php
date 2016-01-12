@@ -15,9 +15,7 @@
 
 namespace Avisota\Contao\SubscriptionRecipient\DataContainer;
 
-
 use Bit3\Contao\MetaPalettes\MetaPalettes;
-
 
 /**
  * Class Module

@@ -15,19 +15,14 @@
 
 namespace Avisota\Contao\SubscriptionRecipient\DataContainer\DataProvider;
 
-
 use Avisota\Contao\Entity\Recipient;
 use Avisota\Contao\SubscriptionRecipient\Event\ExportRecipientPropertyEvent;
-
 use Avisota\Contao\SubscriptionRecipient\RecipientEvents;
 use Contao\Doctrine\ORM\EntityAccessor;
 use Contao\Doctrine\ORM\EntityHelper;
-
-
 use ContaoCommunityAlliance\DcGeneral\Data\DefaultModel;
 use ContaoCommunityAlliance\DcGeneral\Data\ModelInterface;
 use ContaoCommunityAlliance\DcGeneral\Data\NoOpDataProvider;
-
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**

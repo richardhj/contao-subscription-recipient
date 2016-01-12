@@ -398,7 +398,6 @@ class MigrateRecipientsController implements EventSubscriberInterface
 
         $eventDispatcher = $container['event-dispatcher'];
 
-
         \Session::getInstance()->remove($migrationId);
 
         if (!is_array(\Session::getInstance()->get('TL_CONFIRM'))) {

@@ -113,6 +113,7 @@ class OptionsBuilder implements EventSubscriberInterface
             array(),
             array('forename' => 'ASC', 'surname' => 'ASC', 'email' => 'ASC')
         );
+
         /** @var \Avisota\Contao\Entity\Recipient $recipient */
         foreach ($recipients as $recipient) {
             if ($recipient->getForename() && $recipient->getSurname()) {

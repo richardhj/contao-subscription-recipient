@@ -16,16 +16,11 @@
 namespace Avisota\Contao\SubscriptionRecipient;
 
 use Avisota\Contao\Entity\Recipient;
-
-
 use Avisota\Contao\SubscriptionRecipient\Event\RecipientAwareEvent;
-
-
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-
 
 /**
  * Class DoctrineBridgeSubscriber

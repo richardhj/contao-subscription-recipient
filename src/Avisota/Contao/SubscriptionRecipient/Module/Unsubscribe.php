@@ -20,9 +20,7 @@ use Avisota\Contao\Entity\Subscription;
 use Avisota\Contao\Message\Core\Renderer\MessageRendererInterface;
 use Avisota\Contao\Subscription\SubscriptionManager;
 use Avisota\Transport\TransportInterface;
-
 use Contao\Doctrine\ORM\EntityHelper;
-
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GenerateFrontendUrlEvent;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GetPageDetailsEvent;
@@ -51,7 +49,6 @@ class Unsubscribe extends AbstractRecipientForm
         return parent::generate();
     }
 
-
     /**
      * Generate the content element
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)
@@ -71,6 +68,7 @@ class Unsubscribe extends AbstractRecipientForm
             $mailingListIds
         );
 
+        // TODO deprecated
         $input  = \Input::getInstance();
         $values = array();
 

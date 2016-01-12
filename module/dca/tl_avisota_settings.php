@@ -13,7 +13,6 @@
  * @filesource
  */
 
-
 /**
  * Palettes
  */

@@ -17,7 +17,6 @@ namespace Avisota\Contao\SubscriptionRecipient\Event;
 
 use Avisota\Contao\Entity\Recipient;
 
-
 /**
  * Class MigrateRecipientEvent
  *

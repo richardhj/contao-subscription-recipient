@@ -16,8 +16,8 @@
 namespace Avisota\Contao\SubscriptionRecipient\Entity;
 
 use Avisota\Contao\Subscription\SubscriptionRecipientInterface;
-use Contao\Doctrine\ORM\EntityAccessor;
 use Contao\Doctrine\ORM\Annotation\Accessor;
+use Contao\Doctrine\ORM\EntityAccessor;
 use Contao\Doctrine\ORM\EntityHelper;
 
 /**
