@@ -57,7 +57,7 @@ class Subscription extends AbstractRecipientForm
     public function generate()
     {
         if (TL_MODE == 'BE') {
-            $template           = new BackendTemplate('be_wildcard');
+            $template           = new \BackendTemplate('be_wildcard');
             $template->wildcard = '### Avisota subscription module ###';
             return $template->parse();
         }
@@ -80,13 +80,14 @@ class Subscription extends AbstractRecipientForm
     }
 
     /**
-     * @param array            $recipientData
-     * @param array            $mailingLists
-     * @param FrontendTemplate $template
+     * @param array             $recipientData
+     * @param array             $mailingLists
+     *
+     * @param \FrontendTemplate $template
      *
      * @return null
      */
-    protected function submit(array $recipientData, array $mailingLists, FrontendTemplate $template)
+    protected function submit(array $recipientData, array $mailingLists, \FrontendTemplate $template)
     {
         if ($this->Input->post('subscribe')) {
             return $this->handleSubscribeSubmit($recipientData, $mailingLists, $template);
