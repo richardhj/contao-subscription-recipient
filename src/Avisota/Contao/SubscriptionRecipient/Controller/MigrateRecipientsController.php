@@ -210,8 +210,7 @@ class MigrateRecipientsController implements EventSubscriberInterface
      */
     protected function generateResponse(EnvironmentInterface $environment, $migrationSettings, $migrationId)
     {
-        global $container,
-               $TL_LANG;
+        global $container;
 
         $eventDispatcher = $container['event-dispatcher'];
 
@@ -219,11 +218,7 @@ class MigrateRecipientsController implements EventSubscriberInterface
         $entityManager       = EntityHelper::getEntityManager();
         $recipientRepository = EntityHelper::getRepository('Avisota\Contao:Recipient');
 
-        list($offset,
-            $skipped,
-            $migrated,
-            $channelMailingListMapping,
-            $statement) =
+        list($offset, $skipped, $migrated, $channelMailingListMapping, $statement) =
             $this->getMigrationStatement($migrationSettings);
 
         /** @var SubscriptionManager $subscriptionManager */
@@ -236,25 +231,14 @@ class MigrateRecipientsController implements EventSubscriberInterface
 
         $user     = \BackendUser::getInstance();
         $response = new \StringBuilder();
-        $response->append('<div class="tl_buttons">&nbsp;</div>');
-        $response->append('<h2 class="sub_headline">');
-        $response->append($translator->translate('running', 'mem_avisota_recipient_migrate'));
-        $response->append('</h2>');
-        $response->append('<div class="tl_formbody_edit"><ul>');
+        $this->addHeaderContent($response, $translator);
 
         $contaoRecipients = $statement->fetchAll();
         foreach ($contaoRecipients as $contaoRecipientData) {
             $recipient = $recipientRepository->findOneBy(array('email' => $contaoRecipientData['email']));
 
             if (!$recipient) {
-                $response->append('<li>');
-                $response->append(
-                    sprintf(
-                        $translator->translate('created', 'mem_avisota_recipient_migrate'),
-                        $contaoRecipientData['email']
-                    )
-                );
-                $response->append('</li>');
+                $this->addCreateRecipientInformation($response, $contaoRecipientData, $translator);
 
                 $recipient = new Recipient();
                 $recipient->setEmail($contaoRecipientData['email']);
@@ -263,26 +247,11 @@ class MigrateRecipientsController implements EventSubscriberInterface
                 $recipient->setAddedByUsername($user->username);
             } else {
                 if (!$migrationSettings['overwrite']) {
-                    $response->append('<li>');
-                    $response->append(
-                        sprintf(
-                            $translator->translate('skipped', 'mem_avisota_recipient_migrate'),
-                            $contaoRecipientData['email']
-                        )
-                    );
-                    $response->append('</li>');
 
                     $skipped++;
                     continue;
                 } else {
-                    $response->append('<li>');
-                    $response->append(
-                        sprintf(
-                            $translator->translate('overwriten', 'mem_avisota_recipient_migrate'),
-                            $contaoRecipientData['email']
-                        )
-                    );
-                    $response->append('</li>');
+                    $this->addSkippedRecipientInformation($response, $contaoRecipientData, $translator);
                 }
             }
 
@@ -311,54 +280,114 @@ class MigrateRecipientsController implements EventSubscriberInterface
         $entityManager->flush();
 
         if (count($contaoRecipients) < 10) {
-            \Session::getInstance()->remove($migrationId);
-
-            if (!is_array(\Session::getInstance()->get('TL_CONFIRM'))) {
-                \Session::getInstance()->set('TL_CONFIRM', (array) \Session::getInstance()->get('TL_CONFIRM'));
-            }
-
-            $confirmSession   = \Session::getInstance()->get('TL_CONFIRM');
-            $confirmSession[] = sprintf(
-                $TL_LANG['mem_avisota_recipient_migrate']['migrated'],
-                $migrated,
-                $skipped
-            );
-            \Session::getInstance()->set('TL_CONFIRM', $confirmSession);
-
-            $addToUrlEvent = new AddToUrlEvent('act=&migration=');
-            $eventDispatcher->dispatch(ContaoEvents::BACKEND_ADD_TO_URL, $addToUrlEvent);
-
-            $redirectEvent = new RedirectEvent($addToUrlEvent->getUrl());
-            $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $redirectEvent);
+            $this->migrationFinished($migrationId, $migrated, $skipped);
 
             return null;
         } else {
-            // update session data
-            $migrationSettings['offset']   = $offset + count($contaoRecipients);
-            $migrationSettings['skipped']  = $skipped;
-            $migrationSettings['migrated'] = $migrated;
-            \Session::getInstance()->set($migrationId, $migrationSettings);
-
-            $response->append('</ul><br>');
-            $response->append(
-                '<script>'
-                . 'window.onload = function() { '
-                . 'document.getElementById("btn_avisota_migrate_reload").disabled = true; '
-                . 'location.reload(); };'
-                . '</script>'
-            );
-
-            $response->append(
-                '<p>'
-                . '<button click="location.reload()" class="tl_submit" id="btn_avisota_migrate_reload">'
-            );
-            $response->append($translator->translate('reload', 'mem_avisota_recipient_migrate'));
-            $response->append('</button></p>');
-
-            $response->append('</div>');
+            $offset += count($contaoRecipients);
+            $this->updateRedirectSession($migrationId, $offset, $skipped, $migrated);
+            $this->addReloadScriptAndButton($response, $translator);
 
             return $response->__toString();
         }
+    }
+
+    protected function addCreateRecipientInformation(&$response, $contaoRecipientData, $translator)
+    {
+        /** @var \StringBuilder $response */
+        $response->append('<li>');
+        $response->append(
+            sprintf(
+                $translator->translate('created', 'mem_avisota_recipient_migrate'),
+                $contaoRecipientData['email']
+            )
+        );
+        $response->append('</li>');
+    }
+
+    protected function addSkippedRecipientInformation(&$response, $contaoRecipientData, $translator)
+    {
+        $response->append('<li>');
+        $response->append(
+            sprintf(
+                $translator->translate('skipped', 'mem_avisota_recipient_migrate'),
+                $contaoRecipientData['email']
+            )
+        );
+        $response->append('</li>');
+    }
+
+    protected function addHeaderContent(&$response, $translator)
+    {
+        /** @var \StringBuilder $response */
+        $response->append('<div class="tl_buttons">&nbsp;</div>');
+        $response->append('<h2 class="sub_headline">');
+        $response->append(
+            $translator->translate('running', 'mem_avisota_recipient_migrate')
+        );
+        $response->append('</h2>');
+        $response->append('<div class="tl_formbody_edit"><ul>');
+    }
+
+    protected function addReloadScriptAndButton(&$response, $translator)
+    {
+        /** @var \StringBuilder $response */
+        $response->append('</ul><br>');
+        $response->append(
+            '<script>'
+            . 'window.onload = function() { '
+            . 'document.getElementById("btn_avisota_migrate_reload").disabled = true; '
+            . 'location.reload(); };'
+            . '</script>'
+        );
+
+        $response->append(
+            '<p>'
+            . '<button click="location.reload()" class="tl_submit" id="btn_avisota_migrate_reload">'
+        );
+        $response->append(
+            $translator->translate('reload', 'mem_avisota_recipient_migrate')
+        );
+        $response->append('</button></p>');
+
+        $response->append('</div>');
+    }
+
+    protected function updateRedirectSession($migrationId, $offset, $skipped, $migrated)
+    {
+        $migrationSettings['offset']   = $offset;
+        $migrationSettings['skipped']  = $skipped;
+        $migrationSettings['migrated'] = $migrated;
+        \Session::getInstance()->set($migrationId, $migrationSettings);
+    }
+
+    protected function migrationFinished($migrationId, $migrated, $skipped)
+    {
+        global $container,
+               $TL_LANG;
+
+        $eventDispatcher = $container['event-dispatcher'];
+
+
+        \Session::getInstance()->remove($migrationId);
+
+        if (!is_array(\Session::getInstance()->get('TL_CONFIRM'))) {
+            \Session::getInstance()->set('TL_CONFIRM', (array) \Session::getInstance()->get('TL_CONFIRM'));
+        }
+
+        $confirmSession   = \Session::getInstance()->get('TL_CONFIRM');
+        $confirmSession[] = sprintf(
+            $TL_LANG['mem_avisota_recipient_migrate']['migrated'],
+            $migrated,
+            $skipped
+        );
+        \Session::getInstance()->set('TL_CONFIRM', $confirmSession);
+
+        $addToUrlEvent = new AddToUrlEvent('act=&migration=');
+        $eventDispatcher->dispatch(ContaoEvents::BACKEND_ADD_TO_URL, $addToUrlEvent);
+
+        $redirectEvent = new RedirectEvent($addToUrlEvent->getUrl());
+        $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $redirectEvent);
     }
 
     /**
