@@ -194,9 +194,9 @@ class Recipient implements EventSubscriberInterface
         global $container,
                $TL_LANG;
 
-        $environment = $event->getEnvironment();
+        $environment     = $event->getEnvironment();
         $eventDispatcher = $environment->getEventDispatcher();
-        $inputProvider = $environment->getInputProvider();
+        $inputProvider   = $environment->getInputProvider();
 
         $recipientRepository = EntityHelper::getRepository('Avisota\Contao:Recipient');
         $recipientId         = $inputProvider->getParameter('recipient');
@@ -533,83 +533,133 @@ class Recipient implements EventSubscriberInterface
         MailingList $mailingList = null,
         Subscription $subscription = null
     ) {
-        global $TL_LANG;
-
         $buffer = '';
-
         if ($subscription) {
-            if (!$subscription->getActive()) {
-                $title = $TL_LANG['orm_avisota_recipient']['confirm_subscription'];
-
-                $event = new GenerateHtmlEvent('ok.gif', $title, sprintf('title="%s"', specialchars($title)));
-                $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
-                $icon = $event->getHtml();
-
-                $buffer .= sprintf(
-                    '<a href="contao/main.php?do=avisota_recipients'
-                    . '&act=confirm-subscription&subscription=%s&ref=%s">%s</a>',
-                    $subscription->getId(),
-                    defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
-                    $icon
-                );
-            }
-
-            $title = $mailingList
-                ? $TL_LANG['orm_avisota_recipient']['unsubscribe']
-                : $TL_LANG['orm_avisota_recipient']['unsubscribe_globally'];
-
-            $event = new GenerateHtmlEvent('delete.gif', $title, sprintf('title="%s"', specialchars($title)));
-            $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
-            $icon = $event->getHtml();
-
-            $buffer .= sprintf(
-                ' <a href="contao/main.php?do=avisota_recipients'
-                . '&act=remove-subscription&subscription=%s&ref=%s">%s</a>',
-                $subscription->getId(),
-                defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
-                $icon
-            );
-        } else {
-            $title = $mailingList
-                ? $TL_LANG['orm_avisota_recipient']['subscribe']
-                : $TL_LANG['orm_avisota_recipient']['subscribe_globally'];
-
-            $event = new GenerateHtmlEvent('new.gif', $title, sprintf('title="%s"', specialchars($title)));
-            $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
-            $icon = $event->getHtml();
-
-            $buffer .= sprintf(
-                ' <a href="contao/main.php?do=avisota_recipients'
-                . '&act=subscribe&recipient=%s&mailing-list=%s&ref=%s">%s</a>',
-                $recipient->getId(),
-                $mailingList
-                    ? $mailingList->getId()
-                    : 'global',
-                defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
-                $icon
-            );
-
-            $title = $mailingList
-                ? $TL_LANG['orm_avisota_recipient']['subscribe_confirmed']
-                : $TL_LANG['orm_avisota_recipient']['subscribe_globally_confirmed'];
-
-            $event = new GenerateHtmlEvent('copychilds.gif', $title, sprintf('title="%s"', specialchars($title)));
-            $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
-            $icon = $event->getHtml();
-
-            $buffer .= sprintf(
-                ' <a href="contao/main.php?do=avisota_recipients'
-                . '&act=subscribe-confirmed&recipient=%s&mailing-list=%s&ref=%s">%s</a>',
-                $recipient->getId(),
-                $mailingList
-                    ? $mailingList->getId()
-                    : 'global',
-                defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
-                $icon
-            );
+            $buffer .= $this->generateSubscriptionActivationLink($subscription);
+            $buffer .= $this->generateSubscriptionRemoveLink($subscription, $mailingList);
         }
 
+        $buffer .= $this->generateSubscriptionSubscribeLink($recipient, $subscription, $mailingList);
+        $buffer .= $this->generateSubscriptionSubscribeConfirmLink($recipient, $subscription, $mailingList);
+
         return $buffer;
+    }
+
+    protected function generateSubscriptionActivationLink(Subscription $subscription)
+    {
+        if ($subscription->getActive()) {
+            return '';
+        }
+
+        global $TL_LANG,
+               $container;
+
+        $eventDispatcher = $container['event-dispatcher'];
+
+        $title = $TL_LANG['orm_avisota_recipient']['confirm_subscription'];
+
+        $event = new GenerateHtmlEvent('ok.gif', $title, sprintf('title="%s"', specialchars($title)));
+        $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
+        $icon = $event->getHtml();
+
+        return sprintf(
+            '<a href="contao/main.php?do=avisota_recipients'
+            . '&act=confirm-subscription&subscription=%s&ref=%s">%s</a>',
+            $subscription->getId(),
+            defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
+            $icon
+        );
+    }
+
+    protected function generateSubscriptionRemoveLink(Subscription $subscription, MailingList $mailingList)
+    {
+        global $TL_LANG,
+               $container;
+
+        $eventDispatcher = $container['event-dispatcher'];
+
+        $title = $mailingList
+            ? $TL_LANG['orm_avisota_recipient']['unsubscribe']
+            : $TL_LANG['orm_avisota_recipient']['unsubscribe_globally'];
+
+        $event = new GenerateHtmlEvent('delete.gif', $title, sprintf('title="%s"', specialchars($title)));
+        $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
+        $icon = $event->getHtml();
+
+        return sprintf(
+            ' <a href="contao/main.php?do=avisota_recipients'
+            . '&act=remove-subscription&subscription=%s&ref=%s">%s</a>',
+            $subscription->getId(),
+            defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
+            $icon
+        );
+    }
+
+    protected function generateSubscriptionSubscribeLink(
+        RecipientEntity $recipient,
+        Subscription $subscription = null,
+        MailingList $mailingList = null
+    ) {
+        if ($subscription) {
+            return '';
+        }
+
+        global $TL_LANG,
+               $container;
+
+        $eventDispatcher = $container['event-dispatcher'];
+
+        $title = $mailingList
+            ? $TL_LANG['orm_avisota_recipient']['subscribe']
+            : $TL_LANG['orm_avisota_recipient']['subscribe_globally'];
+
+        $event = new GenerateHtmlEvent('new.gif', $title, sprintf('title="%s"', specialchars($title)));
+        $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
+        $icon = $event->getHtml();
+
+        return sprintf(
+            ' <a href="contao/main.php?do=avisota_recipients'
+            . '&act=subscribe&recipient=%s&mailing-list=%s&ref=%s">%s</a>',
+            $recipient->getId(),
+            $mailingList
+                ? $mailingList->getId()
+                : 'global',
+            defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
+            $icon
+        );
+    }
+
+    protected function generateSubscriptionSubscribeConfirmLink(
+        RecipientEntity $recipient,
+        Subscription $subscription = null,
+        MailingList $mailingList = null
+    ) {
+        if ($subscription) {
+            return '';
+        }
+
+        global $TL_LANG,
+               $container;
+
+        $eventDispatcher = $container['event-dispatcher'];
+        $title           = $mailingList
+            ? $TL_LANG['orm_avisota_recipient']['subscribe_confirmed']
+            : $TL_LANG['orm_avisota_recipient']['subscribe_globally_confirmed'];
+
+        $event = new GenerateHtmlEvent('copychilds.gif', $title, sprintf('title="%s"', specialchars($title)));
+        $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
+        $icon = $event->getHtml();
+
+        return sprintf(
+            ' <a href="contao/main.php?do=avisota_recipients'
+            . '&act=subscribe-confirmed&recipient=%s&mailing-list=%s&ref=%s">%s</a>',
+            $recipient->getId(),
+            $mailingList
+                ? $mailingList->getId()
+                : 'global',
+            defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
+            $icon
+        );
     }
 
     /**
