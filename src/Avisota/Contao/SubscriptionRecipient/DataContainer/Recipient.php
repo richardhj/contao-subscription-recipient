@@ -553,6 +553,11 @@ class Recipient implements EventSubscriberInterface
         return $buffer;
     }
 
+    /**
+     * @param Subscription $subscription
+     *
+     * @return string
+     */
     protected function generateSubscriptionActivationLink(Subscription $subscription)
     {
         if ($subscription->getActive()) {
@@ -579,6 +584,12 @@ class Recipient implements EventSubscriberInterface
         );
     }
 
+    /**
+     * @param Subscription $subscription
+     * @param MailingList  $mailingList
+     *
+     * @return string
+     */
     protected function generateSubscriptionRemoveLink(Subscription $subscription, MailingList $mailingList)
     {
         global $TL_LANG,
@@ -603,6 +614,13 @@ class Recipient implements EventSubscriberInterface
         );
     }
 
+    /**
+     * @param RecipientEntity   $recipient
+     * @param Subscription|null $subscription
+     * @param MailingList|null  $mailingList
+     *
+     * @return string
+     */
     protected function generateSubscriptionSubscribeLink(
         RecipientEntity $recipient,
         Subscription $subscription = null,
@@ -637,6 +655,13 @@ class Recipient implements EventSubscriberInterface
         );
     }
 
+    /**
+     * @param RecipientEntity   $recipient
+     * @param Subscription|null $subscription
+     * @param MailingList|null  $mailingList
+     *
+     * @return string
+     */
     protected function generateSubscriptionSubscribeConfirmLink(
         RecipientEntity $recipient,
         Subscription $subscription = null,

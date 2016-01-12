@@ -292,6 +292,11 @@ class MigrateRecipientsController implements EventSubscriberInterface
         }
     }
 
+    /**
+     * @param $response
+     * @param $contaoRecipientData
+     * @param $translator
+     */
     protected function addCreateRecipientInformation(&$response, $contaoRecipientData, $translator)
     {
         /** @var \StringBuilder $response */
@@ -305,6 +310,11 @@ class MigrateRecipientsController implements EventSubscriberInterface
         $response->append('</li>');
     }
 
+    /**
+     * @param $response
+     * @param $contaoRecipientData
+     * @param $translator
+     */
     protected function addSkippedRecipientInformation(&$response, $contaoRecipientData, $translator)
     {
         $response->append('<li>');
@@ -317,6 +327,10 @@ class MigrateRecipientsController implements EventSubscriberInterface
         $response->append('</li>');
     }
 
+    /**
+     * @param $response
+     * @param $translator
+     */
     protected function addHeaderContent(&$response, $translator)
     {
         /** @var \StringBuilder $response */
@@ -329,6 +343,10 @@ class MigrateRecipientsController implements EventSubscriberInterface
         $response->append('<div class="tl_formbody_edit"><ul>');
     }
 
+    /**
+     * @param $response
+     * @param $translator
+     */
     protected function addReloadScriptAndButton(&$response, $translator)
     {
         /** @var \StringBuilder $response */
@@ -353,6 +371,12 @@ class MigrateRecipientsController implements EventSubscriberInterface
         $response->append('</div>');
     }
 
+    /**
+     * @param $migrationId
+     * @param $offset
+     * @param $skipped
+     * @param $migrated
+     */
     protected function updateRedirectSession($migrationId, $offset, $skipped, $migrated)
     {
         $migrationSettings['offset']   = $offset;
@@ -361,6 +385,11 @@ class MigrateRecipientsController implements EventSubscriberInterface
         \Session::getInstance()->set($migrationId, $migrationSettings);
     }
 
+    /**
+     * @param $migrationId
+     * @param $migrated
+     * @param $skipped
+     */
     protected function migrationFinished($migrationId, $migrated, $skipped)
     {
         global $container,

@@ -101,6 +101,12 @@ class RecipientExportDataProvider extends NoOpDataProvider
         exit;
     }
 
+    /**
+     * @param $recipient
+     * @param $exportSettings
+     *
+     * @return array
+     */
     protected function generateCSVRows($recipient, $exportSettings)
     {
         global $container;

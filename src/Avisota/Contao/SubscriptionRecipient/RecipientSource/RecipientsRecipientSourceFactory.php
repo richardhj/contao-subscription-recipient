@@ -56,6 +56,10 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
         return $recipientSource;
     }
 
+    /**
+     * @param RecipientSource           $entity
+     * @param RecipientsRecipientSource $recipientSource
+     */
     protected function parseRecipientsManageSubscriptionPage(
         RecipientSource $entity,
         RecipientsRecipientSource &$recipientSource
@@ -92,6 +96,10 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
         $recipientSource = $event->getRecipientSource();
     }
 
+    /**
+     * @param RecipientSource           $entity
+     * @param RecipientsRecipientSource $recipientSource
+     */
     protected function parseRecipientsUnsubscribePage(
         RecipientSource $entity,
         RecipientsRecipientSource &$recipientSource
