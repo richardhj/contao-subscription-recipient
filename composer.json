@@ -51,13 +51,13 @@
     "extra": {
         "contao": {
             "sources": {
-                "module": "system/modules/avisota-subscription-recipient",
+                "contao": "system/modules/avisota-subscription-recipient",
                 "assets": "assets/avisota/subscription-recipient"
             },
             "transifex": {
                 "project": "avisota-contao",
                 "prefix": "contao-subscription-recipient-",
-                "languages_cto": "module/languages",
+                "languages_cto": "contao/languages",
                 "languages_tx": ".tx"
             }
         },
