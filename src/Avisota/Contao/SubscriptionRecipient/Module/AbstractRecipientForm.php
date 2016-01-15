@@ -2,12 +2,12 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright (C) 2013 Tristan Lins
+ * Copyright © 2016 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
+ * @copyright  way.vision 2016
+ * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-subscription-recipient
  * @license    LGPL-3.0+
  * @filesource
@@ -25,107 +25,120 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class ModuleAvisotaRecipientForm
- *
- *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
- * @package    avisota/contao-subscription-recipient
  */
 abstract class AbstractRecipientForm extends \TwigModule
 {
-	public function __construct($module)
-	{
-		parent::__construct($module);
+    /**
+     * AbstractRecipientForm constructor.
+     *
+     * @param $module
+     */
+    public function __construct($module)
+    {
+        global $container;
 
-		/** @var EventDispatcher $eventDispatcher */
-		$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        parent::__construct($module);
 
-		$eventDispatcher->dispatch(
-			ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,
-			new LoadLanguageFileEvent('fe_avisota_subscription')
-		);
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $container['event-dispatcher'];
 
-		$eventDispatcher->dispatch(
-			ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,
-			new LoadLanguageFileEvent('orm_avisota_recipient')
-		);
+        $eventDispatcher->dispatch(
+            ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,
+            new LoadLanguageFileEvent('fe_avisota_subscription')
+        );
 
-		$eventDispatcher->dispatch(
-			ContaoEvents::CONTROLLER_LOAD_DATA_CONTAINER,
-			new LoadDataContainerEvent('orm_avisota_recipient')
-		);
-	}
+        $eventDispatcher->dispatch(
+            ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,
+            new LoadLanguageFileEvent('orm_avisota_recipient')
+        );
 
-	/**
-	 * Load multiple mailing lists by ID.
-	 *
-	 * @param $mailingListIds
-	 *
-	 * @return array|MailingList[]
-	 */
-	protected function loadMailingLists($mailingListIds)
-	{
-		$mailingLists          = array();
-		$mailingListRepository = EntityHelper::getRepository('Avisota\Contao:MailingList');
-		$queryBuilder          = $mailingListRepository->createQueryBuilder('ml');
-		$expr                  = $queryBuilder->expr();
-		$queryBuilder
-			->select('ml')
-			->where($expr->in('ml.id', ':ids'))
-			->setParameter('ids', $mailingListIds);
-		$query = $queryBuilder->getQuery();
-		/** @var MailingList[] $result */
-		return $query->getResult();
-	}
+        $eventDispatcher->dispatch(
+            ContaoEvents::CONTROLLER_LOAD_DATA_CONTAINER,
+            new LoadDataContainerEvent('orm_avisota_recipient')
+        );
+    }
 
-	/**
-	 * Create an options list of mailing lists.
-	 *
-	 * @param $mailingListIds
-	 *
-	 * @return array|string[]
-	 */
-	protected function loadMailingListOptions($mailingListIds)
-	{
-		$mailingLists = $this->loadMailingLists($mailingListIds);
-		$options = array();
+    /**
+     * Load multiple mailing lists by ID.
+     *
+     * @param $mailingListIds
+     *
+     * @return array|MailingList[]
+     * @SuppressWarnings(PHPMD.LongVariable)
+     */
+    protected function loadMailingLists($mailingListIds)
+    {
+        // Todo if the variable $mailingLists in use
+        #$mailingLists          = array();
+        $mailingListRepository = EntityHelper::getRepository('Avisota\Contao:MailingList');
+        $queryBuilder          = $mailingListRepository->createQueryBuilder('ml');
+        $expr                  = $queryBuilder->expr();
+        $queryBuilder
+            ->select('ml')
+            ->where($expr->in('ml.id', ':ids'))
+            ->setParameter('ids', $mailingListIds);
+        $query = $queryBuilder->getQuery();
+        /** @var MailingList[] $result */
+        return $query->getResult();
+    }
 
-		foreach ($mailingLists as $mailingList) {
-			$options[$mailingList->getId()] = $mailingList->getTitle();
-		}
+    /**
+     * Create an options list of mailing lists.
+     *
+     * @param $mailingListIds
+     *
+     * @return array|string[]
+     */
+    protected function loadMailingListOptions($mailingListIds)
+    {
+        $mailingLists = $this->loadMailingLists($mailingListIds);
+        $options      = array();
 
-		return $options;
-	}
+        foreach ($mailingLists as $mailingList) {
+            $options[$mailingList->getId()] = $mailingList->getTitle();
+        }
 
-	protected function createForm(array $availableFieldNames, array $values = array())
-	{
-		$class = new \ReflectionClass($this);
+        return $options;
+    }
 
-		$form = new Form(
-			'avisota_' . strtolower($class->getShortName()) . '_' . $this->id,
-			'POST',
-			function (Form $haste) {
-				return \Input::post('FORM_SUBMIT') === $haste->getFormId();
-			},
-			(bool) $this->tableless
-		);
+    /**
+     * @param array $availableFieldNames
+     * @param array $values
+     *
+     * @return Form
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     */
+    protected function createForm(array $availableFieldNames, array $values = array())
+    {
+        global $TL_DCA;
 
-		foreach ($availableFieldNames as $availableFieldName) {
-			if (isset($GLOBALS['TL_DCA']['orm_avisota_recipient']['fields'][$availableFieldName])) {
-				$dca = $GLOBALS['TL_DCA']['orm_avisota_recipient']['fields'][$availableFieldName];
+        $class = new \ReflectionClass($this);
 
-				if (isset($values[$availableFieldName])) {
-					$dca['value'] = $values[$availableFieldName];
-				}
+        $form = new Form(
+            'avisota_' . strtolower($class->getShortName()) . '_' . $this->id,
+            'POST',
+            function (Form $haste) {
+                return \Input::post('FORM_SUBMIT') === $haste->getFormId();
+            },
+            (bool) $this->tableless
+        );
 
-				$form->addFormField($availableFieldName, $dca);
-			}
-		}
+        foreach ($availableFieldNames as $availableFieldName) {
+            if (isset($TL_DCA['orm_avisota_recipient']['fields'][$availableFieldName])) {
+                $dca = $TL_DCA['orm_avisota_recipient']['fields'][$availableFieldName];
 
-		if ($this->avisota_form_target) {
-			$form->setFormActionFromPageId($this->avisota_form_target);
-		}
+                if (isset($values[$availableFieldName])) {
+                    $dca['value'] = $values[$availableFieldName];
+                }
 
-		return $form;
-	}
+                $form->addFormField($availableFieldName, $dca);
+            }
+        }
+
+        if ($this->avisota_form_target) {
+            $form->setFormActionFromPageId($this->avisota_form_target);
+        }
+
+        return $form;
+    }
 }

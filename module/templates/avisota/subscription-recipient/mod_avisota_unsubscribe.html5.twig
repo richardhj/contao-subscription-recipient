@@ -1,15 +1,15 @@
 {% extends 'mod_container.html5.twig' %}
 
 {% block content %}
-	<!-- indexer::stop -->
-	{% if subscriptions is defined and subscriptions|length > 0 %}
-		<p class="subscription">{{ _lang.fe_avisota_subscription.unsubscribed }}</p>
-	{% else %}
-		{% if subscriptions is defined %}
-			<p class="subscription">{{ _lang.fe_avisota_subscription.notSubscribed }}</p>
-		{% endif %}
+    <!-- indexer::stop -->
+    {% if subscriptions is defined and subscriptions|length > 0 %}
+        <p class="subscription">{{ _lang.fe_avisota_subscription.unsubscribed }}</p>
+    {% else %}
+        {% if subscriptions is defined %}
+            <p class="subscription">{{ _lang.fe_avisota_subscription.notSubscribed }}</p>
+        {% endif %}
 
-		{{ form }}
-	{% endif %}
-	<!-- indexer::continue -->
+        {{ form }}
+    {% endif %}
+    <!-- indexer::continue -->
 {% endblock %}

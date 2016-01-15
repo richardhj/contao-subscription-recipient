@@ -2,12 +2,12 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright (C) 2013 Tristan Lins
+ * Copyright © 2016 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
+ * @copyright  way.vision 2016
+ * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-subscription-recipient
  * @license    LGPL-3.0+
  * @filesource
@@ -21,70 +21,80 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class ModuleAvisotaSubscription
- *
- *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
- * @package    avisota/contao-subscription-recipient
  */
 class Subscription extends AbstractRecipientForm
 {
-	/**
-	 * Template
-	 *
-	 * @var string
-	 */
-	protected $strTemplate = 'mod_avisota_subscription';
+    /**
+     * Template
+     *
+     * @var string
+     */
+    protected $strTemplate = 'mod_avisota_subscription';
 
-	public function __construct($module)
-	{
-		parent::__construct($module);
+    /**
+     * Subscription constructor.
+     *
+     * @param $module
+     */
+    public function __construct($module)
+    {
+        global $container;
 
-		/** @var EventDispatcher $eventDispatcher */
-		$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        parent::__construct($module);
 
-		$eventDispatcher->dispatch(
-			ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,
-			new LoadLanguageFileEvent('avisota_subscription')
-		);
-	}
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $container['event-dispatcher'];
 
-	/**
-	 * @return string
-	 */
-	public function generate()
-	{
-		if (TL_MODE == 'BE') {
-			$template           = new BackendTemplate('be_wildcard');
-			$template->wildcard = '### Avisota subscription module ###';
-			return $template->parse();
-		}
+        $eventDispatcher->dispatch(
+            ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE,
+            new LoadLanguageFileEvent('avisota_subscription')
+        );
+    }
 
-		$this->formTemplate = $this->avisota_template_subscription;
+    /**
+     * @return string
+     */
+    public function generate()
+    {
+        if (TL_MODE == 'BE') {
+            $template           = new \BackendTemplate('be_wildcard');
+            $template->wildcard = '### Avisota subscription module ###';
+            return $template->parse();
+        }
 
-		return parent::generate();
-	}
+        $this->formTemplate = $this->avisota_template_subscription;
 
-	/**
-	 * Generate the content element
-	 */
-	public function compile()
-	{
-		if ($this->Input->post('FORM_SUBMIT') == $this->formName) {
-			$this->avisota_recipient_fields = array();
-		}
+        return parent::generate();
+    }
 
-		$this->addForm();
-	}
+    /**
+     * Generate the content element
+     */
+    public function compile()
+    {
+        if ($this->Input->post('FORM_SUBMIT') == $this->formName) {
+            $this->avisota_recipient_fields = array();
+        }
 
-	protected function submit(array $recipientData, array $mailingLists, FrontendTemplate $template)
-	{
-		if ($this->Input->post('subscribe')) {
-			return $this->handleSubscribeSubmit($recipientData, $mailingLists, $template);
-		}
-		if ($this->Input->post('unsubscribe')) {
-			return $this->handleUnsubscribeSubmit($recipientData, $mailingLists, $template);
-		}
-		return null;
-	}
+        $this->addForm();
+    }
+
+    /**
+     * @param array             $recipientData
+     * @param array             $mailingLists
+     *
+     * @param \FrontendTemplate $template
+     *
+     * @return null
+     */
+    protected function submit(array $recipientData, array $mailingLists, \FrontendTemplate $template)
+    {
+        if ($this->Input->post('subscribe')) {
+            return $this->handleSubscribeSubmit($recipientData, $mailingLists, $template);
+        }
+        if ($this->Input->post('unsubscribe')) {
+            return $this->handleUnsubscribeSubmit($recipientData, $mailingLists, $template);
+        }
+        return null;
+    }
 }

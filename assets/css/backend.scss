@@ -1,49 +1,49 @@
 .header_recipient_migrate {
-	background: url("../images/recipient_migrate.png") no-repeat scroll left center transparent;
-	padding: 2px 0 3px 20px;
+  background: url("../images/recipient_migrate.png") no-repeat scroll left center transparent;
+  padding: 2px 0 3px 20px;
 }
 
 .header_recipient_import {
-	background: url("../images/recipient_import.png") no-repeat scroll left center transparent;
-	padding: 2px 0 3px 20px;
+  background: url("../images/recipient_import.png") no-repeat scroll left center transparent;
+  padding: 2px 0 3px 20px;
 }
 
 .header_recipient_export {
-	background: url("../images/recipient_export.png") no-repeat scroll left center transparent;
-	padding: 2px 0 3px 20px;
+  background: url("../images/recipient_export.png") no-repeat scroll left center transparent;
+  padding: 2px 0 3px 20px;
 }
 
 .header_recipient_remove {
-	background: url("../images/recipient_remove.png") no-repeat scroll left center transparent;
-	padding: 2px 0 3px 20px;
+  background: url("../images/recipient_remove.png") no-repeat scroll left center transparent;
+  padding: 2px 0 3px 20px;
 }
 
 img.expand,
 img.fold {
-	margin-right: .5em;
-	cursor: pointer;
+  margin-right: .5em;
+  cursor: pointer;
 }
 
 table.subscriptions {
-	width: 100%;
+  width: 100%;
 
-	.tl_file_list,
-	.tl_listing tr.odd & td,
-	.tl_listing tr.even & td {
-		background-color: transparent;
-	}
-	tr:last-of-type .tl_file_list {
-		border-bottom: none;
-	}
-	td.not-subscribed {
-		color: #ccc;
-	}
-	td:not(.tl_right_nowrap) {
-		padding-left: 26px !important;
+  .tl_file_list,
+  .tl_listing tr.odd & td,
+  .tl_listing tr.even & td {
+    background-color: transparent;
+  }
+  tr:last-of-type .tl_file_list {
+    border-bottom: none;
+  }
+  td.not-subscribed {
+    color: #ccc;
+  }
+  td:not(.tl_right_nowrap) {
+    padding-left: 26px !important;
 
-		img {
-			float: left;
-			margin-left: -20px;
-		}
-	}
+    img {
+      float: left;
+      margin-left: -20px;
+    }
+  }
 }

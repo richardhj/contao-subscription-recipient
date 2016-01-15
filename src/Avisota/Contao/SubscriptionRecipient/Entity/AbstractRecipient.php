@@ -2,12 +2,12 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright (C) 2013 Tristan Lins
+ * Copyright © 2016 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
+ * @copyright  way.vision 2016
+ * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-subscription-recipient
  * @license    LGPL-3.0+
  * @filesource
@@ -16,85 +16,98 @@
 namespace Avisota\Contao\SubscriptionRecipient\Entity;
 
 use Avisota\Contao\Subscription\SubscriptionRecipientInterface;
-use Contao\Doctrine\ORM\EntityAccessor;
 use Contao\Doctrine\ORM\Annotation\Accessor;
+use Contao\Doctrine\ORM\EntityAccessor;
+use Contao\Doctrine\ORM\EntityHelper;
 
+/**
+ * Class AbstractRecipient
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Entity
+ * @SuppressWarnings(PHPMD.ShortVariable)
+ */
 abstract class AbstractRecipient implements SubscriptionRecipientInterface
 {
-	/**
-	 * @var string
-	 */
-	protected $id;
+    /**
+     * @var string
+     */
+    protected $id;
 
-	/**
-	 * @var string
-	 */
-	protected $email;
+    /**
+     * @var string
+     */
+    protected $email;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getEmail()
-	{
-		return $this->email;
-	}
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
 
-	/**
-	 * @param string $email
-	 */
-	public function setEmail($email)
-	{
-		$this->email = strtolower($email);
-		$this->email = \Contao\Doctrine\ORM\EntityHelper::callSetterCallbacks($this, static::TABLE_NAME, 'email', $email);
+    /**
+     * @param string $email
+     *
+     * @return $this
+     */
+    public function setEmail($email)
+    {
+        $this->email = strtolower($email);
+        $this->email = EntityHelper::callSetterCallbacks($this, static::TABLE_NAME, 'email', $email);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function hasDetails()
-	{
-		return true;
-	}
+    /**
+     * @return bool
+     */
+    public function hasDetails()
+    {
+        return true;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get($name)
-	{
-		$getter = 'get' . ucfirst($name);
-		return $this->$getter();
-	}
+    /**
+     * @param $name
+     *
+     * @return mixed
+     */
+    public function get($name)
+    {
+        $getter = 'get' . ucfirst($name);
+        return $this->$getter();
+    }
 
-	/**
-	 * {@inheritdoc}
-	 *
-	 * @Accessor(ignore=true)
-	 */
-	public function getDetails()
-	{
-		/** @var EntityAccessor $entityAccessor */
-		$entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
-		$details = $entityAccessor->getPublicProperties($this, true);
-		return $details;
-	}
+    /**
+     * @Accessor(ignore=true)
+     *
+     * @return mixed
+     */
+    public function getDetails()
+    {
+        global $container;
 
-	/**
-	 * {@inheritdoc}
-	 *
-	 * @Accessor(ignore=true)
-	 */
-	public function getKeys()
-	{
-		return array_keys($this->getDetails());
-	}
+        /** @var EntityAccessor $entityAccessor */
+        $entityAccessor = $container['doctrine.orm.entityAccessor'];
+        $details        = $entityAccessor->getPublicProperties($this, true);
+        return $details;
+    }
+
+    /**
+     * @Accessor(ignore=true)
+     *
+     * @return array
+     */
+    public function getKeys()
+    {
+        return array_keys($this->getDetails());
+    }
 }

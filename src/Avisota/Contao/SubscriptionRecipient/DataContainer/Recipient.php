@@ -2,12 +2,12 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright (C) 2013 Tristan Lins
+ * Copyright © 2016 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
+ * @copyright  way.vision 2016
+ * @author     Sven Baumann <baumann.sv@gmail.com>
  * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-subscription-recipient
  * @license    LGPL-3.0+
@@ -17,10 +17,12 @@
 namespace Avisota\Contao\SubscriptionRecipient\DataContainer;
 
 use Avisota\Contao\Entity\MailingList;
+use Avisota\Contao\Entity\Recipient as RecipientEntity;
 use Avisota\Contao\Entity\Subscription;
 use Avisota\Contao\Subscription\SubscriptionManager;
 use Contao\Doctrine\ORM\DataContainer\General\EntityModel;
 use Contao\Doctrine\ORM\EntityHelper;
+use Contao\Doctrine\ORM\EntityInterface;
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\RedirectEvent;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Image\GenerateHtmlEvent;
@@ -32,6 +34,11 @@ use ContaoCommunityAlliance\DcGeneral\Event\ActionEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Class Recipient
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\DataContainer
+ */
 class Recipient implements EventSubscriberInterface
 {
     static protected $instance;
@@ -39,23 +46,34 @@ class Recipient implements EventSubscriberInterface
     /**
      * @return Recipient
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         return self::$instance;
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public static function getSubscribedEvents()
     {
         return array(
-            DcGeneralEvents::ACTION                                                    => 'handleAction',
-            ModelToLabelEvent::NAME                                                    => 'createLabel',
-            DecodePropertyValueForWidgetEvent::NAME . '[orm_avisota_recipient][email]' => 'decodeEmail',
+            DcGeneralEvents::ACTION => array(
+                array('handleAction'),
+            ),
+
+            ModelToLabelEvent::NAME => array(
+                array('createLabel'),
+            ),
+
+            DecodePropertyValueForWidgetEvent::NAME => array(
+                array('decodeEmail'),
+            ),
         );
     }
 
+    /**
+     * Recipient constructor.
+     */
     public function __construct()
     {
         static::$instance = $this;
@@ -65,113 +83,163 @@ class Recipient implements EventSubscriberInterface
      * Handle custom events.
      *
      * @param ActionEvent $event
+     * @SuppressWarnings(PHPMD.LongVariable)
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     public function handleAction(ActionEvent $event)
     {
-        if (
-            $event->getResponse()
+        if ($event->getResponse()
             || $event->getEnvironment()->getDataDefinition()->getName() != 'orm_avisota_recipient'
         ) {
             return;
         }
 
-        $environment      = $event->getEnvironment();
-        $eventDispatcher  = $environment->getEventDispatcher();
         $action           = $event->getAction();
         $name             = $action->getName();
-        $input            = $environment->getInputProvider();
         $subscribeOptions = SubscriptionManager::OPT_IGNORE_BLACKLIST;
 
         switch ($name) {
             case 'confirm-subscription':
-                $subscriptionRepository = EntityHelper::getRepository('Avisota\Contao:Subscription');
-                $subscriptionId         = $input->getParameter('subscription');
-                $subscription           = $subscriptionRepository->find($subscriptionId);
-                /** @var Subscription $subscription */
-
-                /** @var SubscriptionManager $subscriptionManager */
-                $subscriptionManager = $GLOBALS['container']['avisota.subscription'];
-                $subscriptionManager->confirm($subscription);
-
-                $event = AddMessageEvent::createConfirm(
-                    sprintf(
-                        $GLOBALS['TL_LANG']['orm_avisota_recipient']['confirm-subscription'],
-                        $subscription->getRecipient()->getTitle(),
-                        $subscription->getMailingList()
-                            ? $subscription->getMailingList()->getTitle()
-                            : $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']
-                    )
-                );
-                $eventDispatcher->dispatch(ContaoEvents::MESSAGE_ADD, $event);
-
-                $event = new RedirectEvent(
-                    'contao/main.php?do=avisota_recipients#' . md5($subscription->getRecipient()->getEmail())
-                );
-                $environment->getEventDispatcher()->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+                $this->handleConfirmSubscriptionAction($event);
                 break;
 
             case 'remove-subscription':
-                $subscriptionRepository = EntityHelper::getRepository('Avisota\Contao:Subscription');
-                $subscriptionId         = $input->getParameter('subscription');
-                $subscription           = $subscriptionRepository->find($subscriptionId);
-                /** @var Subscription $subscription */
-
-                /** @var SubscriptionManager $subscriptionManager */
-                $subscriptionManager = $GLOBALS['container']['avisota.subscription'];
-                $subscriptionManager->unsubscribe($subscription);
-
-                $event = AddMessageEvent::createConfirm(
-                    sprintf(
-                        $GLOBALS['TL_LANG']['orm_avisota_recipient']['remove-subscription'],
-                        $subscription->getRecipient()->getTitle(),
-                        $subscription->getMailingList()
-                            ? $subscription->getMailingList()->getTitle()
-                            : $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']
-                    )
-                );
-                $eventDispatcher->dispatch(ContaoEvents::MESSAGE_ADD, $event);
-
-                $event = new RedirectEvent(
-                    'contao/main.php?do=avisota_recipients#' . md5($subscription->getRecipient()->getEmail())
-                );
-                $environment->getEventDispatcher()->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+                $this->handleRemoveSubscriptionAction($event);
                 break;
 
             case 'subscribe-confirmed':
                 $subscribeOptions |= SubscriptionManager::OPT_ACTIVATE;
+                $this->handleSubscribeAction($event, $subscribeOptions);
+                break;
 
             case 'subscribe':
-                $recipientRepository = EntityHelper::getRepository('Avisota\Contao:Recipient');
-                $recipientId         = $input->getParameter('recipient');
-                $recipient           = $recipientRepository->find($recipientId);
-                /** @var \Avisota\Contao\Entity\Recipient $recipient */
-
-                $mailingListRepository = EntityHelper::getRepository('Avisota\Contao:MailingList');
-                $mailingListId         = $input->getParameter('mailing-list');
-                $mailingList           = $mailingListRepository->find($mailingListId);
-                /** @var MailingList $mailingList */
-
-                /** @var SubscriptionManager $subscriptionManager */
-                $subscriptionManager = $GLOBALS['container']['avisota.subscription'];
-                $subscriptionManager->subscribe($recipient, $mailingList, $subscribeOptions);
-
-                $event = AddMessageEvent::createConfirm(
-                    sprintf(
-                        $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe'],
-                        $recipient->getEmail(),
-                        $mailingList
-                            ? $mailingList->getTitle()
-                            : $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscription_global']
-                    )
-                );
-                $eventDispatcher->dispatch(ContaoEvents::MESSAGE_ADD, $event);
-
-                $event = new RedirectEvent(
-                    'contao/main.php?do=avisota_recipients#' . md5($recipient->getEmail())
-                );
-                $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+                $this->handleSubscribeAction($event, $subscribeOptions);
                 break;
         }
+    }
+
+    /**
+     * @param ActionEvent $event
+     * @SuppressWarnings(PHPMD.LongVariable)
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     */
+    protected function handleConfirmSubscriptionAction(ActionEvent $event)
+    {
+        global $container,
+               $TL_LANG;
+
+        $environment     = $event->getEnvironment();
+        $eventDispatcher = $environment->getEventDispatcher();
+
+        $subscriptionRepository = EntityHelper::getRepository('Avisota\Contao:Subscription');
+        $subscriptionId         = $environment->getInputProvider()->getParameter('subscription');
+        $subscription           = $subscriptionRepository->find($subscriptionId);
+        /** @var Subscription $subscription */
+
+        /** @var SubscriptionManager $subscriptionManager */
+        $subscriptionManager = $container['avisota.subscription'];
+        $subscriptionManager->confirm($subscription);
+
+        $event = AddMessageEvent::createConfirm(
+            sprintf(
+                $TL_LANG['orm_avisota_recipient']['confirm-subscription'],
+                $subscription->getRecipient()->getTitle(),
+                $subscription->getMailingList()
+                    ? $subscription->getMailingList()->getTitle()
+                    : $TL_LANG['orm_avisota_recipient']['subscription_global']
+            )
+        );
+        $eventDispatcher->dispatch(ContaoEvents::MESSAGE_ADD, $event);
+
+        $event = new RedirectEvent(
+            'contao/main.php?do=avisota_recipients#' . md5($subscription->getRecipient()->getEmail())
+        );
+        $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+    }
+
+    /**
+     * @param ActionEvent $event
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     * @SuppressWarnings(PHPMD.LongVariable)
+     */
+    protected function handleRemoveSubscriptionAction(ActionEvent $event)
+    {
+        global $container,
+               $TL_LANG;
+
+        $environment     = $event->getEnvironment();
+        $eventDispatcher = $environment->getEventDispatcher();
+
+        $subscriptionRepository = EntityHelper::getRepository('Avisota\Contao:Subscription');
+        $subscriptionId         = $environment->getInputProvider()->getParameter('subscription');
+        $subscription           = $subscriptionRepository->find($subscriptionId);
+        /** @var Subscription $subscription */
+
+        /** @var SubscriptionManager $subscriptionManager */
+        $subscriptionManager = $container['avisota.subscription'];
+        $subscriptionManager->unsubscribe($subscription);
+
+        $event = AddMessageEvent::createConfirm(
+            sprintf(
+                $TL_LANG['orm_avisota_recipient']['remove-subscription'],
+                $subscription->getRecipient()->getTitle(),
+                $subscription->getMailingList()
+                    ? $subscription->getMailingList()->getTitle()
+                    : $TL_LANG['orm_avisota_recipient']['subscription_global']
+            )
+        );
+        $eventDispatcher->dispatch(ContaoEvents::MESSAGE_ADD, $event);
+
+        $event = new RedirectEvent(
+            'contao/main.php?do=avisota_recipients#' . md5($subscription->getRecipient()->getEmail())
+        );
+        $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+    }
+
+    /**
+     * @param ActionEvent $event
+     * @param             $subscribeOptions
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     * @SuppressWarnings(PHPMD.LongVariable)
+     */
+    protected function handleSubscribeAction(ActionEvent $event, $subscribeOptions)
+    {
+        global $container,
+               $TL_LANG;
+
+        $environment     = $event->getEnvironment();
+        $eventDispatcher = $environment->getEventDispatcher();
+        $inputProvider   = $environment->getInputProvider();
+
+        $recipientRepository = EntityHelper::getRepository('Avisota\Contao:Recipient');
+        $recipientId         = $inputProvider->getParameter('recipient');
+        $recipient           = $recipientRepository->find($recipientId);
+        /** @var \Avisota\Contao\Entity\Recipient $recipient */
+
+        $mailingListRepository = EntityHelper::getRepository('Avisota\Contao:MailingList');
+        $mailingListId         = $inputProvider->getParameter('mailing-list');
+        $mailingList           = $mailingListRepository->find($mailingListId);
+        /** @var MailingList $mailingList */
+
+        /** @var SubscriptionManager $subscriptionManager */
+        $subscriptionManager = $container['avisota.subscription'];
+        $subscriptionManager->subscribe($recipient, $mailingList, $subscribeOptions);
+
+        $event = AddMessageEvent::createConfirm(
+            sprintf(
+                $TL_LANG['orm_avisota_recipient']['subscribe'],
+                $recipient->getEmail(),
+                $mailingList
+                    ? $mailingList->getTitle()
+                    : $TL_LANG['orm_avisota_recipient']['subscription_global']
+            )
+        );
+        $eventDispatcher->dispatch(ContaoEvents::MESSAGE_ADD, $event);
+
+        $event = new RedirectEvent(
+            'contao/main.php?do=avisota_recipients#' . md5($recipient->getEmail())
+        );
+        $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
     }
 
     /**
@@ -180,6 +248,8 @@ class Recipient implements EventSubscriberInterface
      * @param ModelToLabelEvent $event
      *
      * @return string
+     * @SuppressWarnings(PHPMD.LongVariable)
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     public function createLabel(ModelToLabelEvent $event)
     {
@@ -197,22 +267,25 @@ class Recipient implements EventSubscriberInterface
         /** @var EventDispatcher $eventDispatcher */
         $eventDispatcher = $container['event-dispatcher'];
 
-        $database = \Database::getInstance();
-        $label    = '';
+        $label = $this->addExpandFoldIconToLabel($eventDispatcher);
+        $label .= $this->addRecipientToLabel($recipient);
+        $label .= $this->addAddedByToLabel($recipient);
+        $label .= $this->addSubscriptionToLabel($recipient, $eventDispatcher);
 
-        // add expand/fold icon
-        $generateImageEvent = new GenerateHtmlEvent('folPlus.gif', '', 'class="expand" style="display:none"');
-        $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $generateImageEvent);
-        $label .= $generateImageEvent->getHtml();
+        $event->setLabel($label);
+    }
 
-        $generateImageEvent = new GenerateHtmlEvent('folMinus.gif', '', 'class="fold" style="display:none"');
-        $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $generateImageEvent);
-        $label .= $generateImageEvent->getHtml();
-
+    /**
+     * @param EntityInterface $recipient
+     *
+     * @return string
+     */
+    protected function addRecipientToLabel(EntityInterface $recipient)
+    {
         $email = $recipient->getEmail();
         $name  = trim($recipient->getForename() . ' ' . $recipient->getSurname());
 
-        $label .= sprintf('<a name="%s"></a>', md5($email));
+        $label = sprintf('<a name="%s"></a>', md5($email));
 
         if (strlen($name)) {
             $label .= sprintf('%s &lt;%s&gt;', $name, $email);
@@ -220,44 +293,18 @@ class Recipient implements EventSubscriberInterface
             $label .= $email;
         }
 
-        // add recipient email
-        $label .= ' <span style="color:#b3b3b3; padding-left:.5em;">(';
-        $label .= sprintf(
-            $GLOBALS['TL_LANG']['orm_avisota_recipient']['added_at'],
-            $recipient->getCreatedAt()->format($GLOBALS['TL_CONFIG']['datimFormat'])
-        );
-        if ($recipient->getAddedById() > 0) {
-            $user = $database
-                ->prepare("SELECT * FROM tl_user WHERE id=?")
-                ->execute($recipient->getAddedById());
+        return $label;
+    }
 
-            if ($user->next()) {
-                $format     = $GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by'];
-                $parameters = array(
-                    $user->name,
-                    $user->username,
-                    'contao/main.php?' . http_build_query(
-                        array(
-                            'do'  => 'user',
-                            'act' => 'edit',
-                            'id'  => $user->id,
-                            'rt'  => defined('REQUEST_TOKEN') ? REQUEST_TOKEN : null,
-                            'ref' => defined('TL_REFERER_ID') ? TL_REFERER_ID : null,
-                        )
-                    )
-                );
-            } else {
-                $format     = $GLOBALS['TL_LANG']['orm_avisota_recipient']['added_by_unlinked'];
-                $parameters = array(
-                    $recipient->getAddedByName(),
-                    $recipient->getAddedByUsername()
-                );
-            }
-
-            $label .= vsprintf($format, $parameters);
-        }
-        $label .= ')</span>';
-
+    /**
+     * @param EntityInterface $recipient
+     * @param EventDispatcher $eventDispatcher
+     *
+     * @return string
+     * @SuppressWarnings(PHPMD.LongVariable)
+     */
+    protected function addSubscriptionToLabel(EntityInterface $recipient, EventDispatcher $eventDispatcher)
+    {
         $mailingListRepository  = EntityHelper::getRepository('Avisota\Contao:MailingList');
         $subscriptionRepository = EntityHelper::getRepository('Avisota\Contao:Subscription');
 
@@ -288,14 +335,14 @@ class Recipient implements EventSubscriberInterface
             $subscriptions[$mailingListId] = $subscription;
         }
 
-        $label .= '<table class="tl_listing subscriptions" style="display: none">';
+        $label = '<table class="tl_listing subscriptions" style="display: none">';
 
         // global subscription
         $subscription = isset($subscriptions['global'])
             ? $subscriptions['global']
             : null;
 
-        $label .= $this->generateSubscriptionRow($recipient, null, $subscription, $eventDispatcher);
+        $label .= $this->generateSubscriptionRow($recipient, $eventDispatcher, null, $subscription);
 
         // mailing list subscription
         foreach ($mailingLists as $mailingList) {
@@ -303,24 +350,142 @@ class Recipient implements EventSubscriberInterface
                 ? $subscriptions[$mailingList->getId()]
                 : null;
 
-            $label .= $this->generateSubscriptionRow($recipient, $mailingList, $subscription, $eventDispatcher);
+            $label .= $this->generateSubscriptionRow($recipient, $eventDispatcher, $mailingList, $subscription);
         }
 
         $label .= '</table>';
 
-        $event->setLabel($label);
+        return $label;
     }
 
+    /**
+     * @param EventDispatcher $eventDispatcher
+     *
+     * @return string
+     */
+    protected function addExpandFoldIconToLabel(EventDispatcher $eventDispatcher)
+    {
+        $label = '';
+
+        foreach (array('expand' => 'folPlus.gif', 'fold' => 'folMinus.gif') as $state => $icon) {
+            $generateImageEvent = new GenerateHtmlEvent($icon, '', 'class="' . $state . '" style="display:none"');
+            $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $generateImageEvent);
+            $label .= $generateImageEvent->getHtml();
+        }
+
+        return $label;
+    }
+
+    /**
+     * @param EntityInterface $recipient
+     *
+     * @return string
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     */
+    protected function addAddedByToLabel(EntityInterface $recipient)
+    {
+        global $TL_LANG;
+
+        $label = ' <span style="color:#b3b3b3; padding-left:.5em;">(';
+        $label .= sprintf(
+            $TL_LANG['orm_avisota_recipient']['added_at'],
+            $recipient->getCreatedAt()->format(\Config::get('datimFormat'))
+        );
+
+        if ($recipient->getAddedById() > 0) {
+            $database = \Database::getInstance();
+            $user     = $database
+                ->prepare("SELECT * FROM tl_user WHERE id=?")
+                ->execute($recipient->getAddedById());
+
+            if ($user->next()) {
+                $format     = $TL_LANG['orm_avisota_recipient']['added_by'];
+                $parameters = array(
+                    $user->name,
+                    $user->username,
+                    'contao/main.php?' . http_build_query(
+                        array(
+                            'do'  => 'user',
+                            'act' => 'edit',
+                            'id'  => $user->id,
+                            'rt'  => defined('REQUEST_TOKEN') ? REQUEST_TOKEN : null,
+                            'ref' => defined('TL_REFERER_ID') ? TL_REFERER_ID : null,
+                        )
+                    )
+                );
+            } else {
+                $format     = $TL_LANG['orm_avisota_recipient']['added_by_unlinked'];
+                $parameters = array(
+                    $recipient->getAddedByName(),
+                    $recipient->getAddedByUsername()
+                );
+            }
+
+            $label .= vsprintf($format, $parameters);
+        }
+        $label .= ')</span>';
+
+        return $label;
+    }
+
+    /**
+     * @param RecipientEntity   $recipient
+     * @param EventDispatcher   $eventDispatcher
+     * @param MailingList|null  $mailingList
+     * @param Subscription|null $subscription
+     *
+     * @return string
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     */
     protected function generateSubscriptionRow(
-        \Avisota\Contao\Entity\Recipient $recipient,
+        RecipientEntity $recipient,
+        EventDispatcher $eventDispatcher,
         MailingList $mailingList = null,
-        Subscription $subscription = null,
-        EventDispatcher $eventDispatcher
+        Subscription $subscription = null
     ) {
-        /** @var SubscriptionManager $subscriptionManager */
-        $subscriptionManager = $GLOBALS['container']['avisota.subscription'];
+        global $TL_LANG;
 
         $buffer = '';
+
+        list($icon, $class) = $this->getStateIconAndClass($recipient, $eventDispatcher, $mailingList, $subscription);
+
+        $buffer .= '<tr><td class="tl_file_list ' . $class . '">';
+        $buffer .= $icon;
+        $buffer .= '&nbsp;';
+
+        if ($mailingList) {
+            $buffer .= $mailingList->getTitle();
+        } else {
+            $buffer .= $TL_LANG['MSC']['avisota-global-subscription-label'];
+        }
+
+        $buffer .= '</td><td class="tl_file_list tl_right_nowrap">';
+        $buffer .= $this->getSubscribeActionLinks($recipient, $eventDispatcher, $mailingList, $subscription);
+        $buffer .= '</td></tr>';
+
+        return $buffer;
+    }
+
+    /**
+     * @param RecipientEntity   $recipient
+     * @param EventDispatcher   $eventDispatcher
+     * @param MailingList|null  $mailingList
+     * @param Subscription|null $subscription
+     *
+     * @return array
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     */
+    protected function getStateIconAndClass(
+        RecipientEntity $recipient,
+        EventDispatcher $eventDispatcher,
+        MailingList $mailingList = null,
+        Subscription $subscription = null
+    ) {
+        global $TL_LANG,
+               $container;
+
+        /** @var SubscriptionManager $subscriptionManager */
+        $subscriptionManager = $container['avisota.subscription'];
 
         if ($subscription) {
             if ($subscription->getActive()) {
@@ -337,8 +502,12 @@ class Recipient implements EventSubscriberInterface
         } else {
             if ($subscriptionManager->isBlacklisted($recipient, $mailingList)) {
                 $event = new GenerateHtmlEvent(
-                    'error.gif', $GLOBALS['TL_LANG']['orm_avisota_recipient']['blacklisted'],
-                    sprintf('title="%s"', specialchars($GLOBALS['TL_LANG']['orm_avisota_recipient']['blacklisted']))
+                    'error.gif',
+                    $TL_LANG['orm_avisota_recipient']['blacklisted'],
+                    sprintf(
+                        'title="%s"',
+                        specialchars($TL_LANG['orm_avisota_recipient']['blacklisted'])
+                    )
                 );
                 $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
 
@@ -350,89 +519,179 @@ class Recipient implements EventSubscriberInterface
             }
         }
 
-        $buffer .= '<tr><td class="tl_file_list ' . $class . '">';
-        $buffer .= $icon;
-        $buffer .= '&nbsp;';
+        return array($icon, $class);
+    }
 
-        if ($mailingList) {
-            $buffer .= $mailingList->getTitle();
-        } else {
-            $buffer .= $GLOBALS['TL_LANG']['MSC']['avisota-global-subscription-label'];
-        }
-
-        $buffer .= '</td><td class="tl_file_list tl_right_nowrap">';
-
+    /**
+     * @param RecipientEntity   $recipient
+     * @param EventDispatcher   $eventDispatcher
+     * @param MailingList|null  $mailingList
+     * @param Subscription|null $subscription
+     *
+     * @return string
+     */
+    protected function getSubscribeActionLinks(
+        RecipientEntity $recipient,
+        EventDispatcher $eventDispatcher,
+        MailingList $mailingList = null,
+        Subscription $subscription = null
+    ) {
+        $buffer = '';
         if ($subscription) {
-            if (!$subscription->getActive()) {
-                $title = $GLOBALS['TL_LANG']['orm_avisota_recipient']['confirm_subscription'];
-
-                $event = new GenerateHtmlEvent('ok.gif', $title, sprintf('title="%s"', specialchars($title)));
-                $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
-                $icon = $event->getHtml();
-
-                $buffer .= sprintf(
-                    '<a href="contao/main.php?do=avisota_recipients&act=confirm-subscription&subscription=%s&ref=%s">%s</a>',
-                    $subscription->getId(),
-                    defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
-                    $icon
-                );
-            }
-
-            $title = $mailingList
-                ? $GLOBALS['TL_LANG']['orm_avisota_recipient']['unsubscribe']
-                : $GLOBALS['TL_LANG']['orm_avisota_recipient']['unsubscribe_globally'];
-
-            $event = new GenerateHtmlEvent('delete.gif', $title, sprintf('title="%s"', specialchars($title)));
-            $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
-            $icon = $event->getHtml();
-
-            $buffer .= sprintf(
-                ' <a href="contao/main.php?do=avisota_recipients&act=remove-subscription&subscription=%s&ref=%s">%s</a>',
-                $subscription->getId(),
-                defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
-                $icon
-            );
-        } else {
-            $title = $mailingList
-                ? $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe']
-                : $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe_globally'];
-
-            $event = new GenerateHtmlEvent('new.gif', $title, sprintf('title="%s"', specialchars($title)));
-            $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
-            $icon = $event->getHtml();
-
-            $buffer .= sprintf(
-                ' <a href="contao/main.php?do=avisota_recipients&act=subscribe&recipient=%s&mailing-list=%s&ref=%s">%s</a>',
-                $recipient->getId(),
-                $mailingList
-                    ? $mailingList->getId()
-                    : 'global',
-                defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
-                $icon
-            );
-
-            $title = $mailingList
-                ? $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe_confirmed']
-                : $GLOBALS['TL_LANG']['orm_avisota_recipient']['subscribe_globally_confirmed'];
-
-            $event = new GenerateHtmlEvent('copychilds.gif', $title, sprintf('title="%s"', specialchars($title)));
-            $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
-            $icon = $event->getHtml();
-
-            $buffer .= sprintf(
-                ' <a href="contao/main.php?do=avisota_recipients&act=subscribe-confirmed&recipient=%s&mailing-list=%s&ref=%s">%s</a>',
-                $recipient->getId(),
-                $mailingList
-                    ? $mailingList->getId()
-                    : 'global',
-                defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
-                $icon
-            );
+            $buffer .= $this->generateSubscriptionActivationLink($subscription);
+            $buffer .= $this->generateSubscriptionRemoveLink($subscription, $mailingList);
         }
 
-        $buffer .= '</td></tr>';
+        $buffer .= $this->generateSubscriptionSubscribeLink($recipient, $subscription, $mailingList);
+        $buffer .= $this->generateSubscriptionSubscribeConfirmLink($recipient, $subscription, $mailingList);
 
         return $buffer;
+    }
+
+    /**
+     * @param Subscription $subscription
+     *
+     * @return string
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     */
+    protected function generateSubscriptionActivationLink(Subscription $subscription)
+    {
+        if ($subscription->getActive()) {
+            return '';
+        }
+
+        global $TL_LANG,
+               $container;
+
+        $eventDispatcher = $container['event-dispatcher'];
+
+        $title = $TL_LANG['orm_avisota_recipient']['confirm_subscription'];
+
+        $event = new GenerateHtmlEvent('ok.gif', $title, sprintf('title="%s"', specialchars($title)));
+        $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
+        $icon = $event->getHtml();
+
+        return sprintf(
+            '<a href="contao/main.php?do=avisota_recipients'
+            . '&act=confirm-subscription&subscription=%s&ref=%s">%s</a>',
+            $subscription->getId(),
+            defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
+            $icon
+        );
+    }
+
+    /**
+     * @param Subscription $subscription
+     * @param MailingList  $mailingList
+     *
+     * @return string
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     */
+    protected function generateSubscriptionRemoveLink(Subscription $subscription, MailingList $mailingList)
+    {
+        global $TL_LANG,
+               $container;
+
+        $eventDispatcher = $container['event-dispatcher'];
+
+        $title = $mailingList
+            ? $TL_LANG['orm_avisota_recipient']['unsubscribe']
+            : $TL_LANG['orm_avisota_recipient']['unsubscribe_globally'];
+
+        $event = new GenerateHtmlEvent('delete.gif', $title, sprintf('title="%s"', specialchars($title)));
+        $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
+        $icon = $event->getHtml();
+
+        return sprintf(
+            ' <a href="contao/main.php?do=avisota_recipients'
+            . '&act=remove-subscription&subscription=%s&ref=%s">%s</a>',
+            $subscription->getId(),
+            defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
+            $icon
+        );
+    }
+
+    /**
+     * @param RecipientEntity   $recipient
+     * @param Subscription|null $subscription
+     * @param MailingList|null  $mailingList
+     *
+     * @return string
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     */
+    protected function generateSubscriptionSubscribeLink(
+        RecipientEntity $recipient,
+        Subscription $subscription = null,
+        MailingList $mailingList = null
+    ) {
+        if ($subscription) {
+            return '';
+        }
+
+        global $TL_LANG,
+               $container;
+
+        $eventDispatcher = $container['event-dispatcher'];
+
+        $title = $mailingList
+            ? $TL_LANG['orm_avisota_recipient']['subscribe']
+            : $TL_LANG['orm_avisota_recipient']['subscribe_globally'];
+
+        $event = new GenerateHtmlEvent('new.gif', $title, sprintf('title="%s"', specialchars($title)));
+        $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
+        $icon = $event->getHtml();
+
+        return sprintf(
+            ' <a href="contao/main.php?do=avisota_recipients'
+            . '&act=subscribe&recipient=%s&mailing-list=%s&ref=%s">%s</a>',
+            $recipient->getId(),
+            $mailingList
+                ? $mailingList->getId()
+                : 'global',
+            defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
+            $icon
+        );
+    }
+
+    /**
+     * @param RecipientEntity   $recipient
+     * @param Subscription|null $subscription
+     * @param MailingList|null  $mailingList
+     *
+     * @return string
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     */
+    protected function generateSubscriptionSubscribeConfirmLink(
+        RecipientEntity $recipient,
+        Subscription $subscription = null,
+        MailingList $mailingList = null
+    ) {
+        if ($subscription) {
+            return '';
+        }
+
+        global $TL_LANG,
+               $container;
+
+        $eventDispatcher = $container['event-dispatcher'];
+        $title           = $mailingList
+            ? $TL_LANG['orm_avisota_recipient']['subscribe_confirmed']
+            : $TL_LANG['orm_avisota_recipient']['subscribe_globally_confirmed'];
+
+        $event = new GenerateHtmlEvent('copychilds.gif', $title, sprintf('title="%s"', specialchars($title)));
+        $eventDispatcher->dispatch(ContaoEvents::IMAGE_GET_HTML, $event);
+        $icon = $event->getHtml();
+
+        return sprintf(
+            ' <a href="contao/main.php?do=avisota_recipients'
+            . '&act=subscribe-confirmed&recipient=%s&mailing-list=%s&ref=%s">%s</a>',
+            $recipient->getId(),
+            $mailingList
+                ? $mailingList->getId()
+                : 'global',
+            defined('TL_REFERER_ID') ? TL_REFERER_ID : '',
+            $icon
+        );
     }
 
     /**
@@ -442,6 +701,12 @@ class Recipient implements EventSubscriberInterface
      */
     public function decodeEmail(DecodePropertyValueForWidgetEvent $event)
     {
+        if ($event->getModel()->getProviderName() != 'orm_avisota_recipient'
+            && $event->getProperty() != 'email'
+        ) {
+            return;
+        }
+
         $event->setValue(strtolower($event->getValue()));
     }
 }

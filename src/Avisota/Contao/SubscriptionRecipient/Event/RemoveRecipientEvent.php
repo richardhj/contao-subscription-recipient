@@ -2,12 +2,12 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright (C) 2013 Tristan Lins
+ * Copyright © 2016 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
+ * @copyright  way.vision 2016
+ * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-subscription-recipient
  * @license    LGPL-3.0+
  * @filesource
@@ -15,10 +15,12 @@
 
 namespace Avisota\Contao\SubscriptionRecipient\Event;
 
-use Avisota\Contao\Entity\Recipient;
-use Symfony\Component\EventDispatcher\Event;
-
+/**
+ * Class RemoveRecipientEvent
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Event
+ */
 class RemoveRecipientEvent extends RecipientAwareEvent
 {
-	const NAME = 'Avisota\Contao\Core\Event\RemoveRecipient';
+    const NAME = 'Avisota\Contao\Core\Event\RemoveRecipient';
 }

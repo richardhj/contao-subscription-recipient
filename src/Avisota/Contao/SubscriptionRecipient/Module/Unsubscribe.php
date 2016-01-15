@@ -2,12 +2,12 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright (C) 2013 Tristan Lins
+ * Copyright © 2016 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
+ * @copyright  way.vision 2016
+ * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-subscription-recipient
  * @license    LGPL-3.0+
  * @filesource
@@ -20,13 +20,12 @@ use Avisota\Contao\Entity\Subscription;
 use Avisota\Contao\Message\Core\Renderer\MessageRendererInterface;
 use Avisota\Contao\Subscription\SubscriptionManager;
 use Avisota\Transport\TransportInterface;
-use Contao\Doctrine\ORM\EntityAccessor;
 use Contao\Doctrine\ORM\EntityHelper;
-use Contao\Doctrine\ORM\Exception\UnknownPropertyException;
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GenerateFrontendUrlEvent;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GetPageDetailsEvent;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\RedirectEvent;
+use Haste\Form\Form;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
@@ -34,131 +33,143 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  */
 class Unsubscribe extends AbstractRecipientForm
 {
-	protected $strTemplate = 'avisota/subscription-recipient/mod_avisota_unsubscribe';
+    protected $strTemplate = 'avisota/subscription-recipient/mod_avisota_unsubscribe';
 
-	/**
-	 * @return string
-	 */
-	public function generate()
-	{
-		if (TL_MODE == 'BE') {
-			$template           = new \BackendTemplate('be_wildcard');
-			$template->wildcard = '### Avisota unsubscribe module ###';
-			return $template->parse();
-		}
+    /**
+     * @return string
+     */
+    public function generate()
+    {
+        if (TL_MODE == 'BE') {
+            $template           = new \BackendTemplate('be_wildcard');
+            $template->wildcard = '### Avisota unsubscribe module ###';
+            return $template->parse();
+        }
 
-		return parent::generate();
-	}
+        return parent::generate();
+    }
 
+    /**
+     * Generate the content element
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     */
+    public function compile()
+    {
+        global $TL_DCA;
 
-	/**
-	 * Generate the content element
-	 */
-	public function compile()
-	{
-		/** @var SubscriptionManager $subscriptionManager */
-		$subscriptionManager = $GLOBALS['container']['avisota.subscription'];
+        $mailingListIds  = deserialize($this->avisota_mailing_lists, true);
+        $recipientFields = array('email');
 
-		$mailingListIds  = deserialize($this->avisota_mailing_lists, true);
-		$recipientFields = array('email');
+        if ($this->avisota_unsubscribe_show_mailing_lists) {
+            $recipientFields[] = 'mailingLists';
+        }
 
-		if ($this->avisota_unsubscribe_show_mailing_lists) {
-			$recipientFields[] = 'mailingLists';
-		}
+        $TL_DCA['orm_avisota_recipient']['fields']['mailingLists']['options'] = $this->loadMailingListOptions(
+            $mailingListIds
+        );
 
-		$GLOBALS['TL_DCA']['orm_avisota_recipient']['fields']['mailingLists']['options'] = $this->loadMailingListOptions(
-			$mailingListIds
-		);
+        $values = array();
 
-		$input  = \Input::getInstance();
-		$values = array();
+        if (\Input::get('avisota_subscription_email')) {
+            $values['email'] = \Input::get('avisota_subscription_email');
+        }
 
-		if ($input->get('avisota_subscription_email')) {
-			$values['email'] = $input->get('avisota_subscription_email');
-		}
+        $form = $this->createForm($recipientFields, $values);
 
-		$form = $this->createForm($recipientFields, $values);
+        $this->validateFormAndSendMail($form);
 
-		if ($form->validate()) {
-			/** @var EventDispatcher $eventDispatcher */
-			$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        $template = new \TwigFrontendTemplate($this->avisota_unsubscribe_form_template);
+        $form->addToTemplate($template);
 
-			/** @var TransportInterface $transport */
-			$transport = $GLOBALS['container']['avisota.transport.default'];
+        $this->Template->form = $template->parse();
+    }
 
-			$values     = $form->fetchAll();
-			$email      = $values['email'];
-			$repository = EntityHelper::getRepository('Avisota\Contao:Recipient');
-			$recipient  = $repository->findOneBy(array('email' => $email));
+    /**
+     * @param Form $form
+     */
+    protected function validateFormAndSendMail(Form $form)
+    {
+        if (!$form->validate()) {
+            return;
+        }
 
-			if ($recipient) {
-				/** @var Recipient $recipient */
+        global $container;
 
-				if ($this->avisota_unsubscribe_show_mailing_lists) {
-					$mailingListIds = $values['mailingLists'];
-				}
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $container['event-dispatcher'];
 
-				$subscriptions = $recipient->getSubscriptions();
+        /** @var TransportInterface $transport */
+        $transport = $container['avisota.transport.default'];
 
-				$subscriptions = array_filter(
-					$subscriptions->toArray(),
-					function (Subscription $subscription) use ($mailingListIds) {
-						return $subscription->getMailingList() && in_array($subscription->getMailingList()->getId(), $mailingListIds);
-					}
-				);
+        $values     = $form->fetchAll();
+        $email      = $values['email'];
+        $repository = EntityHelper::getRepository('Avisota\Contao:Recipient');
+        $recipient  = $repository->findOneBy(array('email' => $email));
 
-				/** @var Subscription[] $subscriptions */
+        if ($recipient) {
+            /** @var Recipient $recipient */
 
-				$subscriptionManager->unsubscribe($subscriptions);
+            if ($this->avisota_unsubscribe_show_mailing_lists) {
+                $mailingListIds = $values['mailingLists'];
+            }
 
-				$_SESSION['AVISOTA_LAST_SUBSCRIPTIONS'] = $subscriptions;
+            $subscriptions = $recipient->getSubscriptions();
 
-				if (count($subscriptions)) {
-					if ($this->avisota_unsubscribe_confirmation_message) {
-						$messageRepository = EntityHelper::getRepository('Avisota\Contao:Message');
-						$message           = $messageRepository->find($this->avisota_unsubscribe_confirmation_message);
+            $subscriptions = array_filter(
+                $subscriptions->toArray(),
+                function (Subscription $subscription) use ($mailingListIds) {
+                    return $subscription->getMailingList()
+                           && in_array($subscription->getMailingList()->getId(), $mailingListIds);
+                }
+            );
 
-						if ($message) {
-							/** @var MessageRendererInterface $renderer */
-							$renderer = $GLOBALS['container']['avisota.message.renderer'];
+            /** @var SubscriptionManager $subscriptionManager */
+            $subscriptionManager = $container['avisota.subscription'];
 
-							$data = array(
-								'subscriptions' => $subscriptions,
-							);
+            /** @var Subscription[] $subscriptions */
+            $subscriptionManager->unsubscribe($subscriptions);
 
-							$template = $renderer->renderMessage($message);
+            \Session::getInstance()->set('AVISOTA_LAST_SUBSCRIPTIONS', $subscriptions);
 
-							$mail = $template->render(
-								$recipient,
-								$data
-							);
+            if (count($subscriptions)) {
+                if ($this->avisota_unsubscribe_confirmation_message) {
+                    $messageRepository = EntityHelper::getRepository('Avisota\Contao:Message');
+                    $message           = $messageRepository->find($this->avisota_unsubscribe_confirmation_message);
 
-							$transport->send($mail);
-						}
-					}
+                    if ($message) {
+                        /** @var MessageRendererInterface $renderer */
+                        $renderer = $container['avisota.message.renderer'];
 
-					if ($this->avisota_unsubscribe_confirmation_page) {
-						$event = new GetPageDetailsEvent($this->avisota_unsubscribe_confirmation_page);
-						$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $event);
+                        $data = array(
+                            'subscriptions' => $subscriptions,
+                        );
 
-						$event = new GenerateFrontendUrlEvent($event->getPageDetails());
-						$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GENERATE_FRONTEND_URL, $event);
+                        $template = $renderer->renderMessage($message);
 
-						$event = new RedirectEvent($event->getUrl());
-						$eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
-					}
-				}
+                        $mail = $template->render(
+                            $recipient,
+                            $data
+                        );
 
-				$this->Template->subscriptions = $subscriptions;
-			}
-			else {
-				$this->Template->subscriptions = array();
-			}
-		}
+                        $transport->send($mail);
+                    }
+                }
 
-		$template = new \TwigFrontendTemplate($this->avisota_unsubscribe_form_template);
-		$form->addToTemplate($template);
+                if ($this->avisota_unsubscribe_confirmation_page) {
+                    $event = new GetPageDetailsEvent($this->avisota_unsubscribe_confirmation_page);
+                    $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_PAGE_DETAILS, $event);
 
-		$this->Template->form = $template->parse();
-	}
+                    $event = new GenerateFrontendUrlEvent($event->getPageDetails());
+                    $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GENERATE_FRONTEND_URL, $event);
+
+                    $event = new RedirectEvent($event->getUrl());
+                    $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_REDIRECT, $event);
+                }
+            }
+
+            $this->Template->subscriptions = $subscriptions;
+        } else {
+            $this->Template->subscriptions = array();
+        }
+    }
 }

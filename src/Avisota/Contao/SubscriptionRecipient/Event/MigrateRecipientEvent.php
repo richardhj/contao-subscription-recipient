@@ -2,12 +2,12 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright (C) 2013 Tristan Lins
+ * Copyright © 2016 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
+ * @copyright  way.vision 2016
+ * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-subscription-recipient
  * @license    LGPL-3.0+
  * @filesource
@@ -16,40 +16,51 @@
 namespace Avisota\Contao\SubscriptionRecipient\Event;
 
 use Avisota\Contao\Entity\Recipient;
-use Symfony\Component\EventDispatcher\Event;
 
+/**
+ * Class MigrateRecipientEvent
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Event
+ */
 class MigrateRecipientEvent extends RecipientAwareEvent
 {
-	/**
-	 * @var array
-	 */
-	protected $migrationSettings;
+    /**
+     * @var array
+     */
+    protected $migrationSettings;
 
-	/**
-	 * @var array
-	 */
-	protected $contaoRecipientData;
+    /**
+     * @var array
+     */
+    protected $contaoRecipientData;
 
-	function __construct(array $migrationSettings, array $contaoRecipientData, Recipient $recipient)
-	{
-		parent::__construct($recipient);
-		$this->migrationSettings = $migrationSettings;
-		$this->contaoRecipientData = $contaoRecipientData;
-	}
+    /**
+     * MigrateRecipientEvent constructor.
+     *
+     * @param array     $migrationSettings
+     * @param array     $contaoRecipientData
+     * @param Recipient $recipient
+     */
+    public function __construct(array $migrationSettings, array $contaoRecipientData, Recipient $recipient)
+    {
+        parent::__construct($recipient);
+        $this->migrationSettings   = $migrationSettings;
+        $this->contaoRecipientData = $contaoRecipientData;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getMigrationSettings()
-	{
-		return $this->migrationSettings;
-	}
+    /**
+     * @return array
+     */
+    public function getMigrationSettings()
+    {
+        return $this->migrationSettings;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getContaoRecipientData()
-	{
-		return $this->contaoRecipientData;
-	}
+    /**
+     * @return array
+     */
+    public function getContaoRecipientData()
+    {
+        return $this->contaoRecipientData;
+    }
 }

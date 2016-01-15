@@ -1,65 +1,127 @@
 <?php
+
 /**
  * Translations are managed using Transifex. To create a new translation
  * or to help to maintain an existing one, please register at transifex.com.
  *
- * @link http://help.transifex.com/intro/translating.html
- * @link https://www.transifex.com/projects/p/avisota-contao/language/de/
+ * @link    http://help.transifex.com/intro/translating.html
+ * @link    https://www.transifex.com/projects/p/avisota-contao/language/de/
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
  * last-updated: 2014-03-25T14:15:19+01:00
  */
 
-$GLOBALS['TL_LANG']['tl_module']['avisota_activation_confirmation_page']['0']         = 'Bestätigungsseite';
-$GLOBALS['TL_LANG']['tl_module']['avisota_activation_confirmation_page']['1']         = 'Bitte wählen Sie die Bestätigungsseite aus. Dorthin wird ein Benutzer weitergeieitet nachdem er auf den Aktivierungslink geklickt hat.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_activation_redirect_page']['0']             = 'Weiterleitungsseite';
-$GLOBALS['TL_LANG']['tl_module']['avisota_activation_redirect_page']['1']             = 'Bitte wählen Sie die Weiterleitungsseite aus. Dorthin wird ein Benutzer weitergeieitet wenn er die Seite ohne gültiges Token aufruft.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_categories']['0']                           = 'Kategorien';
-$GLOBALS['TL_LANG']['tl_module']['avisota_categories']['1']                           = 'Wählen Sie die Kategorien aus, aus denen die Mailing angezeigt werden sollen.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_cleanup_legend']                            = 'Aufräumen';
-$GLOBALS['TL_LANG']['tl_module']['avisota_form_target']['0']                          = 'Zielseite (NICHT die Bestätigungssette)';
-$GLOBALS['TL_LANG']['tl_module']['avisota_form_target']['1']                          = 'Bitte wählen Sie die Seite aus auf der die übermittelten Daten geposted werden (diese Seite wird als &lt;form&gt; action gesetzt!). Beachten Sie dass das Modul dafür auf der Zielseite eingebunden werden muss.
+global $TL_LANG;
 
+$tlModule = array(
+    'avisota_cleanup_legend'
+    => 'Aufräumen',
 
-Please choose a page, the submitted form data will be posted (this page will set as &lt;form&gt; action!). Keep in mind that the module must be added on the target page!';
-$GLOBALS['TL_LANG']['tl_module']['avisota_list_legend']                               = 'Mailing-Liste';
-$GLOBALS['TL_LANG']['tl_module']['avisota_list_template']['0']                        = 'Listen-Template';
-$GLOBALS['TL_LANG']['tl_module']['avisota_list_template']['1']                        = 'Wählen Sie hier das Template für die Mailing-Liste aus.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_mail_legend']                               = 'Mail Einstellungen';
-$GLOBALS['TL_LANG']['tl_module']['avisota_mailing_lists']['0']                        = 'Ausgewählte / auswählbare Mailinglisten';
-$GLOBALS['TL_LANG']['tl_module']['avisota_mailing_lists']['1']                        = 'Bitte wählen Sie die Mailinglisten aus, die abonniert oder angezeigt werden sollen falls das entsprechende Auswahlfeld sichtbar ist.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_notification_legend']                       = 'Erinnerung';
-$GLOBALS['TL_LANG']['tl_module']['avisota_reader_legend']                             = 'Mailing-Leser';
-$GLOBALS['TL_LANG']['tl_module']['avisota_reader_template']['0']                      = 'Leser-Template';
-$GLOBALS['TL_LANG']['tl_module']['avisota_reader_template']['1']                      = 'Wählen Sie hier das Template für den Mailing-Leser aus.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_recipient_fields']['0']                     = 'Persönliche Daten';
-$GLOBALS['TL_LANG']['tl_module']['avisota_recipient_fields']['1']                     = 'Bitte wählen Sie aus, welche Felder mit persönlichen Daten abgefragt werden sollen.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_activate_confirmation_page']['0'] = 'Aktivierungsseite';
-$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_activate_confirmation_page']['1'] = 'Bitte wählen Sie die Seite aus auf der die Aktivierung bestätigt wird. Falls Sie keine separate Aktivierungsseite benutzen wird der benutzer zu dieser Seite geleitet nachdem er auf den Aktivierungslink geklickt hat.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_activation_page']['0']            = 'Aktivierungsseite';
-$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_activation_page']['1']            = 'Bitte wählen Sie die Aktivierungsseite aus. Dorthin wird der AktIvierungslink leiten. Bitte beachten Sie, das Sie ein "Bestellungs-" oder ein "Aktivierungs"-Modul auf dieser Seite einbinden müssen.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_confirmation_message']['0']       = 'Bestätigungsnachricht';
-$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_confirmation_message']['1']       = 'Bitte wählen Sie eine Vorlage für die Bestätigungsnachricht aus.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_confirmation_page']['0']          = 'Abonement-Bestätigungsseite';
-$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_confirmation_page']['1']          = 'Bitte wählen Sie die Bestätigungssseite aus. Dorthin wird ein Benutzer weitergeieitet nachdem er ein Abonnement erstellt hat.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_form_template']['0']              = 'Formular-Template';
-$GLOBALS['TL_LANG']['tl_module']['avisota_subscribe_form_template']['1']              = 'Hier können Sie ein individuelles Formular-Template auswählen.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_subscription_confirmation_message']['0']    = 'Bestätigungsseite';
-$GLOBALS['TL_LANG']['tl_module']['avisota_subscription_confirmation_message']['1']    = 'Bitte wählen Sie die Bestätigungsseite aus.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_subscription_form_template']['0']           = 'Formular-Template';
-$GLOBALS['TL_LANG']['tl_module']['avisota_subscription_form_template']['1']           = 'Hier können Sie ein individuelles Formular-Template auswählen.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_subscription_legend']                       = 'Abonnement';
-$GLOBALS['TL_LANG']['tl_module']['avisota_template_unsubscribe']['0']                 = 'Form-Template';
-$GLOBALS['TL_LANG']['tl_module']['avisota_template_unsubscribe']['1']                 = 'Wählen Sie hier das Template für das Abmelden-Formular aus.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_confirmation_message']['0']     = 'Bestätigungsnachricht';
-$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_confirmation_message']['1']     = 'Bitte wählen Sie eine Vorlage für die Bestätigungsnachricht aus.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_confirmation_page']['0']        = 'Bestätigungsseite';
-$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_confirmation_page']['1']        = 'Bitte wählen Sie die Seite aus, auf der das Abonnement bestätigt wird.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_form_template']['0']            = 'Formular-Template';
-$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_form_template']['1']            = 'Hier können Sie ein individuelles Formular-Template auswählen.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_show_mailing_lists']['0']       = 'Mailinglisten-Auswahl anzeigen';
-$GLOBALS['TL_LANG']['tl_module']['avisota_unsubscribe_show_mailing_lists']['1']       = 'Den Benutzer auswählen lassen welche Abonnements bestellt werden sollen.';
-$GLOBALS['TL_LANG']['tl_module']['avisota_view_page']['0']                            = 'Ansichtsseite';
-$GLOBALS['TL_LANG']['tl_module']['avisota_view_page']['1']                            = 'Wählen Sie hier eine Seite aus, auf der die Mailing angezeigt werden soll. Wird keine Seite ausgewählt, wird die in der Kategorie hinterlegte Seite zur Online-Ansicht verwendet.';
+    'avisota_list_legend'
+    => 'Mailing-Liste',
 
+    'avisota_mail_legend'
+    => 'Mail Einstellungen',
+
+    'avisota_notification_legend'
+    => 'Erinnerung',
+
+    'avisota_reader_legend'
+    => 'Mailing-Leser',
+
+    'avisota_subscription_legend'
+    => 'Abonnement',
+
+    'avisota_activation_confirmation_page' => array(
+        'Bestätigungsseite',
+    ),
+
+    'avisota_activation_redirect_page' => array(
+        'Weiterleitungsseite',
+        'Bitte wählen Sie die Weiterleitungsseite aus. Dorthin wird ein Benutzer '
+        . 'weitergeieitet wenn er die Seite ohne gültiges Token aufruft.',
+    ),
+
+    'avisota_categories' => array(
+        'Kategorien',
+        'Wählen Sie die Kategorien aus, aus denen die Mailing angezeigt werden sollen.',
+    ),
+
+    'avisota_form_target' => array(
+        'Zielseite (NICHT die Bestätigungssette)',
+    ),
+
+    'avisota_list_template' => array(
+        'Listen-Template',
+        'Wählen Sie hier das Template für die Mailing-Liste aus.',
+    ),
+
+    'avisota_mailing_lists' => array(
+        'Ausgewählte / auswählbare Mailinglisten',
+    ),
+
+    'avisota_reader_template' => array(
+        'Leser-Template',
+        'Wählen Sie hier das Template für den Mailing-Leser aus.',
+    ),
+
+    'avisota_recipient_fields' => array(
+        'Persönliche Daten',
+        'Bitte wählen Sie aus, welche Felder mit persönlichen Daten abgefragt werden sollen.',
+    ),
+
+    'avisota_subscribe_activation_page' => array(
+        'Aktivierungsseite',
+        'Bitte wählen Sie die Aktivierungsseite aus. Dorthin wird der AktIvierungslink leiten. Bitte beachten Sie, '
+        . 'das Sie ein "Bestellungs-" oder ein "Aktivierungs"-Modul auf dieser Seite einbinden müssen.',
+    ),
+
+    'avisota_subscribe_confirmation_message' => array(
+        'Bestätigungsnachricht',
+        'Bitte wählen Sie eine Vorlage für die Bestätigungsnachricht aus.',
+    ),
+
+    'avisota_subscribe_form_template' => array(
+        'Formular-Template',
+        'Hier können Sie ein individuelles Formular-Template auswählen.',
+    ),
+
+    'avisota_subscription_confirmation_message' => array(
+        'Bestätigungsseite',
+        'Bitte wählen Sie die Bestätigungsseite aus.',
+    ),
+    'avisota_subscription_form_template'        => array(
+        'Formular-Template',
+        'Hier können Sie ein individuelles Formular-Template auswählen.',
+    ),
+
+    'avisota_template_unsubscribe' => array(
+        'Form-Template',
+        'Wählen Sie hier das Template für das Abmelden-Formular aus.',
+    ),
+
+    'avisota_unsubscribe_confirmation_message' => array(
+        'Bestätigungsnachricht',
+    ),
+
+    'avisota_unsubscribe_confirmation_page' => array(
+        'Bestätigungsseite',
+        'Bitte wählen Sie die Seite aus, auf der das Abonnement bestätigt wird.',
+    ),
+
+    'avisota_unsubscribe_form_template' => array(
+        'Formular-Template',
+        'Hier können Sie ein individuelles Formular-Template auswählen.',
+    ),
+    'avisota_view_page'                 => array(
+        'Ansichtsseite',
+        'Wählen Sie hier eine Seite aus, auf der die Mailing angezeigt werden soll.'
+        . ' Wird keine Seite ausgewählt, wird die in der Kategorie hinterlegte Seite zur Online-Ansicht verwendet.',
+    ),
+);
+
+$TL_LANG['tl_module'] = array_merge(
+    $TL_LANG['tl_module'],
+    $tlModule
+);

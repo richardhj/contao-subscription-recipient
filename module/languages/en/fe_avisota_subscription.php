@@ -2,28 +2,47 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright (C) 2013 Tristan Lins
+ * Copyright © 2016 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
+ * @copyright  way.vision 2016
+ * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-core
  * @license    LGPL-3.0+
  * @filesource
  */
 
+global $TL_LANG;
 
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['subscribe']   = 'Subscribe';
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['unsubscribe'] = 'Unsubscribe';
+if (!array_key_exists('fe_avisota_subscription', $TL_LANG)) {
+    $TL_LANG['fe_avisota_subscription'] = array();
+}
 
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['subscribed']            = 'Thank you very much, you are now subscribed. Please check your inbox for confirmation email.';
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['allreadySubscribed']    = 'Thank you very much, but you are already subscribed to our newsletter.';
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['subscribeConfirmation'] = 'Your subscription was successfully activated.';
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['unsubscribed']          = 'You\'r now unsubscribed from our newsletter.';
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['notSubscribed']         = 'You\'r not subscribed to our newsletter.';
+$feAvisotaSubscription = array(
+    'subscribe'
+    => 'Subscribe',
+    'unsubscribe'
+    => 'Unsubscribe',
+    'subscribed'
+    => 'Thank you very much, you are now subscribed. Please check your inbox for confirmation email.',
+    'allreadySubscribed'
+    => 'Thank you very much, but you are already subscribed to our newsletter.',
+    'subscribeConfirmation'
+    => 'Your subscription was successfully activated.',
+    'unsubscribed'
+    => 'You\'r now unsubscribed from our newsletter.',
+    'notSubscribed'
+    => 'You\'r not subscribed to our newsletter.',
+    'confirm'
+    => 'confirm subscriptions',
+    'manage_subscription'
+    => 'Manage your subscription',
+    'unsubscribe_direct'
+    => 'Unsubscribe',
+);
 
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['confirm'] = 'confirm subscriptions';
-
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['manage_subscription'] = 'Manage your subscription';
-$GLOBALS['TL_LANG']['fe_avisota_subscription']['unsubscribe_direct']  = 'Unsubscribe';
+$TL_LANG['fe_avisota_subscription'] = array_merge(
+    $TL_LANG['fe_avisota_subscription'],
+    $feAvisotaSubscription
+);

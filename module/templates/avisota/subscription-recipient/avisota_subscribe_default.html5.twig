@@ -1,16 +1,15 @@
-
 <form action="{{ action }}" id="{{ formId }}" method="{{ method }}" enctype="{{ enctype }}">
-	<div class="formbody">
-		<input type="hidden" name="FORM_SUBMIT" value="{{ formId }}"/>
-		<input type="hidden" name="REQUEST_TOKEN" value="{{ REQUEST_TOKEN }}"/>
+    <div class="formbody">
+        <input type="hidden" name="FORM_SUBMIT" value="{{ formId }}"/>
+        <input type="hidden" name="REQUEST_TOKEN" value="{{ REQUEST_TOKEN }}"/>
 
-		{{ fields }}
+        {{ fields }}
 
-		<div class="submit_container">
-			<input type="submit" name="subscribe" class="subscribe"
-				   value="{{ _lang.fe_avisota_subscription.subscribe }}"/>
-		</div>
+        <div class="submit_container">
+            <input type="submit" name="subscribe" class="subscribe"
+                   value="{{ _lang.fe_avisota_subscription.subscribe }}"/>
+        </div>
 
-		{{ hidden }}
-	</div>
+        {{ hidden }}
+    </div>
 </form>

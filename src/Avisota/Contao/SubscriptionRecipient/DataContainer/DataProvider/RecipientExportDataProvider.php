@@ -2,12 +2,12 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright (C) 2013 Tristan Lins
+ * Copyright © 2016 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
+ * @copyright  way.vision 2016
+ * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-subscription-recipient
  * @license    LGPL-3.0+
  * @filesource
@@ -15,135 +15,151 @@
 
 namespace Avisota\Contao\SubscriptionRecipient\DataContainer\DataProvider;
 
-use Avisota\Contao\Subscription\SubscriptionManager;
 use Avisota\Contao\Entity\Recipient;
 use Avisota\Contao\SubscriptionRecipient\Event\ExportRecipientPropertyEvent;
-use Avisota\Contao\SubscriptionRecipient\Event\MigrateRecipientEvent;
 use Avisota\Contao\SubscriptionRecipient\RecipientEvents;
 use Contao\Doctrine\ORM\EntityAccessor;
 use Contao\Doctrine\ORM\EntityHelper;
-use ContaoCommunityAlliance\DcGeneral\Data\ConfigInterface;
-use ContaoCommunityAlliance\DcGeneral\Data\DefaultCollection;
 use ContaoCommunityAlliance\DcGeneral\Data\DefaultModel;
 use ContaoCommunityAlliance\DcGeneral\Data\ModelInterface;
 use ContaoCommunityAlliance\DcGeneral\Data\NoOpDataProvider;
-use Doctrine\DBAL\Driver\PDOStatement;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
+/**
+ * Class RecipientExportDataProvider
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\DataContainer\DataProvider
+ */
 class RecipientExportDataProvider extends NoOpDataProvider
 {
-	const SESSION_NAME = 'AVISOTA_RECIPIENT_EXPORT_SETTINGS';
+    const SESSION_NAME = 'AVISOTA_RECIPIENT_EXPORT_SETTINGS';
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function save(ModelInterface $objItem)
-	{
-		global $container;
+    /**
+     * @param ModelInterface $objItem
+     *
+     * @return ModelInterface|void
+     */
+    public function save(ModelInterface $objItem)
+    {
+        $exportSettings = $objItem->getPropertiesAsArray();
 
-		/** @var EntityAccessor $entityAccessor */
-		$entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
+        $session             = \Session::getInstance();
+        $recipientRepository = EntityHelper::getRepository('Avisota\Contao:Recipient');
 
-		/** @var EventDispatcher $eventDispatcher */
-		$eventDispatcher = $container['event-dispatcher'];
+        $session->set(static::SESSION_NAME, $exportSettings);
 
-		$exportSettings = $objItem->getPropertiesAsArray();
+        switch ($exportSettings['delimiter']) {
+            case 'semicolon':
+                $delimiter = ';';
+                break;
+            case 'space':
+                $delimiter = ' ';
+                break;
+            case 'tabulator':
+                $delimiter = "\t";
+                break;
+            case 'linebreak':
+                $delimiter = "\n";
+                break;
+            default:
+                $delimiter = ',';
+        }
 
-		$session = \Session::getInstance();
-		$recipientRepository   = EntityHelper::getRepository('Avisota\Contao:Recipient');
+        switch ($exportSettings['enclosure']) {
+            case 'single':
+                $enclosure = "'";
+                break;
+            default:
+                $enclosure = '"';
+        }
 
-		$session->set(static::SESSION_NAME, $exportSettings);
+        $length     = 0;
+        $csv        = tmpfile();
+        $recipients = $recipientRepository->findAll();
 
-		$propertyNames = $exportSettings['columns'];
+        /** @var Recipient $recipient */
+        foreach ($recipients as $recipient) {
+            $row = $this->generateCSVRows($recipient, $exportSettings);
 
-		switch ($exportSettings['delimiter']) {
-			case 'semicolon':
-				$delimiter = ';';
-				break;
-			case 'space':
-				$delimiter = ' ';
-				break;
-			case 'tabulator':
-				$delimiter = "\t";
-				break;
-			case 'linebreak':
-				$delimiter = "\n";
-				break;
-			default:
-				$delimiter = ',';
-		}
+            $length += fputcsv($csv, $row, $delimiter, $enclosure);
+        }
 
-		switch ($exportSettings['enclosure']) {
-			case 'single':
-				$enclosure = "'";
-				break;
-			default:
-				$enclosure = '"';
-		}
+        if (!headers_sent()) {
+            header('Content-Type: text/csv; charset=utf-8');
+            header('Content-Length: ' . $length);
+            header('Content-Disposition: attachment; filename="export.csv"');
+        }
 
-		$length = 0;
-		$csv = tmpfile();
-		$recipients = $recipientRepository->findAll();
+        rewind($csv);
+        fpassthru($csv);
+        fclose($csv);
+        exit;
+    }
 
-		/** @var Recipient $recipient */
-		foreach ($recipients as $recipient) {
-			$row = array();
+    /**
+     * @param $recipient
+     * @param $exportSettings
+     *
+     * @return array
+     */
+    protected function generateCSVRows($recipient, $exportSettings)
+    {
+        global $container;
 
-			foreach ($propertyNames as $propertyName) {
-				if ($entityAccessor->hasProperty($recipient, $propertyName)) {
-					$value = $entityAccessor->getProperty($recipient, $propertyName);
-				}
-				else {
-					$value = null;
-				}
+        /** @var EntityAccessor $entityAccessor */
+        $entityAccessor = $container['doctrine.orm.entityAccessor'];
 
-				if (is_resource($value)) {
-					$string = stream_get_contents($value);
-				}
-				else if (is_object($value)) {
-					if (method_exists($value, '__toString')) {
-						$string = (string) $value;
-					}
-				}
-				else if (is_scalar($value)) {
-					$string = (string) $value;
-				}
-				else {
-					$string = null;
-				}
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $container['event-dispatcher'];
 
-				$event = new ExportRecipientPropertyEvent($recipient, $propertyName, $value, $string);
-				$eventDispatcher->dispatch(RecipientEvents::EXPORT_RECIPIENT_PROPERTY, $event);
+        $propertyNames = $exportSettings['columns'];
 
-				$row[] = $event->getString();
-			}
+        $row = array();
+        foreach ($propertyNames as $propertyName) {
+            if ($entityAccessor->hasProperty($recipient, $propertyName)) {
+                $value = $entityAccessor->getProperty($recipient, $propertyName);
+            } else {
+                $value = null;
+            }
 
-			$length += fputcsv($csv, $row, $delimiter, $enclosure);
-		}
+            $string = null;
+            if (is_resource($value)) {
+                $string = stream_get_contents($value);
+            } else {
+                if (is_object($value)) {
+                    if (method_exists($value, '__toString')) {
+                        $string = (string) $value;
+                    }
+                } else {
+                    if (is_scalar($value)) {
+                        $string = (string) $value;
+                    }
+                }
+            }
 
-		if (!headers_sent()) {
-			header('Content-Type: text/csv; charset=utf-8');
-			header('Content-Length: ' . $length);
-			header('Content-Disposition: attachment; filename="export.csv"');
-		}
+            $event = new ExportRecipientPropertyEvent($recipient, $propertyName, $value, $string);
+            $eventDispatcher->dispatch(RecipientEvents::EXPORT_RECIPIENT_PROPERTY, $event);
 
-		rewind($csv);
-		fpassthru($csv);
-		fclose($csv);
-		exit;
-	}
+            $row[] = $event->getString();
+        }
 
-	public function getEmptyModel()
-	{
-		$session = \Session::getInstance();
-		$exportSettings = $session->get(static::SESSION_NAME);
+        return $row;
+    }
 
-		$model = parent::getEmptyModel();
+    /**
+     * @return DefaultModel|ModelInterface
+     */
+    public function getEmptyModel()
+    {
+        $session        = \Session::getInstance();
+        $exportSettings = $session->get(static::SESSION_NAME);
 
-		if ($exportSettings && is_array($exportSettings)) {
-			$model->setPropertiesAsArray($exportSettings);
-		}
+        $model = parent::getEmptyModel();
 
-		return $model;
-	}
+        if ($exportSettings && is_array($exportSettings)) {
+            $model->setPropertiesAsArray($exportSettings);
+        }
+
+        return $model;
+    }
 }

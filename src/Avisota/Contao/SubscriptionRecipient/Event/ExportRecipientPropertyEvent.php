@@ -2,12 +2,12 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright (C) 2013 Tristan Lins
+ * Copyright © 2016 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
+ * @copyright  way.vision 2016
+ * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-subscription-recipient
  * @license    LGPL-3.0+
  * @filesource
@@ -16,77 +16,86 @@
 namespace Avisota\Contao\SubscriptionRecipient\Event;
 
 use Avisota\Contao\Entity\Recipient;
-use Symfony\Component\EventDispatcher\Event;
 
+/**
+ * Class ExportRecipientPropertyEvent
+ *
+ * @package Avisota\Contao\SubscriptionRecipient\Event
+ */
 class ExportRecipientPropertyEvent extends RecipientAwareEvent
 {
-	/**
-	 * @var string
-	 */
-	protected $propertyName;
+    /**
+     * @var string
+     */
+    protected $propertyName;
 
-	/**
-	 * @var mixed
-	 */
-	protected $propertyValue;
+    /**
+     * @var mixed
+     */
+    protected $propertyValue;
 
-	/**
-	 * @var string
-	 */
-	protected $string;
+    /**
+     * @var string
+     */
+    protected $string;
 
-	/**
-	 * @param Recipient $recipient
-	 * @param string    $propertyName
-	 * @param mixed     $propertyValue
-	 */
-	function __construct(Recipient $recipient, $propertyName, $propertyValue = null, $string = null)
-	{
-		parent::__construct($recipient);
-		$this->propertyName  = (string) $propertyName;
-		$this->propertyValue = $propertyValue;
-		$this->string        = $string === null ? null : (string) $string;
-	}
+    /**
+     * @param Recipient $recipient
+     * @param string    $propertyName
+     * @param mixed     $propertyValue
+     * @param null      $string
+     */
+    public function __construct(Recipient $recipient, $propertyName, $propertyValue = null, $string = null)
+    {
+        parent::__construct($recipient);
+        $this->propertyName  = (string) $propertyName;
+        $this->propertyValue = $propertyValue;
+        $this->string        = $string === null ? null : (string) $string;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getPropertyName()
-	{
-		return $this->propertyName;
-	}
+    /**
+     * @return string
+     */
+    public function getPropertyName()
+    {
+        return $this->propertyName;
+    }
 
-	/**
-	 * @param mixed $propertyValue
-	 */
-	public function setPropertyValue($propertyValue)
-	{
-		$this->propertyValue = $propertyValue;
-		return $this;
-	}
+    /**
+     * @param mixed $propertyValue
+     *
+     * @return $this
+     */
+    public function setPropertyValue($propertyValue)
+    {
+        $this->propertyValue = $propertyValue;
+        return $this;
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function getPropertyValue()
-	{
-		return $this->propertyValue;
-	}
+    /**
+     * @return mixed
+     */
+    public function getPropertyValue()
+    {
+        return $this->propertyValue;
+    }
 
-	/**
-	 * @param string $string
-	 */
-	public function setString($string)
-	{
-		$this->string = $string === null ? null : (string) $string;
-		return $this;
-	}
+    /**
+     * @param string $string
+     *
+     * @return $this
+     */
+    public function setString($string)
+    {
+        $this->string = $string === null ? null : (string) $string;
+        return $this;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getString()
-	{
-		return $this->string;
-	}
+    /**
+     * @return string
+     */
+    public function getString()
+    {
+        return $this->string;
+    }
 }
