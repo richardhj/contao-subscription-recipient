@@ -2,11 +2,11 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright © 2015 Sven Baumann
+ * Copyright © 2016 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  way.vision 2015
+ * @copyright  way.vision 2016
  * @author     Sven Baumann <baumann.sv@gmail.com>
  * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-subscription-recipient
