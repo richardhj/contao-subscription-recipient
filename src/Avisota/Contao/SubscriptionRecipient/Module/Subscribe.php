@@ -83,6 +83,9 @@ class Subscribe extends AbstractRecipientForm
         $this->Template->form = $template->parse();
     }
 
+    /**
+     * parse the confirmed subscriptions for the template
+     */
     protected function parseConfirmed()
     {
         $token = (array) \Input::get('token');
@@ -117,6 +120,11 @@ class Subscribe extends AbstractRecipientForm
         $this->Template->confirmed = $subscriptions;
     }
 
+    /**
+     * @param $form
+     * @param $recipientFields
+     * @param $mailingListIds
+     */
     protected function parseSubscriptions($form, $recipientFields, $mailingListIds)
     {
         if (!$form->validate()) {
