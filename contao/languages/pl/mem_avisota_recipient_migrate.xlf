@@ -1,0 +1,80 @@
+<?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file datatype="php" date="2014-08-04T04:01:07+02:00" original="mem_avisota_recipient_migrate" source-language="en" target-language="pl">
+    <body>
+      <trans-unit id="mem_avisota_recipient_migrate.channels.0">
+        <source>Channels</source>
+        <target>Kanały</target>
+        
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_migrate.channels.1">
+        <source>Please choose the channels and the target mailing lists.</source>
+        <target>Proszę wybrać kanały i docelowe listy mailingowe.</target>
+        
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_migrate.channels_channel.0">
+        <source>Channel</source>
+        <target>Kanał</target>
+        
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_migrate.channels_mailingList.0">
+        <source>Mailing list</source>
+        <target>Lista mailingowa</target>
+        
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_migrate.overwrite.0">
+        <source>Overwrite existing</source>
+        <target>Nadpisz istniejących</target>
+        
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_migrate.overwrite.1">
+        <source>Overwrite existing recipients.</source>
+        <target>Nadpisz istniejących odbiorców.</target>
+        
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_migrate.importFromMembers.0">
+        <source>Import personals from Members</source>
+        <target>Importuj dane osobiste z Użytkowników</target>
+        
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_migrate.importFromMembers.1">
+        <source>Import the personal data from the members.</source>
+        <target>Importuj dane osobiste z użytkowników.</target>
+        
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_migrate.migrate_legend">
+        <source>Migrate recipients</source>
+        <target>Przenieś odbiorców</target>
+        
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_migrate.migrated">
+        <source>%d recipients migrated, %d skipped.</source>
+        <target>%d odbiorców przeniesionych, %d pominiętych.</target>
+        
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_migrate.submit">
+        <source>Migrate</source>
+        
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_migrate.running">
+        <source>Migrate recipients &amp;hellip;</source>
+        
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_migrate.created">
+        <source>%s created</source>
+        
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_migrate.skipped">
+        <source>%s skipped</source>
+        
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_migrate.overwritten">
+        <source>%s overwritten</source>
+        
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_migrate.reload">
+        <source>Continue migration &amp;hellip;</source>
+        
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

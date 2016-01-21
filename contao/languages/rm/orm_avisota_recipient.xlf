@@ -1,0 +1,431 @@
+<?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file datatype="php" date="2014-05-06T04:02:33+02:00" original="orm_avisota_recipient" source-language="en" target-language="rm">
+    <body>
+      <trans-unit id="orm_avisota_recipient.id.0">
+        <source>ID</source>
+        <target>ID</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.createdAt.0">
+        <source>Created at</source>
+        <target>Creà las</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.updatedAt.0">
+        <source>Last modified at</source>
+        <target>Ultima modificaziun las</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.email.0">
+        <source>Email</source>
+        <target>E-Mail</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.email.1">
+        <source>Please enter the email address.</source>
+        <target>Endatescha l'adressa dad e-mail.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.title.0">
+        <source>Title</source>
+        <target>Titel</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.title.1">
+        <source>Please enter the recipients title.</source>
+        <target>Tscherna il titel dal destinatur</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.forename.0">
+        <source>Forename</source>
+        <target>Prenum</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.forename.1">
+        <source>Please enter the recipients forename.</source>
+        <target>Tscherna il prenum dal destinatur.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.surname.0">
+        <source>Surname</source>
+        <target>Num</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.surname.1">
+        <source>Please enter the recipients surname.</source>
+        <target>Tscherna il num dal destinatur</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.gender.0">
+        <source>Gender</source>
+        <target>Schlattaina</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.gender.1">
+        <source>Please choose the recipients gender.</source>
+        <target>Tscherna la schlattaina dal destinatur.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.addedById.0">
+        <source>Added by user ID</source>
+        <target>Agiuntà da l'utilisader cun l'ID</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.addedById.1">
+        <source>The ID of the user who added this recipient.</source>
+        <target>L'ID da l'utilisader da Contau che ha agiuntà quest destinatur.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.addedByUsername.0">
+        <source>Added by username</source>
+        <target>Agiuntà da </target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.addedByUsername.1">
+        <source>The username of the user who added this recipient.</source>
+        <target>Il num d'utilisader da l'utilisader da Contao che ha agiuntà quest destinatur.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.addedByName.0">
+        <source>Added by name</source>
+        <target>Agiuntà da </target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.addedByName.1">
+        <source>The name of the user who added this recipient.</source>
+        <target>Il num da l'utilisader da Contao che ha agiuntà quest destinatur.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.confirmed.0">
+        <source>Confirmed</source>
+        <target>Confermà</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.confirmed.1">
+        <source>This account has been confirmed.</source>
+        <target>Quest conto è vegnì confermà</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.lists.0">
+        <source>Mailing lists</source>
+        <target>Glistas da mail</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.lists.1">
+        <source>Please choose the subscribed mailing lists.</source>
+        <target>Tscherna las glistas da mail abunadas.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.subscriptionAction.0">
+        <source>Activation</source>
+        <target>Activar</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.subscriptionAction.1">
+        <source>Please choose the activation method for subscriptions on new mailing lists.</source>
+        <target>Tscherna ina metoda per activar novs abunaments sin glistas da mail.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.recipient_legend">
+        <source>Recipient</source>
+        <target>Destinatur</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.subscription_legend">
+        <source>Subscription</source>
+        <target>Abunament</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.personals_legend">
+        <source>Personals</source>
+        <target>Datas</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.added_at">
+        <source>added at %s</source>
+        <target>agiuntà ils %s</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.added_by">
+        <source>, by &lt;a href=&quot;%3$s&quot;&gt;%1$s &amp;lt;%2$s&amp;gt;&lt;/a&gt;</source>
+        <target>, da &lt;a href=&quot;%3$s&quot;&gt;%1$s &amp;lt;%2$s&amp;gt;&lt;/a&gt;</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.added_by_unlinked">
+        <source>, by %1$s &amp;lt;%2$s&amp;gt;</source>
+        <target>, da %1$s &amp;lt;%2$s&amp;gt;</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.confirm-subscription">
+        <source>Recipient &lt;em&gt;%1$s&lt;/em&gt; subscription to &lt;em&gt;%2$s&lt;/em&gt; was confirmed</source>
+        <target>L'abunament dal destinatur &lt;em&gt;%1$s&lt;/em&gt; da &lt;em&gt;%2$s&lt;/em&gt; è vegnì confermà</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.remove-subscription">
+        <source>Recipient &lt;em&gt;%1$s&lt;/em&gt; subscription to &lt;em&gt;%2$s&lt;/em&gt; was removed</source>
+        <target>L'abunament dal destinatur &lt;em&gt;%1$s&lt;/em&gt; da &lt;em&gt;%2$s&lt;/em&gt; è vegnì stizzà</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.subscribe">
+        <source>Subscribe to this mailing list</source>
+        <target>Abunar questa glista dad e-mail</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.blacklisted">
+        <source>The recipient is blacklisted</source>
+        <target>Quest destinatur è sin la black-list</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.confirm">
+        <source>%s neue Abonnenten wurden importiert.</source>
+        <target>%s abunents novs èn vegnids importads.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.invalid">
+        <source>%s ungültige Einträge wurden übersprungen.</source>
+        <target>%s nunvalaivels èn vegnids surseglids</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.subscribed">
+        <source>registriert am %s</source>
+        <target>registrà ils %s</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.manually">
+        <source>manuell hinzugefügt</source>
+        <target>agiuntà manualmain</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.confirmManualActivation">
+        <source>Sind Sie sicher, dass Sie dieses Abonnement manuell aktivieren möchten?</source>
+        <target>Es ti segir che ti vuls activar manualmain quest abunament?</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.confirmationSent">
+        <source>Bestätigungsmail gesendet am %s</source>
+        <target>Tramess il mail da confermaziun ils %s</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.reminderSent">
+        <source>Erinnerungsmail gesendet am %s</source>
+        <target>Tramess l'email da reguranda ils %s</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.remindersSent">
+        <source>%d. Erinnerungsmail gesendet am %s</source>
+        <target>Tramess il %d. e-mail da regurdanza ils %s</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.sendConfirmation">
+        <source>Bestätigungsmail senden</source>
+        <target>Trametter in e-mail da confermaziun</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.activateSubscription">
+        <source>Abonnement direkt aktivieren</source>
+        <target>Activar directamain l'abunament</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.doNothink">
+        <source>Abonnement unbestätigt eintragen</source>
+        <target>Endatar l'abunament senza confermaziun</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.subscription_global">
+        <source>Global subscription</source>
+        <target>Abunament global</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.subscription_mailingList">
+        <source>Mailing list: %s</source>
+        <target>Glista da mail: %s</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.new.0">
+        <source>New recipient</source>
+        <target>Nov destinatur</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.new.1">
+        <source>Add a new recipient</source>
+        <target>Agiuntar in nov destinatur</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.show.0">
+        <source>Recipient details</source>
+        <target>Detagls dal destinatur</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.show.1">
+        <source>Show the details of recipient ID %s</source>
+        <target>Mussar ils detagls dal destinatur cun l'ID %s</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.delete.0">
+        <source>Delete recipient</source>
+        <target>Stizzar il destinatur</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.delete.1">
+        <source>Delete recipient ID %s</source>
+        <target>Stizzar il destinatur cun l'ID %s</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.edit.0">
+        <source>Edit recipient</source>
+        <target>Modifitgar il destinatur</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.edit.1">
+        <source>Edit recipient ID %s</source>
+        <target>Modifitgar il destinatur cun l'ID %s</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.subscribe_globally">
+        <source>Subscribe globally</source>
+        <target>Abunar globalmain</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.subscribe_globally_confirmed">
+        <source>Subscribe and activate globally</source>
+        <target>Abunar ed activar globalmain</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.subscribe_confirmed">
+        <source>Subscribe and activate to this mailing list</source>
+        <target>Abunar ed activar sin questa glista dad e-mail</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.confirm_subscription">
+        <source>Confirm subscription</source>
+        <target>Confermar l'abunament</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.unsubscribe_globally">
+        <source>Unsubscribe globally</source>
+        <target>De-abunar globalmain</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.unsubscribe">
+        <source>Unsubscribe from this mailing list</source>
+        <target>De-abunar da questa glista dad e-mail</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.migrate.0">
+        <source>Migrate</source>
+        <target>Migrar</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.migrate.1">
+        <source>Migrate recipients from Contao newsletter system.</source>
+        <target>Migrar destinaturs dal sistem da newsletter da Contao.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.import.0">
+        <source>CSV import</source>
+        <target>Import da CSV</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.import.1">
+        <source>Import recipients from a CSV file.</source>
+        <target>Importar ils destinaturs dad ina datoteca da CSV.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.export.0">
+        <source>CSV export</source>
+        <target>Export da CSV</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.export.1">
+        <source>Export recipients to a CSV file.</source>
+        <target>Exportar ils destinaturs ad ina datoteca da CSV</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.remove.0">
+        <source>CSV delete</source>
+        <target>Stizzar da CSV</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.remove.1">
+        <source>Delete recipients from a CSV file.</source>
+        <target>Stizzar ils destinaturs dad ina datoteca da CSV.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.company.0">
+        <source>Company</source>
+        <target>Interpresa</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.company.1">
+        <source>Here you can enter a company name.</source>
+        <target>Qua pos ti endatar in num d'ina interpresa.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.street.0">
+        <source>Street</source>
+        <target>Via</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.street.1">
+        <source>Please enter the street name and number.</source>
+        <target>Endatscha il num ed il numer da la via</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.postal.0">
+        <source>Postal code</source>
+        <target>Number postal</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.postal.1">
+        <source>Please enter the postal code.</source>
+        <target>Endatscha il numer postal.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.city.0">
+        <source>City</source>
+        <target>Lieu</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.city.1">
+        <source>Plase enter the name of the city.</source>
+        <target>Endatescha il num dal lieu.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.state.0">
+        <source>State</source>
+        <target>Stadi</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.state.1">
+        <source>Plase enter the name of the state.</source>
+        <target>Endatscha il num dal stadi</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.country.0">
+        <source>Country</source>
+        <target>Pajais</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.country.1">
+        <source>Please select the country.</source>
+        <target>Endatscha il num dal pajais.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.mailingListIds.0">
+        <source>Mailing list IDs</source>
+        <target>IDs da las glistas da mail</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.mailingListNames.0">
+        <source>Mailing list names</source>
+        <target>Nums da las glistas da mail</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient.mailingLists.0">
+        <source>Mailing lists</source>
+        <target>Glistas da mail</target>
+        
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

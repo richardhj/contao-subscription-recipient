@@ -1,0 +1,56 @@
+<?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file datatype="php" date="2014-07-04T04:00:44+02:00" original="fe_avisota_subscription" source-language="en" target-language="rm">
+    <body>
+      <trans-unit id="fe_avisota_subscription.subscribe">
+        <source>Subscribe</source>
+        <target>Abunar</target>
+        
+      </trans-unit>
+      <trans-unit id="fe_avisota_subscription.unsubscribe">
+        <source>Unsubscribe</source>
+        <target>De-abunar</target>
+        
+      </trans-unit>
+      <trans-unit id="fe_avisota_subscription.subscribed">
+        <source>Thank you very much, you are now subscribed. Please check your inbox for confirmation email.</source>
+        <target>Grazia fitg, ti es ussa abunnent. Ti has retschiert in e-mail da confermaziun.</target>
+        
+      </trans-unit>
+      <trans-unit id="fe_avisota_subscription.allreadySubscribed">
+        <source>Thank you very much, but you are already subscribed to our newsletter.</source>
+        <target>Grazia fitg, ti has dentant gia abunà nos newsletter.</target>
+        
+      </trans-unit>
+      <trans-unit id="fe_avisota_subscription.subscribeConfirmation">
+        <source>Your subscription was successfully activated.</source>
+        <target>Tes abunament è vegnì activà cun success.</target>
+        
+      </trans-unit>
+      <trans-unit id="fe_avisota_subscription.unsubscribed">
+        <source>You'r now unsubscribed from our newsletter.</source>
+        <target>Ti has ussa de-abunà nos newsletter</target>
+        
+      </trans-unit>
+      <trans-unit id="fe_avisota_subscription.notSubscribed">
+        <source>You'r not subscribed to our newsletter.</source>
+        <target>Ti n'has betg abunà nos newsletter</target>
+        
+      </trans-unit>
+      <trans-unit id="fe_avisota_subscription.confirm">
+        <source>confirm subscriptions</source>
+        <target>Confermar abunaments</target>
+        
+      </trans-unit>
+      <trans-unit id="fe_avisota_subscription.manage_subscription">
+        <source>Manage your subscription</source>
+        <target>Administrat tes abunament</target>
+        
+      </trans-unit>
+      <trans-unit id="fe_avisota_subscription.unsubscribe_direct">
+        <source>Unsubscribe</source>
+        <target>De-abunar</target>
+        
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

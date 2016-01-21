@@ -1,0 +1,246 @@
+<?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file datatype="php" date="2014-05-06T04:02:33+02:00" original="tl_module" source-language="en" target-language="rm">
+    <body>
+      <trans-unit id="tl_module.avisota_mailing_lists.0">
+        <source>Selected/Selectable mailing lists</source>
+        <target>Glistas dad e-mail tschernidas/tscherniblas</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_mailing_lists.1">
+        <source>Please choose the mailing lists, that will be subscribed or shown if the mailing lists input field is visible.</source>
+        <target>Tscherna las glistas dad e-mail che vegnan abunadas u mussadas sche il champ d'endataziun per glistas dad e-mail è visibel.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_recipient_fields.0">
+        <source>Personal data</source>
+        <target>Datas persunalas</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_recipient_fields.1">
+        <source>Pleas choose additional personal data fields to ask for.</source>
+        <target>Tscherna las datas persunalas supplementaras che duain vegnir dumandadas.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_form_target.0">
+        <source>Formular target page (not confirmation page!)</source>
+        <target>Pagina da destinaziun dal formular (na betg la pagina da confermaziun!)</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_form_target.1">
+        <source>Please choose a page, the submitted form data will be posted (this page will set as &amp;lt;form&amp;gt; action!). Keep in mind that the module must be added on the target page!</source>
+        <target>Tscherna ina pagina a la quala las datas dal formular vegnan tramessas (questa pagina vegn definida sco acziun da &amp;lt;form&amp;gt;!). Ta ragorda che il modul sto vegnir agiuntà a la pagina da destinaziun!</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_form_template.0">
+        <source>Formular template</source>
+        <target>Template dal formular</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_form_template.1">
+        <source>Please choose the formular template.</source>
+        <target>Tscherna in template da forumlar.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_confirmation_message.0">
+        <source>Confirmation message</source>
+        <target>Messadi da confermaziun</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_confirmation_message.1">
+        <source>Please choose the confirmation message boilerplate.</source>
+        <target>Tscherna in model per il messadi da confermaziun.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_confirmation_page.0">
+        <source>Subscribe confirmation page</source>
+        <target>Pagina da confermaziun per abunar</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_confirmation_page.1">
+        <source>Please choose the confirmation page. The user will be redirected to this page, after requesting a new subscription.</source>
+        <target>Tscherna la pagina da confermaziun. L'utilisader vegn renvià a questa pagina suenter ch'el ha dumandà per in abunament.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_activation_page.0">
+        <source>Activation page</source>
+        <target>Pagina d'activaziun</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_activation_page.1">
+        <source>Please choose the activation page. The activation link will be link to this page. Keep in mind that you need to add a &quot;Subscription&quot; or &quot;Activation&quot; module to this page.</source>
+        <target>Tscherna la pagina d'activaziun. La colliaziun d'activaziun vegn a mussar sin questa pagina. Fa stim che ti stos agiuntar a questa pagina in modul &quot;Abunar&quot; u &quot;Activar&quot;.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_unsubscribe_show_mailing_lists.0">
+        <source>Show mailing list selection</source>
+        <target>Mussar la selecziun da glistas dad e-mail</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_unsubscribe_show_mailing_lists.1">
+        <source>Let the user choice which mailing lists should be unsubscribed.</source>
+        <target>Laschar tscherner l'utilisader tge glistas dad e-mail che duain vegnir abunadas.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_unsubscribe_confirmation_message.0">
+        <source>Confirmation message</source>
+        <target>Messadi da confermaziun</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_unsubscribe_confirmation_message.1">
+        <source>Please choose the confirmation message boilerplate.</source>
+        <target>Tscherna in model per il messadi da confermaziun.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_unsubscribe_form_template.0">
+        <source>Formular template</source>
+        <target>Template dal formular</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_unsubscribe_form_template.1">
+        <source>Please choose the formular template.</source>
+        <target>Tscherna in template da forumlar.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_unsubscribe_confirmation_page.0">
+        <source>Confirmation page</source>
+        <target>Pagina da confermaziun</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_unsubscribe_confirmation_page.1">
+        <source>Please choose the confirmation page.</source>
+        <target>Tscherna ina pagina da confermaziun.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscription_form_template.0">
+        <source>Formular template</source>
+        <target>Template dal forumlar</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscription_form_template.1">
+        <source>Please choose a custom formular template.</source>
+        <target>Tscherna in template da forumlar persunalisà.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscription_confirmation_message.0">
+        <source>Confirmation page</source>
+        <target>Pagina da confermaziun</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscription_confirmation_message.1">
+        <source>Please choose the confirmation page.</source>
+        <target>Tscherna ina pagina da confermaziun.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_categories.0">
+        <source>Kategorien</source>
+        <target>Categorias</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_categories.1">
+        <source>Wählen Sie die Kategorien aus, aus denen die Mailing angezeigt werden sollen.</source>
+        <target>Tscherna las categorias, ord las qualas ils Mailings duain vegnir mussads.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_reader_template.0">
+        <source>Leser-Template</source>
+        <target>Template da lectur</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_reader_template.1">
+        <source>Wählen Sie hier das Template für den Mailing-Leser aus.</source>
+        <target>Tscherna il template per il lectur da mailings.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_list_template.0">
+        <source>Listen-Template</source>
+        <target>Template da glista</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_list_template.1">
+        <source>Wählen Sie hier das Template für die Mailing-Liste aus.</source>
+        <target>Tscherna il template per la glista da mailings</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_view_page.0">
+        <source>Ansichtsseite</source>
+        <target>Pagina da visualisaziun</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_view_page.1">
+        <source>Wählen Sie hier eine Seite aus, auf der die Mailing angezeigt werden soll. Wird keine Seite ausgewählt, wird die in der Kategorie hinterlegte Seite zur Online-Ansicht verwendet.</source>
+        <target>Tscherna qua ina pagina, sin la quala ils mailings duain vegnir visualisads. Na vegn nagina pagina tsschernida, vegn la pagina nudada en la categoria utilisada per la visualisaziun online</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_template_unsubscribe.0">
+        <source>Form-Template</source>
+        <target>Template per il forumular</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_template_unsubscribe.1">
+        <source>Wählen Sie hier das Template für das Abmelden-Formular aus.</source>
+        <target>Tscherna il template per il formular per de-abunar.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscription_legend">
+        <source>Abonnement</source>
+        <target>Abunament</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_mail_legend">
+        <source>Mail Einstellungen</source>
+        <target>Configuraziun dad e-mail</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_notification_legend">
+        <source>Erinnerung</source>
+        <target>Regurdanza</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_cleanup_legend">
+        <source>Aufräumen</source>
+        <target>Far urden</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_reader_legend">
+        <source>Mailing-Leser</source>
+        <target>Lectur dal mailing</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_list_legend">
+        <source>Mailing-Liste</source>
+        <target>Glista dals mailings</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_activate_confirmation_page.0">
+        <source>Activation confirmation page</source>
+        <target>Pagina da confermaziun da l'activaziun</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_activate_confirmation_page.1">
+        <source>Please choose the activated confirmation page. If you not use a separate activation page, the user will redirected to this page, after clicking on the activation link.</source>
+        <target>Tscherna ina pagina da confermaziun per l'activaziun. Sche ti n'utiliseschas betg ina pagina d'activaziun seperata vegn l'utilisader renvià a questa pagina suenter cliccar sin la colliaziun d'activaziun.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_activation_redirect_page.0">
+        <source>Redirect page</source>
+        <target>Pagina da renviar</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_activation_redirect_page.1">
+        <source>Please choose the redirect page. The user will be redirected to this page, if he call the page without a valid subscription token.</source>
+        <target>Tscherna ina pagina per renviar. L'utilisader vegn renvià a questa paigna sche el avra la pagina senza in token d'abunament valid.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_activation_confirmation_page.0">
+        <source>Confirmation page</source>
+        <target>Pagina da confermaziun</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_activation_confirmation_page.1">
+        <source>Please choose the confirmation page. The user will redirected to this page, after clicking on the activation link.</source>
+        <target>Tscherna la pagina da confermaziun. L'utilisader vegn renvià a questa pagina suenter cliccar sin la colliaziun d'activaziun.</target>
+        
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

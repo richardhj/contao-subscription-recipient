@@ -1,0 +1,249 @@
+<?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file datatype="php" date="2014-05-06T04:02:33+02:00" original="tl_module" source-language="en" target-language="de">
+    <body>
+      <trans-unit id="tl_module.avisota_mailing_lists.0">
+        <source>Selected/Selectable mailing lists</source>
+        <target>Ausgewählte / auswählbare Mailinglisten</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_mailing_lists.1">
+        <source>Please choose the mailing lists, that will be subscribed or shown if the mailing lists input field is visible.</source>
+        <target>Bitte wählen Sie die Mailinglisten aus, die abonniert oder angezeigt werden sollen falls das entsprechende Auswahlfeld sichtbar ist.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_recipient_fields.0">
+        <source>Personal data</source>
+        <target>Persönliche Daten</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_recipient_fields.1">
+        <source>Pleas choose additional personal data fields to ask for.</source>
+        <target>Bitte wählen Sie aus, welche Felder mit persönlichen Daten abgefragt werden sollen.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_form_target.0">
+        <source>Formular target page (not confirmation page!)</source>
+        <target>Zielseite (NICHT die Bestätigungssette)</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_form_target.1">
+        <source>Please choose a page, the submitted form data will be posted (this page will set as &amp;lt;form&amp;gt; action!). Keep in mind that the module must be added on the target page!</source>
+        <target>Bitte wählen Sie die Seite aus auf der die übermittelten Daten geposted werden (diese Seite wird als &amp;lt;form&amp;gt; action gesetzt!). Beachten Sie dass das Modul dafür auf der Zielseite eingebunden werden muss.
+
+
+Please choose a page, the submitted form data will be posted (this page will set as &amp;lt;form&amp;gt; action!). Keep in mind that the module must be added on the target page!</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_form_template.0">
+        <source>Formular template</source>
+        <target>Formular-Template</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_form_template.1">
+        <source>Please choose the formular template.</source>
+        <target>Hier können Sie ein individuelles Formular-Template auswählen.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_confirmation_message.0">
+        <source>Confirmation message</source>
+        <target>Bestätigungsnachricht</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_confirmation_message.1">
+        <source>Please choose the confirmation message boilerplate.</source>
+        <target>Bitte wählen Sie eine Vorlage für die Bestätigungsnachricht aus.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_confirmation_page.0">
+        <source>Subscribe confirmation page</source>
+        <target>Abonement-Bestätigungsseite</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_confirmation_page.1">
+        <source>Please choose the confirmation page. The user will be redirected to this page, after requesting a new subscription.</source>
+        <target>Bitte wählen Sie die Bestätigungssseite aus. Dorthin wird ein Benutzer weitergeieitet nachdem er ein Abonnement erstellt hat.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_activation_page.0">
+        <source>Activation page</source>
+        <target>Aktivierungsseite</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_activation_page.1">
+        <source>Please choose the activation page. The activation link will be link to this page. Keep in mind that you need to add a &quot;Subscription&quot; or &quot;Activation&quot; module to this page.</source>
+        <target>Bitte wählen Sie die Aktivierungsseite aus. Dorthin wird der AktIvierungslink leiten. Bitte beachten Sie, das Sie ein &quot;Bestellungs-&quot; oder ein &quot;Aktivierungs&quot;-Modul auf dieser Seite einbinden müssen.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_unsubscribe_show_mailing_lists.0">
+        <source>Show mailing list selection</source>
+        <target>Mailinglisten-Auswahl anzeigen</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_unsubscribe_show_mailing_lists.1">
+        <source>Let the user choice which mailing lists should be unsubscribed.</source>
+        <target>Den Benutzer auswählen lassen welche Abonnements bestellt werden sollen.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_unsubscribe_confirmation_message.0">
+        <source>Confirmation message</source>
+        <target>Bestätigungsnachricht</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_unsubscribe_confirmation_message.1">
+        <source>Please choose the confirmation message boilerplate.</source>
+        <target>Bitte wählen Sie eine Vorlage für die Bestätigungsnachricht aus.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_unsubscribe_form_template.0">
+        <source>Formular template</source>
+        <target>Formular-Template</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_unsubscribe_form_template.1">
+        <source>Please choose the formular template.</source>
+        <target>Hier können Sie ein individuelles Formular-Template auswählen.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_unsubscribe_confirmation_page.0">
+        <source>Confirmation page</source>
+        <target>Bestätigungsseite</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_unsubscribe_confirmation_page.1">
+        <source>Please choose the confirmation page.</source>
+        <target>Bitte wählen Sie die Seite aus, auf der das Abonnement bestätigt wird.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscription_form_template.0">
+        <source>Formular template</source>
+        <target>Formular-Template</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscription_form_template.1">
+        <source>Please choose a custom formular template.</source>
+        <target>Hier können Sie ein individuelles Formular-Template auswählen.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscription_confirmation_message.0">
+        <source>Confirmation page</source>
+        <target>Bestätigungsseite</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscription_confirmation_message.1">
+        <source>Please choose the confirmation page.</source>
+        <target>Bitte wählen Sie die Bestätigungsseite aus.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_categories.0">
+        <source>Kategorien</source>
+        <target>Kategorien</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_categories.1">
+        <source>Wählen Sie die Kategorien aus, aus denen die Mailing angezeigt werden sollen.</source>
+        <target>Wählen Sie die Kategorien aus, aus denen die Mailing angezeigt werden sollen.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_reader_template.0">
+        <source>Leser-Template</source>
+        <target>Leser-Template</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_reader_template.1">
+        <source>Wählen Sie hier das Template für den Mailing-Leser aus.</source>
+        <target>Wählen Sie hier das Template für den Mailing-Leser aus.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_list_template.0">
+        <source>Listen-Template</source>
+        <target>Listen-Template</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_list_template.1">
+        <source>Wählen Sie hier das Template für die Mailing-Liste aus.</source>
+        <target>Wählen Sie hier das Template für die Mailing-Liste aus.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_view_page.0">
+        <source>Ansichtsseite</source>
+        <target>Ansichtsseite</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_view_page.1">
+        <source>Wählen Sie hier eine Seite aus, auf der die Mailing angezeigt werden soll. Wird keine Seite ausgewählt, wird die in der Kategorie hinterlegte Seite zur Online-Ansicht verwendet.</source>
+        <target>Wählen Sie hier eine Seite aus, auf der die Mailing angezeigt werden soll. Wird keine Seite ausgewählt, wird die in der Kategorie hinterlegte Seite zur Online-Ansicht verwendet.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_template_unsubscribe.0">
+        <source>Form-Template</source>
+        <target>Form-Template</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_template_unsubscribe.1">
+        <source>Wählen Sie hier das Template für das Abmelden-Formular aus.</source>
+        <target>Wählen Sie hier das Template für das Abmelden-Formular aus.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscription_legend">
+        <source>Abonnement</source>
+        <target>Abonnement</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_mail_legend">
+        <source>Mail Einstellungen</source>
+        <target>Mail Einstellungen</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_notification_legend">
+        <source>Erinnerung</source>
+        <target>Erinnerung</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_cleanup_legend">
+        <source>Aufräumen</source>
+        <target>Aufräumen</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_reader_legend">
+        <source>Mailing-Leser</source>
+        <target>Mailing-Leser</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_list_legend">
+        <source>Mailing-Liste</source>
+        <target>Mailing-Liste</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_activate_confirmation_page.0">
+        <source>Activation confirmation page</source>
+        <target>Aktivierungsseite</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_subscribe_activate_confirmation_page.1">
+        <source>Please choose the activated confirmation page. If you not use a separate activation page, the user will redirected to this page, after clicking on the activation link.</source>
+        <target>Bitte wählen Sie die Seite aus auf der die Aktivierung bestätigt wird. Falls Sie keine separate Aktivierungsseite benutzen wird der benutzer zu dieser Seite geleitet nachdem er auf den Aktivierungslink geklickt hat.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_activation_redirect_page.0">
+        <source>Redirect page</source>
+        <target>Weiterleitungsseite</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_activation_redirect_page.1">
+        <source>Please choose the redirect page. The user will be redirected to this page, if he call the page without a valid subscription token.</source>
+        <target>Bitte wählen Sie die Weiterleitungsseite aus. Dorthin wird ein Benutzer weitergeieitet wenn er die Seite ohne gültiges Token aufruft.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_activation_confirmation_page.0">
+        <source>Confirmation page</source>
+        <target>Bestätigungsseite</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_module.avisota_activation_confirmation_page.1">
+        <source>Please choose the confirmation page. The user will redirected to this page, after clicking on the activation link.</source>
+        <target>Bitte wählen Sie die Bestätigungsseite aus. Dorthin wird ein Benutzer weitergeieitet nachdem er auf den Aktivierungslink geklickt hat.</target>
+        
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,126 @@
+<?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file datatype="php" date="2014-03-11T12:05:32+01:00" original="orm_avisota_recipient_subscription" source-language="en" target-language="de">
+    <body>
+      <trans-unit id="orm_avisota_recipient_subscription.createdAt.0">
+        <source>Created at</source>
+        <target>Erstellt am</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.updatedAt.0">
+        <source>Last modified at</source>
+        <target>Zuletzt bearbeitet am</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.recipient.0">
+        <source>Recipient</source>
+        <target>Empfänger</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.list.0">
+        <source>Subscribed list</source>
+        <target>Abonnierte Liste</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.list.1">
+        <source>Please select the subscribed list.</source>
+        <target>Bitte wählen Sie das Abonnement aus</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.confirmationSent.0">
+        <source>Confirmation sent at</source>
+        <target>Bestätigung gesendet am</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.reminderSent.0">
+        <source>Reminder sent at</source>
+        <target>Erinnerung gesendet am</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.reminderCount.0">
+        <source>Reminders send</source>
+        <target>Erinnerung gesendet</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.confirmed.0">
+        <source>Confirmed</source>
+        <target>Bestätigt</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.confirmed.1">
+        <source>This subscription has been confirmed.</source>
+        <target>Dieses Abonnement wurde bestätigt.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.confirmedAt.0">
+        <source>Confirmed at</source>
+        <target>Bestätigt am</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.token.0">
+        <source>Subscription token</source>
+        <target>Abonnements-Token</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.subscription_legend">
+        <source>Subscription</source>
+        <target>Abonnement</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.status_legend">
+        <source>Status</source>
+        <target>Status</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.subscription_list.global">
+        <source>global subscription</source>
+        <target>Globales Abonement</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.subscription_list.mailing_list">
+        <source>Mailing lists</source>
+        <target>Mailinglisten</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.new.0">
+        <source>New subscription</source>
+        <target>Neues Abonnement</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.new.1">
+        <source>Add a new subscription</source>
+        <target>Fügen Sie ein neues Abonnement hinzu.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.show.0">
+        <source>Subscription details</source>
+        <target>Abonnementsdetails</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.show.1">
+        <source>Show the details of subscription ID %s</source>
+        <target>Zeigen Sie die Details des Abonnements %s an.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.delete.0">
+        <source>Delete subscription</source>
+        <target>Abonnement löschen</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.delete.1">
+        <source>Delete subscription ID %s</source>
+        <target>Abonnement ID %s löschen.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.edit.0">
+        <source>Edit subscription</source>
+        <target>Abonnement bearbeiten</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.edit.1">
+        <source>Edit subscription ID %s</source>
+        <target>Bearbeiten Sie das Abonnement ID %s.</target>
+        
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
