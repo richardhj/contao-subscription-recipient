@@ -1,0 +1,21 @@
+<?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file datatype="php" date="2014-05-06T04:02:33+02:00" original="tl_avisota_settings" source-language="en" target-language="it">
+    <body>
+      <trans-unit id="tl_avisota_settings.avisota_subscription_recipient_cleanup.0">
+        <source>Clean recipients</source>
+        <target>Pulisci destinatari</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_avisota_settings.avisota_subscription_recipient_cleanup.1">
+        <source>When a recipient remove all its subscriptions, remove him too.</source>
+        <target>Quando un destinatario rimuove tutte le sue sottoscrizioni, rimuovilo.</target>
+        
+      </trans-unit>
+      <trans-unit id="tl_avisota_settings.subscription_recipient_legend">
+        <source>Recipients</source>
+        <target>Destinatari</target>
+        
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

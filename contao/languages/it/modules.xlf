@@ -1,0 +1,36 @@
+<?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file datatype="php" date="2014-05-06T04:02:33+02:00" original="modules" source-language="en" target-language="it">
+    <body>
+      <trans-unit id="MOD.avisota-subscription-recipient.0">
+        <source>Avisota - Subscription for recipients</source>
+        <target>Avisota - Sottoscrizione per destinatari</target>
+        
+      </trans-unit>
+      <trans-unit id="MOD.avisota-subscription-recipient.1">
+        <source>Recipient management and subscription for Avisota.</source>
+        <target>Gestione destinari e sottoscrizioni per Avisota.</target>
+        
+      </trans-unit>
+      <trans-unit id="FMD.avisota_subscribe.0">
+        <source>Recipients - Subscribe</source>
+        <target>Destinatari - Sottoscrivi</target>
+        
+      </trans-unit>
+      <trans-unit id="FMD.avisota_unsubscribe.0">
+        <source>Recipients - Unsubscribe</source>
+        <target>Destinatari - Non sottoscritti</target>
+        
+      </trans-unit>
+      <trans-unit id="FMD.avisota_subscription.0">
+        <source>Recipients - Manage subscription</source>
+        <target>Destinatari - Gestisci sottoscrizione</target>
+        
+      </trans-unit>
+      <trans-unit id="FMD.avisota_activation.0">
+        <source>Recipients - Activation</source>
+        <target>Destinatari - Attivazione</target>
+        
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

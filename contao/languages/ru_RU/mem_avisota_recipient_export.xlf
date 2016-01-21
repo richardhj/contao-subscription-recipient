@@ -1,0 +1,70 @@
+<?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file datatype="php" date="2014-05-06T04:02:33+02:00" original="mem_avisota_recipient_export" source-language="en" target-language="ru-RU">
+    <body>
+      <trans-unit id="mem_avisota_recipient_export.columns.0">
+        <source>Columns assignment</source>
+
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_export.columns.1">
+        <source>Please chose which fields should be exported.</source>
+
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_export.delimiter.0">
+        <source>Delimiter</source>
+
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_export.delimiter.1">
+        <source>Please choose the CSV delimiter.</source>
+
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_export.delimiters.comma">
+        <source>Comma</source>
+
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_export.delimiters.semicolon">
+        <source>Semicolon</source>
+
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_export.delimiters.separator">
+        <source>Separator</source>
+
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_export.delimiters.space">
+        <source>Space</source>
+
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_export.delimiters.tabulator">
+        <source>Tabulator</source>
+
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_export.delimiters.linebreak">
+        <source>Line break</source>
+
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_export.enclosure.0">
+        <source>Enclosure</source>
+
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_export.enclosure.1">
+        <source>Please choose the CSV enclosure.</source>
+
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_export.enclosures.double">
+        <source>Double quote</source>
+
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_export.enclosures.single">
+        <source>Single quote</source>
+
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_export.export_legend">
+        <source>Export settings</source>
+
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_export.submit">
+        <source>Export</source>
+
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

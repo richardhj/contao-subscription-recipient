@@ -1,0 +1,126 @@
+<?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file datatype="php" date="2014-05-06T04:02:33+02:00" original="orm_avisota_recipient_subscription" source-language="en" target-language="rm">
+    <body>
+      <trans-unit id="orm_avisota_recipient_subscription.createdAt.0">
+        <source>Created at</source>
+        <target>Creà las</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.updatedAt.0">
+        <source>Last modified at</source>
+        <target>Ultima modificaziun las</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.recipient.0">
+        <source>Recipient</source>
+        <target>Destinatur</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.list.0">
+        <source>Subscribed list</source>
+        <target>Glista abunada</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.list.1">
+        <source>Please select the subscribed list.</source>
+        <target>Tscherna la glista abunada.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.confirmationSent.0">
+        <source>Confirmation sent at</source>
+        <target>Confermaziun tramess ils</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.reminderSent.0">
+        <source>Reminder sent at</source>
+        <target>Regurdanza tramess ils</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.reminderCount.0">
+        <source>Reminders send</source>
+        <target>Tramess regurdanzas</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.confirmed.0">
+        <source>Confirmed</source>
+        <target>Confermà</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.confirmed.1">
+        <source>This subscription has been confirmed.</source>
+        <target>Quest abunament è vegnì confermà.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.confirmedAt.0">
+        <source>Confirmed at</source>
+        <target>Confermà las</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.token.0">
+        <source>Subscription token</source>
+        <target>Token d'abunar</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.subscription_legend">
+        <source>Subscription</source>
+        <target>Abunament</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.status_legend">
+        <source>Status</source>
+        <target>Status</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.subscription_list.global">
+        <source>global subscription</source>
+        <target>abunament global</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.subscription_list.mailing_list">
+        <source>Mailing lists</source>
+        <target>Glistas da mail</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.new.0">
+        <source>New subscription</source>
+        <target>Nov abunament</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.new.1">
+        <source>Add a new subscription</source>
+        <target>Agiuntar in nov abunament</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.show.0">
+        <source>Subscription details</source>
+        <target>Detagls da l'abunament</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.show.1">
+        <source>Show the details of subscription ID %s</source>
+        <target>Mussar ils detagls da l'abunament cun l'ID %s</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.delete.0">
+        <source>Delete subscription</source>
+        <target>Stizzar l'abunament</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.delete.1">
+        <source>Delete subscription ID %s</source>
+        <target>Stizzar l'abunament cun l'ID %s</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.edit.0">
+        <source>Edit subscription</source>
+        <target>Modifitgar l'abunament</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.edit.1">
+        <source>Edit subscription ID %s</source>
+        <target>Modifitgar l'abunament cun l'ID %s</target>
+        
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

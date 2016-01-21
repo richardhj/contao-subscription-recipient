@@ -1,0 +1,102 @@
+<?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file datatype="php" date="2014-05-06T04:02:33+02:00" original="orm_avisota_recipient_subscription" source-language="en" target-language="pl">
+    <body>
+      <trans-unit id="orm_avisota_recipient_subscription.createdAt.0">
+        <source>Created at</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.updatedAt.0">
+        <source>Last modified at</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.recipient.0">
+        <source>Recipient</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.list.0">
+        <source>Subscribed list</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.list.1">
+        <source>Please select the subscribed list.</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.confirmationSent.0">
+        <source>Confirmation sent at</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.reminderSent.0">
+        <source>Reminder sent at</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.reminderCount.0">
+        <source>Reminders send</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.confirmed.0">
+        <source>Confirmed</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.confirmed.1">
+        <source>This subscription has been confirmed.</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.confirmedAt.0">
+        <source>Confirmed at</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.token.0">
+        <source>Subscription token</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.subscription_legend">
+        <source>Subscription</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.status_legend">
+        <source>Status</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.subscription_list.global">
+        <source>global subscription</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.subscription_list.mailing_list">
+        <source>Mailing lists</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.new.0">
+        <source>New subscription</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.new.1">
+        <source>Add a new subscription</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.show.0">
+        <source>Subscription details</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.show.1">
+        <source>Show the details of subscription ID %s</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.delete.0">
+        <source>Delete subscription</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.delete.1">
+        <source>Delete subscription ID %s</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.edit.0">
+        <source>Edit subscription</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_subscription.edit.1">
+        <source>Edit subscription ID %s</source>
+        
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

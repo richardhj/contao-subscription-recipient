@@ -1,0 +1,114 @@
+<?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file datatype="php" date="2014-07-04T04:00:44+02:00" original="orm_avisota_recipient_source" source-language="en" target-language="en">
+    <body>
+      <trans-unit id="orm_avisota_recipient_source.recipients.0">
+        <source>Integrated Recipients</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipients.1">
+        <source>Use the integrated recipient management.</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsManageSubscriptionPage.0">
+        <source>Subscription management page</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsManageSubscriptionPage.1">
+        <source>Please choose the subscription management page.</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsDetails.0">
+        <source>Fetch details from&amp;hellip;</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsDetails.1">
+        <source>Please choose where the details should be fetched from.</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsUsePropertyFilter.0">
+        <source>Filter by properties</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsUsePropertyFilter.1">
+        <source>Filter recipients by properties and values.</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter.0">
+        <source>Properties filter</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter.1">
+        <source>Filter the recipients by property values.</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_property.0">
+        <source>Column</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparator.0">
+        <source>Comparator</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_value.0">
+        <source>Value</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparators.empty">
+        <source>is empty</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparators.not_empty">
+        <source>is not empty</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparators.eq">
+        <source>==</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparators.neq">
+        <source>!=</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparators.gt">
+        <source>&gt;</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparators.gte">
+        <source>&gt;=</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparators.lt">
+        <source>&lt;</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparators.lte">
+        <source>&lt;=</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsUnsubscribePage.0">
+        <source>Unsubscribe page</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsUnsubscribePage.1">
+        <source>Please choose the page for direct unsubscription.</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipients_legend">
+        <source>Recipient settings</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsDetailsTypes.recipients_details">
+        <source>only provided details</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsDetailsTypes.member_details">
+        <source>only member details</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsDetailsTypes.recipients_member_details">
+        <source>mix provided with member details</source>
+        
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

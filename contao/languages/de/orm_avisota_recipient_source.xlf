@@ -1,0 +1,141 @@
+<?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file datatype="php" date="2014-07-04T04:00:44+02:00" original="orm_avisota_recipient_source" source-language="en" target-language="de">
+    <body>
+      <trans-unit id="orm_avisota_recipient_source.recipients.0">
+        <source>Integrated Recipients</source>
+        <target>Integrierte Empfänger</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipients.1">
+        <source>Use the integrated recipient management.</source>
+        <target>Das in Avisota integrierte Empfängermanagement benutzen.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsManageSubscriptionPage.0">
+        <source>Subscription management page</source>
+        <target>Verwaltungsseite</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsManageSubscriptionPage.1">
+        <source>Please choose the subscription management page.</source>
+        <target>Bitte wählen Sie die Seite aus, auf der das Abonnement verwalten wird.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsDetails.0">
+        <source>Fetch details from&amp;hellip;</source>
+        <target>Details zusammenführen aus &amp;hellip;</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsDetails.1">
+        <source>Please choose where the details should be fetched from.</source>
+        <target>Bitte wählen Sie aus, von woher die Details zusammengeführt werden sollen.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsUsePropertyFilter.0">
+        <source>Filter by properties</source>
+        <target>Nach Eigenschaft Filtern</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsUsePropertyFilter.1">
+        <source>Filter recipients by properties and values.</source>
+        <target>Abonnenten nach Eigenschaften filtern.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter.0">
+        <source>Properties filter</source>
+        <target>Eigenschaften-Filter</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter.1">
+        <source>Filter the recipients by property values.</source>
+        <target>Abonnenten nach Eigenschaften filtern.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_property.0">
+        <source>Column</source>
+        <target>Spalte</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparator.0">
+        <source>Comparator</source>
+        <target>Vergleichsoperand</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_value.0">
+        <source>Value</source>
+        <target>Wert</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparators.empty">
+        <source>is empty</source>
+        <target>Ist leer</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparators.not_empty">
+        <source>is not empty</source>
+        <target>Ist nicht leer</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparators.eq">
+        <source>==</source>
+        <target>==</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparators.neq">
+        <source>!=</source>
+        <target>!=</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparators.gt">
+        <source>&gt;</source>
+        <target>&gt;</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparators.gte">
+        <source>&gt;=</source>
+        <target>&gt;=</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparators.lt">
+        <source>&lt;</source>
+        <target>&lt;</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsPropertyFilter_comparators.lte">
+        <source>&lt;=</source>
+        <target>&lt;=</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsUnsubscribePage.0">
+        <source>Unsubscribe page</source>
+        <target>Abmeldeseite</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsUnsubscribePage.1">
+        <source>Please choose the page for direct unsubscription.</source>
+        <target>Bitte wählen Sie die Seite aus, die für direkte Abbestellungen benutzt werden soll.</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipients_legend">
+        <source>Recipient settings</source>
+        <target>Empfängereinstellungen</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsDetailsTypes.recipients_details">
+        <source>only provided details</source>
+        <target>Nur eingegebene Details</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsDetailsTypes.member_details">
+        <source>only member details</source>
+        <target>Nur Mitgliederdetails</target>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_recipient_source.recipientsDetailsTypes.recipients_member_details">
+        <source>mix provided with member details</source>
+        <target>Eingegebene mit Mitgliederdetails mischen</target>
+        
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
