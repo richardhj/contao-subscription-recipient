@@ -4,77 +4,82 @@
       <trans-unit id="mem_avisota_recipient_export.columns.0">
         <source>Columns assignment</source>
         <target>Spaltenzuordnung</target>
-        
+
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_export.columns.1">
         <source>Please chose which fields should be exported.</source>
         <target>Bitte wählen Sie aus welche Felder exportiert werden sollen.</target>
-        
+
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_export.delimiter.0">
         <source>Delimiter</source>
         <target>Begrenzer</target>
-        
+
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_export.delimiter.1">
         <source>Please choose the CSV delimiter.</source>
         <target>Bitte wählen Sie aus, welches Zeichen die Felder in der CSV-Datei begrenzt.</target>
-        
+
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_export.delimiters.comma">
         <source>Comma</source>
         <target>Komma</target>
-        
+
+      </trans-unit>
+      <trans-unit id="mem_avisota_recipient_export.delimiters.semicolon">
+        <source>Semicolon</source>
+        <target>Semikolon</target>
+
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_export.delimiters.separator">
         <source>Separator</source>
         <target>Trennelement</target>
-        
+
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_export.delimiters.space">
         <source>Space</source>
         <target>Leerzeichen</target>
-        
+
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_export.delimiters.tabulator">
         <source>Tabulator</source>
         <target>Tabulator</target>
-        
+
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_export.delimiters.linebreak">
         <source>Line break</source>
         <target>Zeilenumbruch</target>
-        
+
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_export.enclosure.0">
         <source>Enclosure</source>
         <target>Anlage</target>
-        
+
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_export.enclosure.1">
         <source>Please choose the CSV enclosure.</source>
         <target>Bitte wählen Sie die CSV-Anlage aus.</target>
-        
+
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_export.enclosures.double">
         <source>Double quote</source>
         <target>Doppeltes Hochkomma</target>
-        
+
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_export.enclosures.single">
         <source>Single quote</source>
         <target>Hochkomma</target>
-        
+
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_export.export_legend">
         <source>Export settings</source>
         <target>Exporteinstellungen</target>
-        
+
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_export.submit">
         <source>Export</source>
         <target>Export</target>
-        
+
       </trans-unit>
     </body>
   </file>
