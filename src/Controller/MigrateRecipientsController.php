@@ -116,7 +116,7 @@ class MigrateRecipientsController implements EventSubscriberInterface
 
         $eventDispatcher = $container['event-dispatcher'];
 
-        if (empty(\Session::getInstance()->get($migrationId))) {
+        if (!\Session::getInstance()->get($migrationId)) {
             $addToUrlEvent = new AddToUrlEvent('act=&migration=');
             $eventDispatcher->dispatch(ContaoEvents::BACKEND_ADD_TO_URL, $addToUrlEvent);
 
