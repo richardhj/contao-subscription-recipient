@@ -21,7 +21,7 @@ global $TL_DCA,
 $configOnloadCallback = array(
     array(
         'Avisota\Contao\SubscriptionRecipient\DataContainer\Module',
-        'onload_callback'
+        'onLoadCallback'
     ),
 );
 
