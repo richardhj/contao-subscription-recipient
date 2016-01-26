@@ -35,6 +35,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * Class MigrateRecipientsController
  *
  * @package Avisota\Contao\SubscriptionRecipient\Controller
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class MigrateRecipientsController implements EventSubscriberInterface
 {
