@@ -57,15 +57,3 @@ $GLOBALS['FE_MOD']['avisota']['avisota_subscribe']   = 'Avisota\Contao\Subscript
 $GLOBALS['FE_MOD']['avisota']['avisota_activation']  = 'Avisota\Contao\SubscriptionRecipient\Module\Activation';
 $GLOBALS['FE_MOD']['avisota']['avisota_unsubscribe'] = 'Avisota\Contao\SubscriptionRecipient\Module\Unsubscribe';
 // $GLOBALS['FE_MOD']['avisota']['avisota_subscription'] = 'Avisota\Contao\SubscriptionRecipient\Module\Subscription';
-
-/**
- * Events
- */
-$GLOBALS['TL_EVENTS']['avisota/recipient.migrate-recipient'][] = array(
-    'Avisota\Contao\SubscriptionRecipient\Recipient\Migrate',
-    'collectPersonalsFromMembers'
-);
-$GLOBALS['TL_EVENTS']['avisota/subscription.collect-lists'][]  = array(
-    'Avisota\Contao\SubscriptionRecipient\Recipient\Subscription',
-    'collectSubscriptionLists'
-);
