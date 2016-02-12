@@ -3,10 +3,12 @@
     <body>
       <trans-unit id="mem_avisota_recipient_migrate.channels.0">
         <source>Channels</source>
+        <target>Canais</target>
         
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_migrate.channels.1">
         <source>Please choose the channels and the target mailing lists.</source>
+        <target>Por favor, escolha os canais e as listas de discussão do alvo.</target>
         
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_migrate.channels_channel.0">
@@ -51,6 +53,7 @@
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_migrate.created">
         <source>%s created</source>
+        <target>%s criado</target>
         
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_migrate.skipped">

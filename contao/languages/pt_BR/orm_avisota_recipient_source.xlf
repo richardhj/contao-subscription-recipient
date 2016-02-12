@@ -3,6 +3,7 @@
     <body>
       <trans-unit id="orm_avisota_recipient_source.recipients.0">
         <source>Integrated Recipients</source>
+        <target>Destinatários integrados</target>
         
       </trans-unit>
       <trans-unit id="orm_avisota_recipient_source.recipients.1">
@@ -11,6 +12,7 @@
       </trans-unit>
       <trans-unit id="orm_avisota_recipient_source.recipientsManageSubscriptionPage.0">
         <source>Subscription management page</source>
+        <target>Página de gestão de subscrição</target>
         
       </trans-unit>
       <trans-unit id="orm_avisota_recipient_source.recipientsManageSubscriptionPage.1">

@@ -3,10 +3,12 @@
     <body>
       <trans-unit id="MOD.avisota-subscription-recipient.0">
         <source>Avisota - Subscription for recipients</source>
+        <target>Avisota - Assinatura para destinatários</target>
         
       </trans-unit>
       <trans-unit id="MOD.avisota-subscription-recipient.1">
         <source>Recipient management and subscription for Avisota.</source>
+        <target>Gerenciamento de destinatário e assinatura para Avisota.</target>
         
       </trans-unit>
       <trans-unit id="FMD.avisota_subscribe.0">

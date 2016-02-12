@@ -3,10 +3,12 @@
     <body>
       <trans-unit id="orm_avisota_recipient_subscription.createdAt.0">
         <source>Created at</source>
+        <target>Criado em</target>
         
       </trans-unit>
       <trans-unit id="orm_avisota_recipient_subscription.updatedAt.0">
         <source>Last modified at</source>
+        <target>Última modificação em</target>
         
       </trans-unit>
       <trans-unit id="orm_avisota_recipient_subscription.recipient.0">
@@ -59,6 +61,7 @@
       </trans-unit>
       <trans-unit id="orm_avisota_recipient_subscription.subscription_list.global">
         <source>global subscription</source>
+        <target>assinatura global</target>
         
       </trans-unit>
       <trans-unit id="orm_avisota_recipient_subscription.subscription_list.mailing_list">

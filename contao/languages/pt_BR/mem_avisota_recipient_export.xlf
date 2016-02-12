@@ -3,6 +3,7 @@
     <body>
       <trans-unit id="mem_avisota_recipient_export.columns.0">
         <source>Columns assignment</source>
+        <target>Atribuição de colunas</target>
 
       </trans-unit>
       <trans-unit id="mem_avisota_recipient_export.columns.1">

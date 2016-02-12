@@ -3,14 +3,17 @@
     <body>
       <trans-unit id="orm_avisota_recipient.id.0">
         <source>ID</source>
+        <target>ID</target>
         
       </trans-unit>
       <trans-unit id="orm_avisota_recipient.createdAt.0">
         <source>Created at</source>
+        <target>Criado em</target>
         
       </trans-unit>
       <trans-unit id="orm_avisota_recipient.updatedAt.0">
         <source>Last modified at</source>
+        <target>Última modificação em</target>
         
       </trans-unit>
       <trans-unit id="orm_avisota_recipient.email.0">
@@ -23,6 +26,7 @@
       </trans-unit>
       <trans-unit id="orm_avisota_recipient.title.0">
         <source>Title</source>
+        <target>Título</target>
         
       </trans-unit>
       <trans-unit id="orm_avisota_recipient.title.1">
