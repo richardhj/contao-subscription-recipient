@@ -29,12 +29,12 @@
     },
     "require": {
         "php": ">=5.4",
-        "contao-community-alliance/composer-plugin": "~2.4",
         "contao/core": ">=3.5,<3.6",
-        "avisota/contao-core": "3.0.x-dev",
-        "avisota/contao-subscription": "3.0.x-dev",
+        "contao-community-alliance/composer-plugin": "~2.4",
         "menatwork/contao-multicolumnwizard": "~3.3",
-        "codefog/contao-haste": "~4.11"
+        "codefog/contao-haste": "~4.11",
+        "avisota/contao-core": "3.0.x-dev",
+        "avisota/contao-subscription": "3.0.x-dev"
     },
     "require-dev": {
         "phpcq/all-tasks": "~1.1"
