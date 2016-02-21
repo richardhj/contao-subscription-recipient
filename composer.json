@@ -33,8 +33,8 @@
         "contao-community-alliance/composer-plugin": "~2.4",
         "menatwork/contao-multicolumnwizard": "~3.3",
         "codefog/contao-haste": "~4.11",
-        "avisota/contao-core": "3.0.x-dev",
-        "avisota/contao-subscription": "3.0.x-dev"
+        "avisota/contao-core": "~3.0",
+        "avisota/contao-subscription": "~3.0"
     },
     "require-dev": {
         "phpcq/all-tasks": "~1.1"
