@@ -3,10 +3,12 @@
     <body>
       <trans-unit id="tl_module.avisota_mailing_lists.0">
         <source>Selected/Selectable mailing lists</source>
+        <target>Listas de mailing selecionado/selecionável</target>
         
       </trans-unit>
       <trans-unit id="tl_module.avisota_mailing_lists.1">
         <source>Please choose the mailing lists, that will be subscribed or shown if the mailing lists input field is visible.</source>
+        <target>Por favor, escolha as listas de discussão, que será subscrito ou indicadas se o campo de entrada de listas de discussão é visível.</target>
         
       </trans-unit>
       <trans-unit id="tl_module.avisota_recipient_fields.0">

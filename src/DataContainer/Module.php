@@ -53,16 +53,6 @@ class Module
         return $recipientFields;
     }
 
-
-    /**
-     * @deprecated use onLoadCallback instead this method
-     */
-    public function onload_callback()
-    {
-        //TODO from who come this?
-        static::onLoadCallback();
-    }
-
     public function onLoadCallback()
     {
         MetaPalettes::appendFields('tl_module', 'registration', 'config', array('avisota_selectable_lists'));

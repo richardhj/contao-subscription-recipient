@@ -65,6 +65,8 @@ class AutoCompleterController implements EventSubscriberInterface
      * @param null                          $eventName
      * @param EventDispatcherInterface|null $eventDispatcher
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function injectAutocompleter(
         ActionEvent $event,

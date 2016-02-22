@@ -38,6 +38,7 @@ class RecipientExportDataProvider extends NoOpDataProvider
      * @param ModelInterface $objItem
      *
      * @return ModelInterface|void
+     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     public function save(ModelInterface $objItem)
     {

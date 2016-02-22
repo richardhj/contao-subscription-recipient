@@ -31,6 +31,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class Subscribe
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Subscribe extends AbstractRecipientForm
 {

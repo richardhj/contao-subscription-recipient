@@ -3,10 +3,12 @@
     <body>
       <trans-unit id="tl_avisota_settings.avisota_subscription_recipient_cleanup.0">
         <source>Clean recipients</source>
+        <target>Limpeza de destinatários</target>
         
       </trans-unit>
       <trans-unit id="tl_avisota_settings.avisota_subscription_recipient_cleanup.1">
         <source>When a recipient remove all its subscriptions, remove him too.</source>
+        <target>Quando um destinatário remover todas as suas assinaturas, removê-lo também.</target>
         
       </trans-unit>
       <trans-unit id="tl_avisota_settings.subscription_recipient_legend">

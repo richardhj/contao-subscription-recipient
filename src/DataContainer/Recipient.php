@@ -38,6 +38,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * Class Recipient
  *
  * @package Avisota\Contao\SubscriptionRecipient\DataContainer
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Recipient implements EventSubscriberInterface
 {
@@ -529,6 +531,7 @@ class Recipient implements EventSubscriberInterface
      * @param Subscription|null $subscription
      *
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function getSubscribeActionLinks(
         RecipientEntity $recipient,

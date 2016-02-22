@@ -28,13 +28,13 @@
         "source": "https://github.com/avisota/contao-subscription-recipient"
     },
     "require": {
-        "php": ">=5.3",
-        "contao-community-alliance/composer-plugin": "~2.3",
-        "contao/core": ">=2.11.11,<3.6",
-        "avisota/contao-core": "3.0.x-dev",
-        "avisota/contao-subscription": "3.0.x-dev",
+        "php": ">=5.4",
+        "contao/core": ">=3.5,<3.6",
+        "contao-community-alliance/composer-plugin": "~2.4",
         "menatwork/contao-multicolumnwizard": "~3.3",
-        "codefog/contao-haste": "~4.7"
+        "codefog/contao-haste": "~4.11",
+        "avisota/contao-core": "~3.0",
+        "avisota/contao-subscription": "~3.0"
     },
     "require-dev": {
         "phpcq/all-tasks": "~1.1"
@@ -45,6 +45,14 @@
         "psr-4": {
             "Avisota\\Contao\\SubscriptionRecipient\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Avisota\\Test\\Contao\\SubscriptionRecipient\\": "tests/Test/"
+        },
+        "files": [
+            "vendor/phpcq/autoload-validation/hacks/contao-hack.php"
+        ]
     },
     "extra": {
         "contao": {
