@@ -20,6 +20,7 @@ use Avisota\Contao\Entity\Recipient;
 use Avisota\Contao\Subscription\SubscriptionManager;
 use Avisota\Contao\SubscriptionRecipient\Event\MigrateRecipientEvent;
 use Avisota\Contao\SubscriptionRecipient\RecipientEvents;
+use Bit3\StringBuilder\StringBuilder;
 use Contao\Doctrine\ORM\EntityHelper;
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Backend\AddToUrlEvent;
@@ -231,7 +232,7 @@ class MigrateRecipientsController implements EventSubscriberInterface
         }
 
         $user     = \BackendUser::getInstance();
-        $response = new \StringBuilder();
+        $response = new StringBuilder();
         $this->addHeaderContent($response, $translator);
 
         $contaoRecipients = $statement->fetchAll();
@@ -300,7 +301,7 @@ class MigrateRecipientsController implements EventSubscriberInterface
      */
     protected function addCreateRecipientInformation(&$response, $contaoRecipientData, $translator)
     {
-        /** @var \StringBuilder $response */
+        /** @var StringBuilder $response */
         $response->append('<li>');
         $response->append(
             sprintf(
@@ -334,7 +335,7 @@ class MigrateRecipientsController implements EventSubscriberInterface
      */
     protected function addHeaderContent(&$response, $translator)
     {
-        /** @var \StringBuilder $response */
+        /** @var StringBuilder $response */
         $response->append('<div class="tl_buttons">&nbsp;</div>');
         $response->append('<h2 class="sub_headline">');
         $response->append(
@@ -350,7 +351,7 @@ class MigrateRecipientsController implements EventSubscriberInterface
      */
     protected function addReloadScriptAndButton(&$response, $translator)
     {
-        /** @var \StringBuilder $response */
+        /** @var StringBuilder $response */
         $response->append('</ul><br>');
         $response->append(
             '<script>'
