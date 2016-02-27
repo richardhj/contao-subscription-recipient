@@ -13,9 +13,6 @@
  * @filesource
  */
 
-use \ContaoCommunityAlliance\DcGeneral\DataDefinition;
-use \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property;
-
 global $TL_DCA;
 
 /**
@@ -33,29 +30,29 @@ $metaPalettes = array(
             'recipientsUsePropertyFilter',
             function (
                 $legendName,
-                DataDefinition\Palette\Legend $legend,
-                DataDefinition\Palette\Palette $palette,
-                DataDefinition\Definition\PalettesDefinitionInterface $palettesDefinition
+                \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Legend $legend,
+                \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Palette $palette,
+                \ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\PalettesDefinitionInterface $palettesDefinition
             ) {
                 $filterByMailingListsProperty = $legend->getProperty('filterByMailingLists');
                 $visibleCondition             = $filterByMailingListsProperty->getVisibleCondition();
 
-                $typeCondition   = new Property\PropertyValueCondition('type', 'recipients');
-                $filterCondition = new Property\PropertyTrueCondition('filter');
+                $typeCondition   = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyValueCondition('type', 'recipients');
+                $filterCondition = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyTrueCondition('filter');
 
-                /** @var Property\PropertyConditionInterface|Property\PropertyConditionChain $visibleCondition */
+                /** @var \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionInterface|\ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain $visibleCondition */
                 if (!$visibleCondition
-                    || !$visibleCondition instanceof Property\PropertyConditionChain
-                    || $visibleCondition->getConjunction() != Property\PropertyConditionChain::OR_CONJUNCTION
+                    || !$visibleCondition instanceof \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain
+                    || $visibleCondition->getConjunction() != \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain::OR_CONJUNCTION
                 ) {
-                    $visibleCondition = new Property\PropertyConditionChain(
+                    $visibleCondition = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain(
                         $visibleCondition ? array($visibleCondition) : array(),
-                        Property\PropertyConditionChain::OR_CONJUNCTION
+                        \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain::OR_CONJUNCTION
                     );
                 }
 
                 $visibleCondition->addCondition(
-                    new Property\PropertyConditionChain(
+                    new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain(
                         array($typeCondition, $filterCondition)
                     )
                 );
@@ -64,22 +61,22 @@ $metaPalettes = array(
             },
             function (
                 $legendName,
-                DataDefinition\Palette\Legend $legend,
-                DataDefinition\Palette\Palette $palette,
-                DataDefinition\Definition\PalettesDefinitionInterface $palettesDefinition
+                \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Legend $legend,
+                \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Palette $palette,
+                \ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\PalettesDefinitionInterface $palettesDefinition
             ) {
                 $recipientsUsePropertyFilterProperty = $legend->getProperty('recipientsUsePropertyFilter');
                 $visibleCondition                    = $recipientsUsePropertyFilterProperty->getVisibleCondition();
 
-                $typeCondition   = new Property\PropertyValueCondition('type', 'recipients');
-                $filterCondition = new Property\PropertyTrueCondition('filter');
+                $typeCondition   = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyValueCondition('type', 'recipients');
+                $filterCondition = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyTrueCondition('filter');
 
-                /** @var Property\PropertyConditionInterface|Property\PropertyConditionChain $visibleCondition */
+                /** @var \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionInterface|\ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain $visibleCondition */
                 if (!$visibleCondition
-                    || !$visibleCondition instanceof Property\PropertyConditionChain
-                    || $visibleCondition->getConjunction() != Property\PropertyConditionChain::AND_CONJUNCTION
+                    || !$visibleCondition instanceof \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain
+                    || $visibleCondition->getConjunction() != \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain::AND_CONJUNCTION
                 ) {
-                    $visibleCondition = new Property\PropertyConditionChain(
+                    $visibleCondition = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain(
                         $visibleCondition ? array($visibleCondition) : array()
                     );
                 }
