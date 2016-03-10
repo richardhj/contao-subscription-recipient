@@ -378,12 +378,14 @@ class MigrateRecipientsController implements EventSubscriberInterface
      * @param $offset
      * @param $skipped
      * @param $migrated
+     * @param $channels
      */
-    protected function updateRedirectSession($migrationId, $offset, $skipped, $migrated)
+    protected function updateRedirectSession($migrationId, $offset, $skipped, $migrated, $channels)
     {
         $migrationSettings['offset']   = $offset;
         $migrationSettings['skipped']  = $skipped;
         $migrationSettings['migrated'] = $migrated;
+        $migrationSettings['channels'] = $channels;
         \Session::getInstance()->set($migrationId, $migrationSettings);
     }
 
