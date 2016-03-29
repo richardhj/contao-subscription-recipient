@@ -208,6 +208,9 @@ class MigrateRecipientsController implements EventSubscriberInterface
      * @return null|string
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      * @SuppressWarnings(PHPMD.LongVariable)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function generateResponse(EnvironmentInterface $environment, $migrationSettings, $migrationId)
     {
