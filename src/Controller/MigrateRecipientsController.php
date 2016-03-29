@@ -237,7 +237,10 @@ class MigrateRecipientsController implements EventSubscriberInterface
         $this->addHeaderContent($response, $translator);
 
         $contaoRecipients          = $statement->fetchAll();
-        $lastNewMigrationRecipient = (array) \Session::getInstance()->get('AVISOTA_LAST_MIGRATION_RECIPIENT' . $input->getParameter('migration'));
+        $lastNewMigrationRecipient =
+            (array) \Session::getInstance()->get(
+                'AVISOTA_LAST_MIGRATION_RECIPIENT' . $input->getParameter('migration')
+            );
         foreach ($contaoRecipients as $contaoRecipientData) {
             $recipient = $recipientRepository->findOneBy(array('email' => $contaoRecipientData['email']));
             if ($recipient
@@ -256,7 +259,6 @@ class MigrateRecipientsController implements EventSubscriberInterface
                 $recipient->setAddedByUsername($user->username);
             } else {
                 if (!$migrationSettings['overwrite']) {
-
                     $skipped++;
                     continue;
                 } else {
@@ -293,7 +295,10 @@ class MigrateRecipientsController implements EventSubscriberInterface
         $entityManager->flush();
 
         if (count($contaoRecipients) < 10) {
-            \Session::getInstance()->set('AVISOTA_LAST_MIGRATION_RECIPIENT' . $input->getParameter('migration'), array());
+            \Session::getInstance()->set(
+                'AVISOTA_LAST_MIGRATION_RECIPIENT' . $input->getParameter('migration'),
+                array()
+            );
             $this->migrationFinished($migrationId, $migrated, $skipped);
 
             return null;
@@ -301,7 +306,10 @@ class MigrateRecipientsController implements EventSubscriberInterface
             $offset += count($contaoRecipients);
             $this->updateRedirectSession($migrationId, $offset, $skipped, $migrated, $migrationSettings['channels']);
             $this->addReloadScriptAndButton($response, $translator);
-            \Session::getInstance()->set('AVISOTA_LAST_MIGRATION_RECIPIENT' . $input->getParameter('migration'), $lastNewMigrationRecipient);
+            \Session::getInstance()->set(
+                'AVISOTA_LAST_MIGRATION_RECIPIENT' . $input->getParameter('migration'),
+                $lastNewMigrationRecipient
+            );
 
             return $response->__toString();
         }
