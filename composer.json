@@ -1,7 +1,6 @@
 {
     "name": "avisota/contao-subscription-recipient",
     "description": "Independent recipients support for Avisota.",
-    "version": "3.1.x-dev",
     "keywords": [
         "avisota",
         "email",
@@ -34,8 +33,8 @@
         "contao-community-alliance/composer-plugin": "~2.4",
         "menatwork/contao-multicolumnwizard": "~3.3",
         "codefog/contao-haste": "~4.11",
-        "avisota/contao-core": "3.1.x-dev",
-        "avisota/contao-subscription": "3.1.x-dev"
+        "avisota/contao-core": "~3.1",
+        "avisota/contao-subscription": "~3.1"
     },
     "require-dev": {
         "phpcq/all-tasks": "~1.1"
@@ -63,8 +62,7 @@
             }
         },
         "branch-alias": {
-            "dev-develop": "3.0.x-dev",
-            "dev-release/3.1.0": "3.1.x-dev"
+            "dev-develop": "3.1.x-dev"
         }
     }
 }
