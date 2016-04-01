@@ -22,7 +22,7 @@ global $TL_DCA;
 $metaPalettes = array(
     'recipients' => array(
         'source'     => array('title', 'alias', 'type'),
-        'recipients' => array('recipientsManageSubscriptionPage', 'recipientsUnsubscribePage'),
+        /*'recipients' => array('recipientsManageSubscriptionPage', 'recipientsUnsubscribePage'),*/
         'details'    => array('recipientsDetails'),
         'filter'     => array(
             'filter',
