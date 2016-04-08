@@ -16,6 +16,7 @@
 namespace Avisota\Contao\SubscriptionRecipient\Module;
 
 use Avisota\Contao\Entity\Recipient;
+use Avisota\Contao\Entity\Subscription;
 use Avisota\Contao\Message\Core\Renderer\MessageRendererInterface;
 use Avisota\Contao\Subscription\SubscriptionManager;
 use Avisota\Transport\TransportInterface;
@@ -116,7 +117,7 @@ class Unsubscribe extends AbstractRecipientForm
 
             $subscriptions = array_filter(
                 $subscriptions->toArray(),
-                function (Avisota\Contao\Entity\Subscription $subscription) use ($mailingListIds) {
+                function (Subscription $subscription) use ($mailingListIds) {
                     return $subscription->getMailingList()
                            && in_array($subscription->getMailingList()->getId(), $mailingListIds);
                 }
