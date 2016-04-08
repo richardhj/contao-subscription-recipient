@@ -112,6 +112,10 @@ class Unsubscribe extends AbstractRecipientForm
             if ($this->avisota_unsubscribe_show_mailing_lists) {
                 $mailingListIds = $values['mailingLists'];
             }
+            
+            if (!$this->avisota_unsubscribe_show_mailing_lists) {
+                $mailingListIds = deserialize($this->avisota_mailing_lists);
+            }
 
             $subscriptions = $recipient->getSubscriptions();
 
