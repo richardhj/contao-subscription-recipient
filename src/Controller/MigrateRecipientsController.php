@@ -307,7 +307,7 @@ class MigrateRecipientsController implements EventSubscriberInterface
             return null;
         } else {
             $offset += count($contaoRecipients);
-            $this->updateRedirectSession($migrationId, $offset, $skipped, $migrated, $migrationSettings['channels']);
+            $this->updateRedirectSession($migrationId, $offset, $skipped, $migrated, $migrationSettings['channels'], $migrationSettings['overwrite'],  $migrationSettings['importFromMembers']);
             $this->addReloadScriptAndButton($response, $translator);
             \Session::getInstance()->set(
                 'AVISOTA_LAST_MIGRATION_RECIPIENT' . $input->getParameter('migration'),
@@ -404,12 +404,14 @@ class MigrateRecipientsController implements EventSubscriberInterface
      * @param $migrated
      * @param $channels
      */
-    protected function updateRedirectSession($migrationId, $offset, $skipped, $migrated, $channels)
+    protected function updateRedirectSession($migrationId, $offset, $skipped, $migrated, $channels, $overwrite, $import)
     {
         $migrationSettings['offset']   = $offset;
         $migrationSettings['skipped']  = $skipped;
         $migrationSettings['migrated'] = $migrated;
         $migrationSettings['channels'] = $channels;
+        $migrationSettings['overwrite'] = $overwrite;
+        $migrationSettings['importFromMembers'] = $import;
         \Session::getInstance()->set($migrationId, $migrationSettings);
     }
 
