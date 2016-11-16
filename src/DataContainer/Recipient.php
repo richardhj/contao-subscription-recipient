@@ -597,7 +597,7 @@ class Recipient implements EventSubscriberInterface
      * @return string
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
-    protected function generateSubscriptionRemoveLink(Subscription $subscription, MailingList $mailingList)
+    protected function generateSubscriptionRemoveLink(Subscription $subscription, MailingList $mailingList = null)
     {
         global $TL_LANG,
                $container;
