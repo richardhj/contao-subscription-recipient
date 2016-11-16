@@ -24,6 +24,7 @@ use Avisota\Contao\SubscriptionRecipient\Controller\RecipientController;
 use Avisota\Contao\SubscriptionRecipient\Controller\RescipiemtSporceController;
 use Avisota\Contao\SubscriptionRecipient\Controller\SubscriptionController;
 use Avisota\Contao\SubscriptionRecipient\DataContainer\Recipient;
+use Avisota\Contao\SubscriptionRecipient\DataContainer\RecipientSource;
 
 return array(
     new OptionsBuilder(),
@@ -37,4 +38,5 @@ return array(
     new MigrateRecipientsController(),
     new RecipientTokenController(),
     new Recipient(),
+    new RecipientSource()
 );
