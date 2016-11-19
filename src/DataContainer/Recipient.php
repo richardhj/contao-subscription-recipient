@@ -731,6 +731,7 @@ class Recipient implements EventSubscriberInterface
     {
         $environment   = $event->getEnvironment();
         $inputProvider = $environment->getInputProvider();
+        $translator = $environment->getTranslator();
 
         $modelParameter = $inputProvider->hasParameter('act') ? 'id' : 'pid';
 
@@ -752,7 +753,7 @@ class Recipient implements EventSubscriberInterface
 
         $elements[] = array(
             'icon' => 'assets/avisota/subscription-recipient/images/recipients.png',
-            'text' => $GLOBALS['TL_LANG']['MOD']['avisota_recipients'][0],
+            'text' => $translator->translate('avisota_recipients.0', 'MOD'),
             'url'  => $urlBuilder->getUrl()
         );
 
