@@ -730,12 +730,15 @@ class Recipient implements EventSubscriberInterface
     public function getBreadCrumb(GetBreadcrumbEvent $event)
     {
         $environment   = $event->getEnvironment();
+        $dataDefinition = $environment->getDataDefinition();
         $inputProvider = $environment->getInputProvider();
         $translator = $environment->getTranslator();
 
         $modelParameter = $inputProvider->hasParameter('act') ? 'id' : 'pid';
 
-        if (!$inputProvider->hasParameter($modelParameter)) {
+        if ($dataDefinition->getName() !== 'orm_avisota_recipient'
+            || !$inputProvider->hasParameter($modelParameter)
+        ) {
             return;
         }
 

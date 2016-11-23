@@ -37,18 +37,27 @@ $metaPalettes = array(
                 $filterByMailingListsProperty = $legend->getProperty('filterByMailingLists');
                 $visibleCondition             = $filterByMailingListsProperty->getVisibleCondition();
 
-                $typeCondition   = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyValueCondition('type', 'recipients');
-                $filterCondition = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyTrueCondition('filter');
+                $typeCondition   =
+                    new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyValueCondition(
+                        'type', 'recipients'
+                    );
+                $filterCondition =
+                    new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyTrueCondition(
+                        'filter'
+                    );
 
                 /** @var \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionInterface|\ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain $visibleCondition */
                 if (!$visibleCondition
-                    || !$visibleCondition instanceof \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain
-                    || $visibleCondition->getConjunction() != \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain::OR_CONJUNCTION
+                    || !$visibleCondition instanceof
+                        \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain
+                    || $visibleCondition->getConjunction()
+                       != \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain::OR_CONJUNCTION
                 ) {
-                    $visibleCondition = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain(
-                        $visibleCondition ? array($visibleCondition) : array(),
-                        \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain::OR_CONJUNCTION
-                    );
+                    $visibleCondition =
+                        new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain(
+                            $visibleCondition ? array($visibleCondition) : array(),
+                            \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain::OR_CONJUNCTION
+                        );
                 }
 
                 $visibleCondition->addCondition(
@@ -68,17 +77,26 @@ $metaPalettes = array(
                 $recipientsUsePropertyFilterProperty = $legend->getProperty('recipientsUsePropertyFilter');
                 $visibleCondition                    = $recipientsUsePropertyFilterProperty->getVisibleCondition();
 
-                $typeCondition   = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyValueCondition('type', 'recipients');
-                $filterCondition = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyTrueCondition('filter');
+                $typeCondition   =
+                    new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyValueCondition(
+                        'type', 'recipients'
+                    );
+                $filterCondition =
+                    new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyTrueCondition(
+                        'filter'
+                    );
 
                 /** @var \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionInterface|\ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain $visibleCondition */
                 if (!$visibleCondition
-                    || !$visibleCondition instanceof \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain
-                    || $visibleCondition->getConjunction() != \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain::AND_CONJUNCTION
+                    || !$visibleCondition instanceof
+                        \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain
+                    || $visibleCondition->getConjunction()
+                       != \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain::AND_CONJUNCTION
                 ) {
-                    $visibleCondition = new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain(
-                        $visibleCondition ? array($visibleCondition) : array()
-                    );
+                    $visibleCondition =
+                        new \ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyConditionChain(
+                            $visibleCondition ? array($visibleCondition) : array()
+                        );
                 }
 
                 $visibleCondition->addCondition($typeCondition);
