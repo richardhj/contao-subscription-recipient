@@ -65,9 +65,9 @@ class RecipientSource implements EventSubscriberInterface
      */
     public function getBreadCrumb(GetBreadcrumbEvent $event)
     {
-        $environment   = $event->getEnvironment();
+        $environment    = $event->getEnvironment();
         $dataDefinition = $environment->getDataDefinition();
-        $inputProvider = $environment->getInputProvider();
+        $inputProvider  = $environment->getInputProvider();
 
         $modelParameter = $inputProvider->hasParameter('act') ? 'id' : 'pid';
 

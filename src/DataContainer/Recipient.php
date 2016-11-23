@@ -729,10 +729,10 @@ class Recipient implements EventSubscriberInterface
      */
     public function getBreadCrumb(GetBreadcrumbEvent $event)
     {
-        $environment   = $event->getEnvironment();
+        $environment    = $event->getEnvironment();
         $dataDefinition = $environment->getDataDefinition();
-        $inputProvider = $environment->getInputProvider();
-        $translator = $environment->getTranslator();
+        $inputProvider  = $environment->getInputProvider();
+        $translator     = $environment->getTranslator();
 
         $modelParameter = $inputProvider->hasParameter('act') ? 'id' : 'pid';
 

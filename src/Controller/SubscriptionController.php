@@ -47,7 +47,7 @@ class SubscriptionController implements EventSubscriberInterface
                 array('prepareSubscription'),
             ),
 
-            SubscriptionEvents::RESOLVE_RECIPIENT => array(
+            SubscriptionEvents::RESOLVE_RECIPIENT                   => array(
                 array('resolveRecipient'),
             ),
 
