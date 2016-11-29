@@ -15,10 +15,10 @@
 
 return array(
     'avisota/recipient.migrate-recipient' => array(
-        array(Avisota\Contao\SubscriptionRecipient\Recipient\Migrate::class, 'collectPersonalsFromMembers')
+        array('Avisota\Contao\SubscriptionRecipient\Recipient\Migrate', 'collectPersonalsFromMembers')
     ),
 
     'avisota/subscription.collect-lists' => array(
-        array(Avisota\Contao\SubscriptionRecipient\Recipient\Subscription::class, 'collectSubscriptionLists')
+        array('Avisota\Contao\SubscriptionRecipient\Recipient\Subscription', 'collectSubscriptionLists')
     ),
 );

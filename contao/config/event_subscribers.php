@@ -18,12 +18,13 @@ use Avisota\Contao\SubscriptionRecipient\Controller\ButtonController;
 use Avisota\Contao\SubscriptionRecipient\Controller\DataContainerController;
 use Avisota\Contao\SubscriptionRecipient\Controller\DoctrineManagerController;
 use Avisota\Contao\SubscriptionRecipient\Controller\MigrateRecipientsController;
-use Avisota\Contao\SubscriptionRecipient\Controller\RecipientTokenController;
-use Avisota\Contao\SubscriptionRecipient\DataContainer\OptionsBuilder;
 use Avisota\Contao\SubscriptionRecipient\Controller\RecipientController;
+use Avisota\Contao\SubscriptionRecipient\Controller\RecipientTokenController;
 use Avisota\Contao\SubscriptionRecipient\Controller\RescipiemtSporceController;
 use Avisota\Contao\SubscriptionRecipient\Controller\SubscriptionController;
+use Avisota\Contao\SubscriptionRecipient\DataContainer\OptionsBuilder;
 use Avisota\Contao\SubscriptionRecipient\DataContainer\Recipient;
+use Avisota\Contao\SubscriptionRecipient\DataContainer\RecipientSource;
 
 return array(
     new OptionsBuilder(),
@@ -37,4 +38,5 @@ return array(
     new MigrateRecipientsController(),
     new RecipientTokenController(),
     new Recipient(),
+    new RecipientSource()
 );

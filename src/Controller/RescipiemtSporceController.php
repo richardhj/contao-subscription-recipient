@@ -103,8 +103,8 @@ class RescipiemtSporceController implements EventSubscriberInterface
         $dcGeneralFactory = DcGeneralFactory::deriveFromEnvironment($environment);
 
         $dcGeneralFactory->setContainerName('orm_avisota_recipient');
-        $containerFactory  = $dcGeneralFactory->createContainer();
-        $properties = $containerFactory->getPropertiesDefinition()->getProperties();
+        $containerFactory = $dcGeneralFactory->createContainer();
+        $properties       = $containerFactory->getPropertiesDefinition()->getProperties();
 
         foreach ($properties as $property) {
             $options[$property->getName()] = $property->getLabel() ?: $property->getName();
