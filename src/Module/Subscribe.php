@@ -261,7 +261,6 @@ class Subscribe extends AbstractRecipientForm
 
             $transport->send($mail);
         }
-
     }
 
     /**
