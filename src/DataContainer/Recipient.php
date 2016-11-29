@@ -705,7 +705,7 @@ class Recipient implements EventSubscriberInterface
     public function decodeEmail(DecodePropertyValueForWidgetEvent $event)
     {
         if ($event->getModel()->getProviderName() != 'orm_avisota_recipient'
-            && $event->getProperty() != 'email'
+            || $event->getProperty() != 'email'
         ) {
             return;
         }
