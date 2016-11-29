@@ -85,7 +85,6 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
         $url .= (strpos($url, '?') !== false ? '&' : '?') . 'avisota_subscription_email=##email##';
 
         if (!preg_match('~^\w+:~', $url)) {
-
             $url = rtrim(\Environment::get('base'), '/') . '/' . ltrim($url, '/');
         }
 
