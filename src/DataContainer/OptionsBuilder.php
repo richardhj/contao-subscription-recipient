@@ -39,9 +39,17 @@ class OptionsBuilder implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            'avisota.create-salutation-recipient-field-options' => 'createRecipientFieldOptions',
-            'avisota.create-recipient-field-options'            => 'createRecipientFieldOptions',
-            'avisota.create-recipient-options'                  => 'createRecipientOptions',
+            'avisota.create-salutation-recipient-field-options' => array(
+                array('createRecipientFieldOptions'),
+            ),
+
+            'avisota.create-recipient-field-options' => array(
+                array('createRecipientFieldOptions'),
+            ),
+
+            'avisota.create-recipient-options' => array(
+                array('createRecipientOptions'),
+            ),
         );
     }
 

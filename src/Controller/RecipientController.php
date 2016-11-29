@@ -100,6 +100,9 @@ class RecipientController implements EventSubscriberInterface
                 foreach ($member as $key => $value) {
                     // graceful conversions
                     switch ($key) {
+                        case 'id':
+                            $value = $entityAccessor->getPrimaryKey($recipient);
+                            break;
                         case 'firstname':
                             $key = 'forename';
                             break;

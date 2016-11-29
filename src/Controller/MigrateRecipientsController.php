@@ -159,7 +159,6 @@ class MigrateRecipientsController implements EventSubscriberInterface
                     ->expr()
                     ->in('pid', $channels)
             )
-            ->orderBy('r.pid')
             ->addOrderBy('r.email')
             ->setFirstResult($offset)
             ->setMaxResults(10)
@@ -209,12 +208,17 @@ class MigrateRecipientsController implements EventSubscriberInterface
      * @return null|string
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      * @SuppressWarnings(PHPMD.LongVariable)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function generateResponse(EnvironmentInterface $environment, $migrationSettings, $migrationId)
     {
         global $container;
 
         $eventDispatcher = $container['event-dispatcher'];
+
+        $input = $environment->getInputProvider();
 
         $translator          = $environment->getTranslator();
         $entityManager       = EntityHelper::getEntityManager();
@@ -235,9 +239,18 @@ class MigrateRecipientsController implements EventSubscriberInterface
         $response = new StringBuilder();
         $this->addHeaderContent($response, $translator);
 
-        $contaoRecipients = $statement->fetchAll();
+        $contaoRecipients          = $statement->fetchAll();
+        $lastNewMigrationRecipient =
+            (array) \Session::getInstance()->get(
+                'AVISOTA_LAST_MIGRATION_RECIPIENT' . $input->getParameter('migration')
+            );
         foreach ($contaoRecipients as $contaoRecipientData) {
             $recipient = $recipientRepository->findOneBy(array('email' => $contaoRecipientData['email']));
+            if ($recipient
+                && in_array($recipient->getEmail(), $lastNewMigrationRecipient)
+            ) {
+                $migrationSettings['overwrite'] = true;
+            }
 
             if (!$recipient) {
                 $this->addCreateRecipientInformation($response, $contaoRecipientData, $translator);
@@ -249,7 +262,6 @@ class MigrateRecipientsController implements EventSubscriberInterface
                 $recipient->setAddedByUsername($user->username);
             } else {
                 if (!$migrationSettings['overwrite']) {
-
                     $skipped++;
                     continue;
                 } else {
@@ -269,6 +281,10 @@ class MigrateRecipientsController implements EventSubscriberInterface
                 new MigrateRecipientEvent($migrationSettings, $contaoRecipientData, $recipient);
             $eventDispatcher->dispatch(RecipientEvents::MIGRATE_RECIPIENT, $migrateRecipientEvent);
 
+            if (!$recipient->getId()) {
+                $lastNewMigrationRecipient[] = $recipient->getEmail();
+            }
+
             $entityManager->persist($recipient);
 
             $subscriptionManager->subscribe(
@@ -282,13 +298,21 @@ class MigrateRecipientsController implements EventSubscriberInterface
         $entityManager->flush();
 
         if (count($contaoRecipients) < 10) {
+            \Session::getInstance()->set(
+                'AVISOTA_LAST_MIGRATION_RECIPIENT' . $input->getParameter('migration'),
+                array()
+            );
             $this->migrationFinished($migrationId, $migrated, $skipped);
 
             return null;
         } else {
             $offset += count($contaoRecipients);
-            $this->updateRedirectSession($migrationId, $offset, $skipped, $migrated);
+            $this->updateRedirectSession($migrationId, $offset, $skipped, $migrated, $migrationSettings['channels']);
             $this->addReloadScriptAndButton($response, $translator);
+            \Session::getInstance()->set(
+                'AVISOTA_LAST_MIGRATION_RECIPIENT' . $input->getParameter('migration'),
+                $lastNewMigrationRecipient
+            );
 
             return $response->__toString();
         }
@@ -378,12 +402,14 @@ class MigrateRecipientsController implements EventSubscriberInterface
      * @param $offset
      * @param $skipped
      * @param $migrated
+     * @param $channels
      */
-    protected function updateRedirectSession($migrationId, $offset, $skipped, $migrated)
+    protected function updateRedirectSession($migrationId, $offset, $skipped, $migrated, $channels)
     {
         $migrationSettings['offset']   = $offset;
         $migrationSettings['skipped']  = $skipped;
         $migrationSettings['migrated'] = $migrated;
+        $migrationSettings['channels'] = $channels;
         \Session::getInstance()->set($migrationId, $migrationSettings);
     }
 
