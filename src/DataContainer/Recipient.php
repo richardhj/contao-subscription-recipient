@@ -28,9 +28,12 @@ use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\RedirectEvent;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Image\GenerateHtmlEvent;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Message\AddMessageEvent;
 use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\DecodePropertyValueForWidgetEvent;
+use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\GetBreadcrumbEvent;
 use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\ModelToLabelEvent;
+use ContaoCommunityAlliance\DcGeneral\Data\ModelId;
 use ContaoCommunityAlliance\DcGeneral\DcGeneralEvents;
 use ContaoCommunityAlliance\DcGeneral\Event\ActionEvent;
+use ContaoCommunityAlliance\UrlBuilder\UrlBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -70,6 +73,10 @@ class Recipient implements EventSubscriberInterface
             DecodePropertyValueForWidgetEvent::NAME => array(
                 array('decodeEmail'),
             ),
+
+            GetBreadcrumbEvent::NAME => array(
+                array('getBreadCrumb')
+            )
         );
     }
 
@@ -590,7 +597,7 @@ class Recipient implements EventSubscriberInterface
      * @return string
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
-    protected function generateSubscriptionRemoveLink(Subscription $subscription, MailingList $mailingList)
+    protected function generateSubscriptionRemoveLink(Subscription $subscription, MailingList $mailingList = null)
     {
         global $TL_LANG,
                $container;
@@ -711,5 +718,48 @@ class Recipient implements EventSubscriberInterface
         }
 
         $event->setValue(strtolower($event->getValue()));
+    }
+
+    /**
+     * Get the bread crumb elements.
+     *
+     * @param GetBreadcrumbEvent $event This event.
+     *
+     * @return void
+     */
+    public function getBreadCrumb(GetBreadcrumbEvent $event)
+    {
+        $environment    = $event->getEnvironment();
+        $dataDefinition = $environment->getDataDefinition();
+        $inputProvider  = $environment->getInputProvider();
+        $translator     = $environment->getTranslator();
+
+        $modelParameter = $inputProvider->hasParameter('act') ? 'id' : 'pid';
+
+        if ($dataDefinition->getName() !== 'orm_avisota_recipient'
+            || !$inputProvider->hasParameter($modelParameter)
+        ) {
+            return;
+        }
+
+        $modelId = ModelId::fromSerialized($inputProvider->getParameter($modelParameter));
+        if ($modelId->getDataProviderName() !== 'orm_avisota_recipient') {
+            return;
+        }
+
+        $elements = $event->getElements();
+
+        $urlBuilder = new UrlBuilder();
+        $urlBuilder->setPath('contao/main.php')
+            ->setQueryParameter('do', $inputProvider->getParameter('do'))
+            ->setQueryParameter('ref', TL_REFERER_ID);
+
+        $elements[] = array(
+            'icon' => 'assets/avisota/subscription-recipient/images/recipients.png',
+            'text' => $translator->translate('avisota_recipients.0', 'MOD'),
+            'url'  => $urlBuilder->getUrl()
+        );
+
+        $event->setElements($elements);
     }
 }
