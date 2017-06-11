@@ -2,11 +2,11 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright © 2016 Sven Baumann
+ * Copyright © 2017 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  way.vision 2016
+ * @copyright  way.vision 2017
  * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-subscription-recipient
  * @license    LGPL-3.0+
@@ -24,7 +24,6 @@ use Avisota\Contao\SubscriptionRecipient\Controller\RescipiemtSporceController;
 use Avisota\Contao\SubscriptionRecipient\Controller\SubscriptionController;
 use Avisota\Contao\SubscriptionRecipient\DataContainer\OptionsBuilder;
 use Avisota\Contao\SubscriptionRecipient\DataContainer\Recipient;
-use Avisota\Contao\SubscriptionRecipient\DataContainer\RecipientSource;
 
 return array(
     new OptionsBuilder(),
@@ -38,5 +37,4 @@ return array(
     new MigrateRecipientsController(),
     new RecipientTokenController(),
     new Recipient(),
-    new RecipientSource()
 );
