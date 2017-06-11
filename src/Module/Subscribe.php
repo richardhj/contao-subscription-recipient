@@ -20,6 +20,7 @@ use Avisota\Contao\Entity\Subscription;
 use Avisota\Contao\Message\Core\Renderer\MessageRendererInterface;
 use Avisota\Contao\Subscription\SubscriptionManager;
 use Avisota\Transport\TransportInterface;
+use Contao\BackendTemplate;
 use Contao\Doctrine\ORM\EntityAccessor;
 use Contao\Doctrine\ORM\EntityHelper;
 use Contao\Doctrine\ORM\Exception\UnknownPropertyException;
@@ -42,9 +43,21 @@ class Subscribe extends AbstractRecipientForm
      */
     public function generate()
     {
-        if (TL_MODE == 'BE') {
-            $template           = new \BackendTemplate('be_wildcard');
-            $template->wildcard = '### Avisota subscribe module ###';
+        if (TL_MODE === 'BE') {
+            global $container;
+
+            $translator = $container['translator'];
+
+            $template = new BackendTemplate('be_wildcard');
+
+            $template->wildcard = '### AVISOTA '
+                                  . utf8_strtoupper($translator->translate('avisota_subscribe.0', 'FMD'))
+                                  . ' ###';
+            $template->title    = $this->headline;
+            $template->id       = $this->id;
+            $template->link     = $this->name;
+            $template->href     = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+
             return $template->parse();
         }
 
