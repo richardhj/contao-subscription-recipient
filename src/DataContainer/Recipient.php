@@ -2,11 +2,11 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright © 2016 Sven Baumann
+ * Copyright © 2017 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  way.vision 2016
+ * @copyright  way.vision 2017
  * @author     Sven Baumann <baumann.sv@gmail.com>
  * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-subscription-recipient
@@ -734,30 +734,51 @@ class Recipient implements EventSubscriberInterface
         $inputProvider  = $environment->getInputProvider();
         $translator     = $environment->getTranslator();
 
-        $modelParameter = $inputProvider->hasParameter('act') ? 'id' : 'pid';
-
-        if ($dataDefinition->getName() !== 'orm_avisota_recipient'
-            || !$inputProvider->hasParameter($modelParameter)
-        ) {
-            return;
-        }
-
-        $modelId = ModelId::fromSerialized($inputProvider->getParameter($modelParameter));
-        if ($modelId->getDataProviderName() !== 'orm_avisota_recipient') {
+        if ($dataDefinition->getName() !== 'orm_avisota_recipient') {
             return;
         }
 
         $elements = $event->getElements();
 
-        $urlBuilder = new UrlBuilder();
-        $urlBuilder->setPath('contao/main.php')
+        $rootUrlBuilder = new UrlBuilder();
+        $rootUrlBuilder->setPath('contao/main.php')
             ->setQueryParameter('do', $inputProvider->getParameter('do'))
             ->setQueryParameter('ref', TL_REFERER_ID);
 
         $elements[] = array(
             'icon' => 'assets/avisota/subscription-recipient/images/recipients.png',
-            'text' => $translator->translate('avisota_recipients.0', 'MOD'),
-            'url'  => $urlBuilder->getUrl()
+            'text' => $translator->translate('MOD.avisota_recipients.0'),
+            'url'  => $rootUrlBuilder->getUrl()
+        );
+
+        if (false === $inputProvider->hasParameter('id')) {
+            $event->setElements($elements);
+
+            return;
+        }
+
+        $modelId = ModelId::fromSerialized($inputProvider->getParameter('id'));
+
+        $dataProvider = $environment->getDataProvider($dataDefinition->getName());
+        $repository = $dataProvider->getEntityRepository();
+
+        $entity = $repository->findOneBy(array('id' => $modelId->getId()));
+
+        $entityUrlBuilder = new UrlBuilder();
+        $entityUrlBuilder->setPath('contao/main.php')
+            ->setQueryParameter('do', $inputProvider->getParameter('do'))
+            ->setQueryParameter('act', $inputProvider->getParameter('act'))
+            ->setQueryParameter('id', $inputProvider->getParameter('id'))
+            ->setQueryParameter('ref', TL_REFERER_ID);
+
+        $elements[] = array(
+            'icon' => 'assets/avisota/subscription-recipient/images/recipients.png',
+            'text' => sprintf(
+                "%s <span style='font-weight: bold; color: #b3b3b3; padding-left: 3px;'>[%s]</span>",
+                $translator->translate('MOD.avisota_recipients.0'),
+                $entity->getEmail()
+            ),
+            'url'  => $entityUrlBuilder->getUrl()
         );
 
         $event->setElements($elements);

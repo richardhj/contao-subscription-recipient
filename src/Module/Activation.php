@@ -16,6 +16,7 @@
 namespace Avisota\Contao\SubscriptionRecipient\Module;
 
 use Avisota\Contao\Subscription\SubscriptionManager;
+use Contao\BackendTemplate;
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GenerateFrontendUrlEvent;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GetPageDetailsEvent;
@@ -34,9 +35,21 @@ class Activation extends AbstractRecipientForm
      */
     public function generate()
     {
-        if (TL_MODE == 'BE') {
-            $template           = new \BackendTemplate('be_wildcard');
-            $template->wildcard = '### Avisota activation module ###';
+        if (TL_MODE === 'BE') {
+            global $container;
+
+            $translator = $container['translator'];
+
+            $template = new BackendTemplate('be_wildcard');
+
+            $template->wildcard = '### AVISOTA '
+                                  . utf8_strtoupper($translator->translate('avisota_activation.0', 'FMD'))
+                                  . ' ###';
+            $template->title    = $this->headline;
+            $template->id       = $this->id;
+            $template->link     = $this->name;
+            $template->href     = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+
             return $template->parse();
         }
 
