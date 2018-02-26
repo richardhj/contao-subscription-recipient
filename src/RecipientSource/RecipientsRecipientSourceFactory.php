@@ -19,6 +19,7 @@ use Avisota\Contao\Core\CoreEvents;
 use Avisota\Contao\Core\Event\CreateRecipientSourceEvent;
 use Avisota\Contao\Core\RecipientSource\RecipientSourceFactoryInterface;
 use Avisota\Contao\Entity\RecipientSource;
+use Avisota\RecipientSource\RecipientSourceInterface;
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GenerateFrontendUrlEvent;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GetPageDetailsEvent;
@@ -57,13 +58,13 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
     }
 
     /**
-     * @param RecipientSource           $entity
-     * @param RecipientsRecipientSource $recipientSource
+     * @param RecipientSource          $entity
+     * @param RecipientSourceInterface $recipientSource
      * @SuppressWarnings(PHPMD.LongVariable)
      */
     protected function parseRecipientsManageSubscriptionPage(
         RecipientSource $entity,
-        RecipientsRecipientSource &$recipientSource
+        RecipientSourceInterface &$recipientSource
     ) {
         if (!$entity->getRecipientsManageSubscriptionPage()) {
             return;
@@ -88,7 +89,9 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
             $url = rtrim(\Environment::get('base'), '/') . '/' . ltrim($url, '/');
         }
 
-        $recipientSource->setManageSubscriptionUrlPattern($url);
+        if ($recipientSource instanceof RecipientsRecipientSource) {
+            $recipientSource->setManageSubscriptionUrlPattern($url);
+        }
 
         $event = new CreateRecipientSourceEvent($entity, $recipientSource);
         $eventDispatcher->dispatch(CoreEvents::CREATE_RECIPIENT_SOURCE, $event);
@@ -97,13 +100,13 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
     }
 
     /**
-     * @param RecipientSource           $entity
-     * @param RecipientsRecipientSource $recipientSource
+     * @param RecipientSource          $entity
+     * @param RecipientSourceInterface $recipientSource
      * @SuppressWarnings(PHPMD.LongVariable)
      */
     protected function parseRecipientsUnsubscribePage(
         RecipientSource $entity,
-        RecipientsRecipientSource &$recipientSource
+        RecipientSourceInterface &$recipientSource
     ) {
         if (!$entity->getRecipientsUnsubscribePage()) {
             return;
@@ -127,7 +130,9 @@ class RecipientsRecipientSourceFactory implements RecipientSourceFactoryInterfac
             $url = rtrim(\Environment::get('base'), '/') . '/' . ltrim($url, '/');
         }
 
-        $recipientSource->setUnsubscribeUrlPattern($url);
+        if ($recipientSource instanceof RecipientsRecipientSource) {
+            $recipientSource->setUnsubscribeUrlPattern($url);
+        }
 
         $event = new CreateRecipientSourceEvent($entity, $recipientSource);
         $eventDispatcher->dispatch(CoreEvents::CREATE_RECIPIENT_SOURCE, $event);
